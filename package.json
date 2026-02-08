@@ -16,6 +16,7 @@
     "format": "prettier --write \"src/**/*.ts\"",
     "format:check": "prettier --check \"src/**/*.ts\"",
     "db:generate": "drizzle-kit generate",
+    "db:generate:dist": "npm run build && DRIZZLE_SCHEMA=dist drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
     "db:push": "drizzle-kit push",
     "db:studio": "drizzle-kit studio",

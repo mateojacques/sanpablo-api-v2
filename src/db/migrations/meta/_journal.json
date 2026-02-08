@@ -43,6 +43,13 @@
       "when": 1769454256775,
       "tag": "0005_light_prima",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1770537179594,
+      "tag": "0006_flimsy_quicksilver",
+      "breakpoints": true
     }
   ]
 }
