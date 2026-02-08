@@ -8,6 +8,7 @@ const connection = postgres(env.DATABASE_URL, {
   max: env.NODE_ENV === 'production' ? 20 : 5,
   idle_timeout: 20,
   connect_timeout: 10,
+  ssl: env.NODE_ENV === 'production',
 });
 
 // Create drizzle instance with schema
