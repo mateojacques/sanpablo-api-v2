@@ -1,0 +1,2 @@
+sku,name,description,regular_price,sale_price,special_price,category_slug,image_url,video_url,weight,dimension_length,dimension_width,dimension_height,is_active
+PROD-002,Sample Product,Product description,99.99,79.99,,art-books,https://example.com/image.jpg,,0.5,20,15,5,true

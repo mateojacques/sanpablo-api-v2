@@ -85,6 +85,13 @@ export const storefrontConfigSchema = z.object({
       ogImage: z.string().url().optional(),
     })
     .optional(),
+
+  legal: z
+    .object({
+      termsMarkdown: z.string().default(''),
+      lastUpdated: z.string().datetime().optional(),
+    })
+    .default(() => ({ termsMarkdown: '', lastUpdated: new Date().toISOString() })),
 });
 
 // ============ Request Schemas ============
@@ -94,7 +101,7 @@ export const updateConfigBodySchema = storefrontConfigSchema;
 
 // Update section (partial)
 export const updateSectionParamSchema = z.object({
-  section: z.enum(['branding', 'colors', 'banners', 'faq', 'contact', 'seo']),
+  section: z.enum(['branding', 'colors', 'banners', 'faq', 'contact', 'seo', 'legal']),
 });
 
 // Branding section update
@@ -116,6 +123,11 @@ export const updateContactBodySchema = storefrontConfigSchema.shape.contact;
 
 // SEO section update
 export const updateSeoBodySchema = storefrontConfigSchema.shape.seo.unwrap();
+
+// Legal section update
+export const updateLegalBodySchema = z.object({
+  termsMarkdown: z.string(),
+});
 
 // ============ Type Exports ============
 
@@ -154,5 +166,10 @@ export const defaultStorefrontConfig: StorefrontConfig = {
   seo: {
     metaTitle: 'San Pablo - Arte y Libros',
     metaDescription: 'Tu tienda de arte y libros favorita',
+  },
+
+  legal: {
+    termsMarkdown: '',
+    lastUpdated: new Date().toISOString(),
   },
 };

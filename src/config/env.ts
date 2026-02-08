@@ -4,7 +4,8 @@ import { config } from 'dotenv';
 // Load environment variables
 config();
 
-const envSchema = z.object({
+const envSchema = z
+  .object({
   // App
   NODE_ENV: z.enum(['development', 'production', 'test']).default('development'),
   PORT: z.coerce.number().default(3000),
@@ -29,8 +30,26 @@ const envSchema = z.object({
   // SQS
   SQS_IMPORT_QUEUE_URL: z.string().optional(),
 
-  // SES
-  SES_FROM_EMAIL: z.string().email(),
+  // SMTP (Google Workspace)
+  SMTP_HOST: z.string().default('smtp.gmail.com'),
+  SMTP_PORT: z.coerce.number().default(587),
+  SMTP_SECURE: z
+    .string()
+    .transform((val) => val === 'true')
+    .default('false'),
+  SMTP_USER: z.string().email(),
+  SMTP_PASS: z
+    .string()
+    .min(1)
+    .transform((val) => {
+      const trimmed = val.trim();
+      // Google App Passwords are often copied in 4x4 groups separated by spaces.
+      if (/^([a-z0-9]{4}\s){3}[a-z0-9]{4}$/i.test(trimmed)) {
+        return trimmed.replace(/\s+/g, '');
+      }
+      return trimmed;
+    }),
+  SMTP_FROM_EMAIL: z.string().email(),
 
   // Store
   OWNER_EMAIL: z.string().email(),
@@ -38,7 +57,17 @@ const envSchema = z.object({
 
   // Redis (optional)
   REDIS_URL: z.string().optional(),
-});
+  })
+  .superRefine((val, ctx) => {
+    // Port 465 expects implicit TLS (secure=true). Port 587 typically uses STARTTLS (secure=false).
+    if (val.SMTP_PORT === 465 && !val.SMTP_SECURE) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ['SMTP_SECURE'],
+        message: 'SMTP_SECURE must be true when SMTP_PORT is 465 (implicit TLS). Use port 587 with SMTP_SECURE=false for STARTTLS.',
+      });
+    }
+  });
 
 const parsed = envSchema.safeParse(process.env);
 

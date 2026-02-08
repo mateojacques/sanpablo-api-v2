@@ -86,6 +86,11 @@ export async function seedStorefront(): Promise<void> {
       metaDescription:
         'Tu tienda de arte y libros favorita. Encontrá libros, pinturas, fotografías y materiales para artistas. Envíos a todo el país.',
     },
+
+    legal: {
+      termsMarkdown: '',
+      lastUpdated: new Date().toISOString(),
+    },
   };
 
   try {

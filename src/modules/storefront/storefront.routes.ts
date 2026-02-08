@@ -12,6 +12,7 @@ import {
   updateFaqBodySchema,
   updateContactBodySchema,
   updateSeoBodySchema,
+  updateLegalBodySchema,
 } from './storefront.schemas';
 
 const router = Router();
@@ -334,6 +335,36 @@ router.patch(
 
 /**
  * @swagger
+ * /api/storefront/config/legal:
+ *   patch:
+ *     summary: Update legal section
+ *     description: Update terms & conditions markdown. Admin only.
+ *     tags: [Storefront]
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               termsMarkdown:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Updated configuration
+ */
+router.patch(
+  '/config/legal',
+  requireAuth,
+  requireAdmin,
+  validateRequest({ body: updateLegalBodySchema }),
+  storefrontController.updateLegal
+);
+
+/**
+ * @swagger
  * /api/storefront/upload:
  *   post:
  *     summary: Upload storefront asset
@@ -468,6 +499,14 @@ router.post(
  *               type: string
  *             ogImage:
  *               type: string
+ *         legal:
+ *           type: object
+ *           properties:
+ *             termsMarkdown:
+ *               type: string
+ *             lastUpdated:
+ *               type: string
+ *               format: date-time
  */
 
 export default router;

@@ -201,6 +201,7 @@ router.get('/number/:orderNumber', requireAuth, ordersController.getByOrderNumbe
  */
 router.put(
   '/:id/status',
+  requireAuth,
   requireAdmin,
   validateRequest({ params: orderIdParamSchema, body: updateStatusBodySchema }),
   ordersController.updateStatus
@@ -233,6 +234,7 @@ router.put(
  */
 router.delete(
   '/:id',
+  requireAuth,
   requireAdmin,
   validateRequest({ params: orderIdParamSchema }),
   ordersController.delete

@@ -1,6 +1,5 @@
 import { S3Client } from '@aws-sdk/client-s3';
 import { SQSClient } from '@aws-sdk/client-sqs';
-import { SESClient } from '@aws-sdk/client-ses';
 import { env } from './env.js';
 
 const awsConfig = {
@@ -17,4 +16,3 @@ const awsConfig = {
 
 export const s3Client = new S3Client(awsConfig);
 export const sqsClient = new SQSClient(awsConfig);
-export const sesClient = new SESClient(awsConfig);

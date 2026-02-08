@@ -109,6 +109,21 @@ export const storefrontController = {
   },
 
   /**
+   * Update legal section
+   * PATCH /api/storefront/config/legal
+   */
+  async updateLegal(req: Request, res: Response, next: NextFunction) {
+    try {
+      const updated = await storefrontService.updateSection('legal', {
+        termsMarkdown: req.body.termsMarkdown,
+      });
+      res.json({ data: updated });
+    } catch (error) {
+      next(error);
+    }
+  },
+
+  /**
    * Upload storefront asset
    * POST /api/storefront/upload
    */

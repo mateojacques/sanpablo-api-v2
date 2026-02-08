@@ -104,11 +104,25 @@ export const storefrontService = {
     // Get current config
     const currentConfig = await this.getConfig();
 
+    const now = new Date().toISOString();
+
+    const nextSectionValue = (() => {
+      if (section === 'legal') {
+        const incoming = data as StorefrontConfig['legal'];
+        return {
+          ...currentConfig.legal,
+          ...incoming,
+          lastUpdated: now,
+        } as StorefrontConfig[K];
+      }
+      return data;
+    })();
+
     // Merge section
     const updatedConfig: StorefrontConfig = {
       ...currentConfig,
-      [section]: data,
-      lastUpdated: new Date().toISOString(),
+      [section]: nextSectionValue,
+      lastUpdated: now,
     };
 
     // Validate full config

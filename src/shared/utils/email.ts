@@ -1,5 +1,4 @@
-import { SendEmailCommand } from '@aws-sdk/client-ses';
-import { sesClient } from '../../config/aws';
+import { emailTransporter } from '../../config/email';
 import { env } from '../../config/env';
 import type { Order, OrderItem } from '../../db/schema/orders';
 
@@ -165,30 +164,13 @@ TOTAL: ${formatCurrency(order.total)}
 Contactar por WhatsApp: ${whatsappLink}
     `;
 
-    const command = new SendEmailCommand({
-      Source: env.SES_FROM_EMAIL,
-      Destination: {
-        ToAddresses: [env.OWNER_EMAIL],
-      },
-      Message: {
-        Subject: {
-          Data: `Nuevo Pedido #${order.orderNumber} - ${order.contactFullName}`,
-          Charset: 'UTF-8',
-        },
-        Body: {
-          Html: {
-            Data: htmlBody,
-            Charset: 'UTF-8',
-          },
-          Text: {
-            Data: textBody,
-            Charset: 'UTF-8',
-          },
-        },
-      },
+    await emailTransporter.sendMail({
+      from: env.SMTP_FROM_EMAIL,
+      to: env.OWNER_EMAIL,
+      subject: `Nuevo Pedido #${order.orderNumber} - ${order.contactFullName}`,
+      html: htmlBody,
+      text: textBody,
     });
-
-    await sesClient.send(command);
   },
 
   /**
@@ -261,29 +243,12 @@ Nos pondremos en contacto contigo pronto para coordinar el pago y envío.
 ¡Gracias por confiar en nosotros!
     `;
 
-    const command = new SendEmailCommand({
-      Source: env.SES_FROM_EMAIL,
-      Destination: {
-        ToAddresses: [order.contactEmail],
-      },
-      Message: {
-        Subject: {
-          Data: `Confirmación de Pedido #${order.orderNumber}`,
-          Charset: 'UTF-8',
-        },
-        Body: {
-          Html: {
-            Data: htmlBody,
-            Charset: 'UTF-8',
-          },
-          Text: {
-            Data: textBody,
-            Charset: 'UTF-8',
-          },
-        },
-      },
+    await emailTransporter.sendMail({
+      from: env.SMTP_FROM_EMAIL,
+      to: order.contactEmail,
+      subject: `Confirmación de Pedido #${order.orderNumber}`,
+      html: htmlBody,
+      text: textBody,
     });
-
-    await sesClient.send(command);
   },
 };
