@@ -1,5 +1,5 @@
 import app from './app.js';
-import { env, closeDatabase } from './config/index';
+import { env, closeDatabase } from './config/index.js';
 
 const PORT = env.PORT;
 
