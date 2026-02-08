@@ -1,6 +1,6 @@
 import type { Request, Response, NextFunction } from 'express';
 import { z, ZodError } from 'zod';
-import { AppError } from '../utils/errors';
+import { AppError } from '../utils/errors.js';
 
 type RequestLocation = 'body' | 'query' | 'params';
 

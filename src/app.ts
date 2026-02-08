@@ -6,12 +6,12 @@ import swaggerUi from 'swagger-ui-express';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
 
-import { env, swaggerSpec } from './config/index';
+import { env, swaggerSpec } from './config/index.js';
 
 // ESM equivalent of __dirname
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
-import { errorHandler, apiLimiter } from './shared/middleware/index';
+import { errorHandler, apiLimiter } from './shared/middleware/index.js';
 
 // Import routes (will be added as modules are implemented)
 import authRoutes from './modules/auth/auth.routes';

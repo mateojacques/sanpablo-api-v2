@@ -1,2 +1,2 @@
-export { db, closeDatabase } from '../config/database';
-export * from './schema/index';
+export { db, closeDatabase } from '../config/database.js';
+export * from './schema/index.js';
