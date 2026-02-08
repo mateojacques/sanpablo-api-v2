@@ -1,3 +1,3 @@
-export { storefrontController } from './storefront.controller';
-export { storefrontService } from './storefront.service';
-export * from './storefront.schemas';
+export { storefrontController } from './storefront.controller.js';
+export { storefrontService } from './storefront.service.js';
+export * from './storefront.schemas.js';

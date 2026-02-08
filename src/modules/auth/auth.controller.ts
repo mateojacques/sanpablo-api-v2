@@ -1,12 +1,12 @@
 import type { Request, Response, NextFunction } from 'express';
-import { authService } from './auth.service';
-import type { AuthenticatedRequest } from '../../shared/types/index';
+import { authService } from './auth.service.js';
+import type { AuthenticatedRequest } from '../../shared/types/index.js';
 import type {
   RegisterInput,
   LoginInput,
   UpdateProfileInput,
   ChangePasswordInput,
-} from './auth.schemas';
+} from './auth.schemas.js';
 
 export const authController = {
   /**

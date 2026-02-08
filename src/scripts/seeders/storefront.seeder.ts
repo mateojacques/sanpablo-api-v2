@@ -1,8 +1,8 @@
 import { PutObjectCommand } from '@aws-sdk/client-s3';
 import { v4 as uuidv4 } from 'uuid';
-import { s3Client } from '../../config/aws';
-import { env } from '../../config/env';
-import type { StorefrontConfig } from '../../modules/storefront/storefront.schemas';
+import { s3Client } from '../../config/aws.js';
+import { env } from '../../config/env.js';
+import type { StorefrontConfig } from '../../modules/storefront/storefront.schemas.js';
 
 const CONFIG_KEY = 'storefront/config.json';
 

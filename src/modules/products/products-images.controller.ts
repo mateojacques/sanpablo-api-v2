@@ -1,7 +1,7 @@
 import type { Request, Response, NextFunction } from 'express';
-import { productsService } from './products.service';
-import { s3Utils } from '../../shared/utils/s3';
-import { badRequest } from '../../shared/utils/errors';
+import { productsService } from './products.service.js';
+import { s3Utils } from '../../shared/utils/s3.js';
+import { badRequest } from '../../shared/utils/errors.js';
 
 export const productImagesController = {
   /**

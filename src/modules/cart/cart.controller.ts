@@ -1,6 +1,6 @@
 import type { Request, Response, NextFunction } from 'express';
-import { cartService } from './cart.service';
-import type { AddItemInput, UpdateItemInput, MergeCartInput } from './cart.schemas';
+import { cartService } from './cart.service.js';
+import type { AddItemInput, UpdateItemInput, MergeCartInput } from './cart.schemas.js';
 
 // Session ID header name for guest carts
 const SESSION_HEADER = 'x-session-id';

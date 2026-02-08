@@ -1,14 +1,14 @@
 import { Router } from 'express';
-import { authController } from './auth.controller';
-import { requireAuth } from './auth.middleware';
-import { validateRequest } from '../../shared/middleware/validate-request';
-import { authLimiter } from '../../shared/middleware/rate-limiter';
+import { authController } from './auth.controller.js';
+import { requireAuth } from './auth.middleware.js';
+import { validateRequest } from '../../shared/middleware/validate-request.js';
+import { authLimiter } from '../../shared/middleware/rate-limiter.js';
 import {
   registerSchema,
   loginSchema,
   updateProfileSchema,
   changePasswordSchema,
-} from './auth.schemas';
+} from './auth.schemas.js';
 
 const router = Router();
 

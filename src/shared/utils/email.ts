@@ -1,6 +1,6 @@
-import { emailTransporter } from '../../config/email';
-import { env } from '../../config/env';
-import type { Order, OrderItem } from '../../db/schema/orders';
+import { emailTransporter } from '../../config/email.js';
+import { env } from '../../config/env.js';
+import type { Order, OrderItem } from '../../db/schema/orders.js';
 
 interface OrderWithItems extends Order {
   items: OrderItem[];

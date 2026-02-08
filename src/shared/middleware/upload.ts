@@ -1,5 +1,5 @@
 import multer from 'multer';
-import { badRequest } from '../../shared/utils/errors';
+import { badRequest } from '../../shared/utils/errors.js';
 
 // Allowed image MIME types
 const ALLOWED_IMAGE_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];

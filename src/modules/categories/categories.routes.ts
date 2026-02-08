@@ -1,13 +1,13 @@
 import { Router } from 'express';
-import { categoriesController } from './categories.controller';
-import { requireAuth, requireAdmin } from '../auth/auth.middleware';
-import { validateRequest } from '../../shared/middleware/validate-request';
+import { categoriesController } from './categories.controller.js';
+import { requireAuth, requireAdmin } from '../auth/auth.middleware.js';
+import { validateRequest } from '../../shared/middleware/validate-request.js';
 import {
   createCategorySchema,
   updateCategorySchema,
   categoryIdParamSchema,
   reorderCategoriesSchema,
-} from './categories.schemas';
+} from './categories.schemas.js';
 
 const router = Router();
 

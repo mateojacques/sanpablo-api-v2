@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { importJobStatuses } from '../../db/schema/import-jobs';
+import { importJobStatuses } from '../../db/schema/import-jobs.js';
 
 // ============ Request Schemas ============
 

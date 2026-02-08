@@ -1,6 +1,6 @@
 import bcrypt from 'bcrypt';
-import { db } from '../../config/database';
-import { users } from '../../db/schema/users';
+import { db } from '../../config/database.js';
+import { users } from '../../db/schema/users.js';
 
 const DEFAULT_PASSWORD = 'Test123123!';
 const SALT_ROUNDS = 10;

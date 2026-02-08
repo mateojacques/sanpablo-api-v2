@@ -1,3 +1,3 @@
-export { cartController } from './cart.controller';
-export { cartService } from './cart.service';
-export * from './cart.schemas';
+export { cartController } from './cart.controller.js';
+export { cartService } from './cart.service.js';
+export * from './cart.schemas.js';

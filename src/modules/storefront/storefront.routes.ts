@@ -1,9 +1,9 @@
 import { Router } from 'express';
-import { storefrontController } from './storefront.controller';
-import { validateRequest } from '../../shared/middleware/validate-request';
-import { requireAuth, requireAdmin } from '../auth/auth.middleware';
-import { imageUpload } from '../../shared/middleware/upload';
-import { uploadLimiter } from '../../shared/middleware/rate-limiter';
+import { storefrontController } from './storefront.controller.js';
+import { validateRequest } from '../../shared/middleware/validate-request.js';
+import { requireAuth, requireAdmin } from '../auth/auth.middleware.js';
+import { imageUpload } from '../../shared/middleware/upload.js';
+import { uploadLimiter } from '../../shared/middleware/rate-limiter.js';
 import {
   updateConfigBodySchema,
   updateBrandingBodySchema,
@@ -13,7 +13,7 @@ import {
   updateContactBodySchema,
   updateSeoBodySchema,
   updateLegalBodySchema,
-} from './storefront.schemas';
+} from './storefront.schemas.js';
 
 const router = Router();
 

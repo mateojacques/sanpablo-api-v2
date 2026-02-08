@@ -1,15 +1,15 @@
 import { eq, and, isNull, asc, ne, inArray } from 'drizzle-orm';
 
-import { db } from '../../config/database';
+import { db } from '../../config/database.js';
 import {
   carousels,
   carouselItems,
   type Carousel,
   type CarouselItem,
-} from '../../db/schema/carousels';
-import { products, type Product } from '../../db/schema/products';
+} from '../../db/schema/carousels.js';
+import { products, type Product } from '../../db/schema/products.js';
 import { categories, type Category } from '../../db/schema/categories.js';
-import { notFound, conflict, badRequest } from '../../shared/utils/errors';
+import { notFound, conflict, badRequest } from '../../shared/utils/errors.js';
 
 import type {
   CreateCarouselInput,
@@ -18,8 +18,8 @@ import type {
   ReorderCarouselItemsInput,
   ReorderCarouselsInput,
   ListCarouselsQuery,
-} from './carousels.schemas';
-import { slugify } from './carousels.schemas';
+} from './carousels.schemas.js';
+import { slugify } from './carousels.schemas.js';
 
 // Carousel with products for frontend consumption
 export interface CarouselWithProducts extends Carousel {

@@ -1,5 +1,5 @@
 import type { Request, Response, NextFunction } from 'express';
-import { carouselsService } from './carousels.service';
+import { carouselsService } from './carousels.service.js';
 
 import type {
   CreateCarouselInput,
@@ -8,7 +8,7 @@ import type {
   ReorderCarouselItemsInput,
   ReorderCarouselsInput,
   ListCarouselsQuery,
-} from './carousels.schemas';
+} from './carousels.schemas.js';
 
 export const carouselsController = {
   /**

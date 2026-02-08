@@ -14,14 +14,14 @@
  */
 
 import { sql } from 'drizzle-orm';
-import { db, closeDatabase } from '../config/database';
+import { db, closeDatabase } from '../config/database.js';
 import {
   seedUsers,
   seedCategories,
   seedProducts,
   seedCarousels,
   seedStorefront,
-} from './seeders/index';
+} from './seeders/index.js';
 
 // Parse CLI arguments
 const args = process.argv.slice(2);

@@ -1,8 +1,8 @@
 import { eq, and, isNull, desc, sql } from 'drizzle-orm';
-import { db } from '../../config/database';
-import { orders } from '../../db/schema';
-import { AppError } from '../../shared/utils/errors';
-import type { ListOrdersQuery, UpdateStatusInput } from './orders.schemas';
+import { db } from '../../config/database.js';
+import { orders } from '../../db/schema/index.js';
+import { AppError } from '../../shared/utils/errors.js';
+import type { ListOrdersQuery, UpdateStatusInput } from './orders.schemas.js';
 
 export const ordersService = {
   /**

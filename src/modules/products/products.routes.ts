@@ -1,16 +1,16 @@
 import { Router } from 'express';
-import { productsController } from './products.controller';
-import { productImagesController } from './products-images.controller';
-import { requireAuth, requireAdmin } from '../auth/auth.middleware';
-import { validateRequest } from '../../shared/middleware/validate-request';
-import { imageUpload } from '../../shared/middleware/upload';
+import { productsController } from './products.controller.js';
+import { productImagesController } from './products-images.controller.js';
+import { requireAuth, requireAdmin } from '../auth/auth.middleware.js';
+import { validateRequest } from '../../shared/middleware/validate-request.js';
+import { imageUpload } from '../../shared/middleware/upload.js';
 import {
   createProductSchema,
   updateProductSchema,
   productIdParamSchema,
   productSkuParamSchema,
   listProductsQuerySchema,
-} from './products.schemas';
+} from './products.schemas.js';
 
 const router = Router();
 

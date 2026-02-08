@@ -1,7 +1,7 @@
-import { db } from '../../config/database';
-import { carousels, carouselItems } from '../../db/schema/carousels';
-import { getCategoryBySlug } from './categories.seeder';
-import { getProductBySku } from './products.seeder';
+import { db } from '../../config/database.js';
+import { carousels, carouselItems } from '../../db/schema/carousels.js';
+import { getCategoryBySlug } from './categories.seeder.js';
+import { getProductBySku } from './products.seeder.js';
 
 export interface SeededCarousel {
   id: string;

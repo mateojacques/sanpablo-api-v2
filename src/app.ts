@@ -14,16 +14,16 @@ const __dirname = dirname(__filename);
 import { errorHandler, apiLimiter } from './shared/middleware/index.js';
 
 // Import routes (will be added as modules are implemented)
-import authRoutes from './modules/auth/auth.routes';
-import categoriesRoutes from './modules/categories/categories.routes';
-import productsRoutes from './modules/products/products.routes';
-import cartRoutes from './modules/cart/cart.routes';
-import checkoutRoutes from './modules/checkout/checkout.routes';
-import ordersRoutes from './modules/orders/orders.routes';
-import storefrontRoutes from './modules/storefront/storefront.routes';
-import importsRoutes from './modules/imports/imports.routes';
-import carouselsRoutes from './modules/carousels/carousels.routes';
-import metricsRoutes from './modules/metrics/metrics.routes';
+import authRoutes from './modules/auth/auth.routes.js';
+import categoriesRoutes from './modules/categories/categories.routes.js';
+import productsRoutes from './modules/products/products.routes.js';
+import cartRoutes from './modules/cart/cart.routes.js';
+import checkoutRoutes from './modules/checkout/checkout.routes.js';
+import ordersRoutes from './modules/orders/orders.routes.js';
+import storefrontRoutes from './modules/storefront/storefront.routes.js';
+import importsRoutes from './modules/imports/imports.routes.js';
+import carouselsRoutes from './modules/carousels/carousels.routes.js';
+import metricsRoutes from './modules/metrics/metrics.routes.js';
 
 const app = express();
 

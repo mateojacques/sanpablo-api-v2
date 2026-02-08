@@ -1,7 +1,7 @@
 import { Router } from 'express';
-import { carouselsController } from './carousels.controller';
-import { requireAuth, requireAdmin } from '../auth/auth.middleware';
-import { validateRequest } from '../../shared/middleware/validate-request';
+import { carouselsController } from './carousels.controller.js';
+import { requireAuth, requireAdmin } from '../auth/auth.middleware.js';
+import { validateRequest } from '../../shared/middleware/validate-request.js';
 import {
   createCarouselSchema,
   updateCarouselSchema,
@@ -10,7 +10,7 @@ import {
   reorderCarouselItemsSchema,
   reorderCarouselsSchema,
   listCarouselsQuerySchema,
-} from './carousels.schemas';
+} from './carousels.schemas.js';
 
 const router = Router();
 

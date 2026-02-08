@@ -1,6 +1,6 @@
-import { db } from '../../config/database';
-import { products } from '../../db/schema/products';
-import { getCategoryBySlug } from './categories.seeder';
+import { db } from '../../config/database.js';
+import { products } from '../../db/schema/products.js';
+import { getCategoryBySlug } from './categories.seeder.js';
 
 export interface SeededProduct {
   id: string;

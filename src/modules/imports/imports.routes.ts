@@ -1,10 +1,10 @@
 import { Router } from 'express';
-import { importsController } from './imports.controller';
-import { validateRequest } from '../../shared/middleware/validate-request';
-import { csvUpload, jsonUpload } from '../../shared/middleware/upload';
-import { importLimiter } from '../../shared/middleware/rate-limiter';
-import { requireAuth, requireAdmin } from '../auth/auth.middleware';
-import { listImportsQuerySchema, importIdParamSchema } from './imports.schemas';
+import { importsController } from './imports.controller.js';
+import { validateRequest } from '../../shared/middleware/validate-request.js';
+import { csvUpload, jsonUpload } from '../../shared/middleware/upload.js';
+import { importLimiter } from '../../shared/middleware/rate-limiter.js';
+import { requireAuth, requireAdmin } from '../auth/auth.middleware.js';
+import { listImportsQuerySchema, importIdParamSchema } from './imports.schemas.js';
 
 const router = Router();
 

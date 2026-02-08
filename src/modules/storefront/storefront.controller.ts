@@ -1,6 +1,6 @@
 import type { Request, Response, NextFunction } from 'express';
-import { storefrontService } from './storefront.service';
-import type { StorefrontConfig } from './storefront.schemas';
+import { storefrontService } from './storefront.service.js';
+import type { StorefrontConfig } from './storefront.schemas.js';
 
 export const storefrontController = {
   /**

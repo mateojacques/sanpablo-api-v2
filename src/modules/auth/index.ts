@@ -1,11 +1,11 @@
-export { authController } from './auth.controller';
-export { authService } from './auth.service';
+export { authController } from './auth.controller.js';
+export { authService } from './auth.service.js';
 export {
   requireAuth,
   optionalAuth,
   requireRoles,
   requireAdmin,
   requireOwner,
-} from './auth.middleware';
-export * from './auth.schemas';
-export { default as authRoutes } from './auth.routes';
+} from './auth.middleware.js';
+export * from './auth.schemas.js';
+export { default as authRoutes } from './auth.routes.js';

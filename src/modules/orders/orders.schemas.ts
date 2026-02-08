@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { orderStatuses } from '../../db/schema/orders';
+import { orderStatuses } from '../../db/schema/orders.js';
 
 // ============ Request Schemas ============
 

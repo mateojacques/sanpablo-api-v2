@@ -1,7 +1,7 @@
 import type { Request, Response, NextFunction } from 'express';
-import { importsService } from './imports.service';
-import type { AuthenticatedRequest } from '../../shared/types/index';
-import type { ListImportsQuery } from './imports.schemas';
+import { importsService } from './imports.service.js';
+import type { AuthenticatedRequest } from '../../shared/types/index.js';
+import type { ListImportsQuery } from './imports.schemas.js';
 
 export const importsController = {
   /**

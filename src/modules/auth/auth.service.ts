@@ -2,18 +2,18 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { eq, and, isNull } from 'drizzle-orm';
 
-import { db } from '../../config/database';
-import { users } from '../../db/schema/users';
-import { env } from '../../config/env';
-import { AppError, conflict, unauthorized, notFound } from '../../shared/utils/errors';
+import { db } from '../../config/database.js';
+import { users } from '../../db/schema/users.js';
+import { env } from '../../config/env.js';
+import { AppError, conflict, unauthorized, notFound } from '../../shared/utils/errors.js';
 
-import type { AuthUser, UserRole } from '../../shared/types/index';
+import type { AuthUser, UserRole } from '../../shared/types/index.js';
 import type {
   RegisterInput,
   LoginInput,
   UpdateProfileInput,
   ChangePasswordInput,
-} from './auth.schemas';
+} from './auth.schemas.js';
 
 const SALT_ROUNDS = 12;
 

@@ -1,7 +1,7 @@
 import { sql, isNull, and, gte, lte, eq, desc } from 'drizzle-orm';
-import { db } from '../../config/database';
-import { products, categories, orders, importJobs } from '../../db/schema';
-import type { MetricsQuery, MetricsOverview } from './metrics.schemas';
+import { db } from '../../config/database.js';
+import { products, categories, orders, importJobs } from '../../db/schema/index.js';
+import type { MetricsQuery, MetricsOverview } from './metrics.schemas.js';
 
 export const metricsService = {
   /**

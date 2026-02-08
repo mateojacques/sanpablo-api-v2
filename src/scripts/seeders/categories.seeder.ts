@@ -1,4 +1,4 @@
-import { db } from '../../config/database';
+import { db } from '../../config/database.js';
 import { categories } from '../../db/schema/categories.js';
 
 export interface SeededCategory {

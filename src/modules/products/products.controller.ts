@@ -1,11 +1,11 @@
 import type { Request, Response, NextFunction } from 'express';
-import { productsService } from './products.service';
+import { productsService } from './products.service.js';
 
 import type {
   CreateProductInput,
   UpdateProductInput,
   ListProductsQuery,
-} from './products.schemas';
+} from './products.schemas.js';
 
 export const productsController = {
   /**

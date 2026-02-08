@@ -1,9 +1,9 @@
 import { Router } from 'express';
-import { checkoutController } from './checkout.controller';
-import { validateRequest } from '../../shared/middleware/validate-request';
-import { checkoutLimiter } from '../../shared/middleware/rate-limiter';
-import { optionalAuth } from '../auth/auth.middleware';
-import { saveContactBodySchema } from './checkout.schemas';
+import { checkoutController } from './checkout.controller.js';
+import { validateRequest } from '../../shared/middleware/validate-request.js';
+import { checkoutLimiter } from '../../shared/middleware/rate-limiter.js';
+import { optionalAuth } from '../auth/auth.middleware.js';
+import { saveContactBodySchema } from './checkout.schemas.js';
 
 const router = Router();
 

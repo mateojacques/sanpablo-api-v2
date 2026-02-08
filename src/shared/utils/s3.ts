@@ -6,9 +6,9 @@ import {
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 import { randomUUID } from 'crypto';
 
-import { s3Client } from '../../config/aws';
-import { env } from '../../config/env';
-import { badRequest } from '../utils/errors';
+import { s3Client } from '../../config/aws.js';
+import { env } from '../../config/env.js';
+import { badRequest } from '../utils/errors.js';
 
 // Allowed image MIME types
 const ALLOWED_IMAGE_TYPES = [

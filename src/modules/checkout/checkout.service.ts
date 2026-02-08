@@ -1,9 +1,9 @@
 import { eq } from 'drizzle-orm';
-import { db } from '../../config/database';
-import { carts, cartItems, orders, orderItems } from '../../db/schema';
-import { AppError } from '../../shared/utils/errors';
-import { emailService } from '../../shared/utils/email';
-import type { SaveContactInput } from './checkout.schemas';
+import { db } from '../../config/database.js';
+import { carts, cartItems, orders, orderItems } from '../../db/schema/index.js';
+import { AppError } from '../../shared/utils/errors.js';
+import { emailService } from '../../shared/utils/email.js';
+import type { SaveContactInput } from './checkout.schemas.js';
 
 // Store contact info temporarily in memory (in production, use Redis or DB)
 // Key: cartId, Value: contact info

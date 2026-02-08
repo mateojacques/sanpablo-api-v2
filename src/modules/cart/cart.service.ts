@@ -1,8 +1,8 @@
 import { eq, and, isNull, sql } from 'drizzle-orm';
-import { db } from '../../config/database';
-import { carts, cartItems, products } from '../../db/schema';
-import { AppError } from '../../shared/utils/errors';
-import type { AddItemInput, UpdateItemInput } from './cart.schemas';
+import { db } from '../../config/database.js';
+import { carts, cartItems, products } from '../../db/schema/index.js';
+import { AppError } from '../../shared/utils/errors.js';
+import type { AddItemInput, UpdateItemInput } from './cart.schemas.js';
 
 // Guest cart expiration: 7 days
 const GUEST_CART_EXPIRATION_DAYS = 7;

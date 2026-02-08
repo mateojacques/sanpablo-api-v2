@@ -1,11 +1,11 @@
 import type { Request, Response, NextFunction } from 'express';
-import { categoriesService } from './categories.service';
+import { categoriesService } from './categories.service.js';
 
 import type {
   CreateCategoryInput,
   UpdateCategoryInput,
   ReorderCategoriesInput,
-} from './categories.schemas';
+} from './categories.schemas.js';
 
 export const categoriesController = {
   /**

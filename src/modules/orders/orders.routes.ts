@@ -1,12 +1,12 @@
 import { Router } from 'express';
-import { ordersController } from './orders.controller';
-import { validateRequest } from '../../shared/middleware/validate-request';
-import { requireAuth, requireAdmin } from '../auth/auth.middleware';
+import { ordersController } from './orders.controller.js';
+import { validateRequest } from '../../shared/middleware/validate-request.js';
+import { requireAuth, requireAdmin } from '../auth/auth.middleware.js';
 import {
   listOrdersQuerySchema,
   orderIdParamSchema,
   updateStatusBodySchema,
-} from './orders.schemas';
+} from './orders.schemas.js';
 
 const router = Router();
 

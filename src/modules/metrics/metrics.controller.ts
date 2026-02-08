@@ -1,6 +1,6 @@
 import type { Request, Response, NextFunction } from 'express';
-import { metricsService } from './metrics.service';
-import type { MetricsQuery } from './metrics.schemas';
+import { metricsService } from './metrics.service.js';
+import type { MetricsQuery } from './metrics.schemas.js';
 
 export const metricsController = {
   /**

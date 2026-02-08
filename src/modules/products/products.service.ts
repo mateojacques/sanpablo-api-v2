@@ -1,16 +1,16 @@
 import { eq, and, isNull, ilike, gte, lte, asc, desc, sql, ne } from 'drizzle-orm';
 
-import { db } from '../../config/database';
-import { products, type Product } from '../../db/schema/products';
+import { db } from '../../config/database.js';
+import { products, type Product } from '../../db/schema/products.js';
 import { categories } from '../../db/schema/categories.js';
-import { notFound, conflict, badRequest } from '../../shared/utils/errors';
-import type { PaginatedResult } from '../../shared/types/index';
+import { notFound, conflict, badRequest } from '../../shared/utils/errors.js';
+import type { PaginatedResult } from '../../shared/types/index.js';
 
 import type {
   CreateProductInput,
   UpdateProductInput,
   ListProductsQuery,
-} from './products.schemas';
+} from './products.schemas.js';
 
 // Product with category info
 export interface ProductWithCategory extends Product {

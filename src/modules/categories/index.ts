@@ -1,4 +1,4 @@
-export { categoriesController } from './categories.controller';
-export { categoriesService } from './categories.service';
-export * from './categories.schemas';
-export { default as categoriesRoutes } from './categories.routes';
+export { categoriesController } from './categories.controller.js';
+export { categoriesService } from './categories.service.js';
+export * from './categories.schemas.js';
+export { default as categoriesRoutes } from './categories.routes.js';

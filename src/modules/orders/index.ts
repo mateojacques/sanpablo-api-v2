@@ -1,3 +1,3 @@
-export { ordersController } from './orders.controller';
-export { ordersService } from './orders.service';
-export * from './orders.schemas';
+export { ordersController } from './orders.controller.js';
+export { ordersService } from './orders.service.js';
+export * from './orders.schemas.js';

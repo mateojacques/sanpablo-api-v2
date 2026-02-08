@@ -1,6 +1,6 @@
 import type { Request, Response, NextFunction } from 'express';
-import { ordersService } from './orders.service';
-import type { ListOrdersQuery, UpdateStatusInput } from './orders.schemas';
+import { ordersService } from './orders.service.js';
+import type { ListOrdersQuery, UpdateStatusInput } from './orders.schemas.js';
 
 export const ordersController = {
   /**

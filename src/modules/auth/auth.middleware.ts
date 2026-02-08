@@ -1,7 +1,7 @@
 import type { Request, Response, NextFunction } from 'express';
-import { authService } from './auth.service';
-import { unauthorized, forbidden } from '../../shared/utils/errors';
-import type { UserRole, AuthenticatedRequest } from '../../shared/types/index';
+import { authService } from './auth.service.js';
+import { unauthorized, forbidden } from '../../shared/utils/errors.js';
+import type { UserRole, AuthenticatedRequest } from '../../shared/types/index.js';
 
 /**
  * Middleware that requires authentication.

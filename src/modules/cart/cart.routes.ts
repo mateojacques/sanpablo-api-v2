@@ -1,13 +1,13 @@
 import { Router } from 'express';
-import { cartController } from './cart.controller';
-import { validateRequest } from '../../shared/middleware/validate-request';
-import { optionalAuth, requireAuth } from '../auth/auth.middleware';
+import { cartController } from './cart.controller.js';
+import { validateRequest } from '../../shared/middleware/validate-request.js';
+import { optionalAuth, requireAuth } from '../auth/auth.middleware.js';
 import {
   addItemBodySchema,
   updateItemBodySchema,
   itemIdParamSchema,
   mergeCartBodySchema,
-} from './cart.schemas';
+} from './cart.schemas.js';
 
 const router = Router();
 

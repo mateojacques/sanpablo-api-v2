@@ -1,15 +1,15 @@
 import { eq, and, isNull, asc, ne } from 'drizzle-orm';
 
-import { db } from '../../config/database';
+import { db } from '../../config/database.js';
 import { categories, type Category } from '../../db/schema/categories.js';
-import { notFound, conflict, badRequest } from '../../shared/utils/errors';
+import { notFound, conflict, badRequest } from '../../shared/utils/errors.js';
 
 import type {
   CreateCategoryInput,
   UpdateCategoryInput,
   ReorderCategoriesInput,
-} from './categories.schemas';
-import { slugify } from './categories.schemas';
+} from './categories.schemas.js';
+import { slugify } from './categories.schemas.js';
 
 // Category with children for tree structure
 export interface CategoryTreeNode extends Category {

@@ -3,14 +3,14 @@ import {
   PutObjectCommand,
   HeadObjectCommand,
 } from '@aws-sdk/client-s3';
-import { s3Client } from '../../config/aws';
-import { env } from '../../config/env';
-import { AppError } from '../../shared/utils/errors';
+import { s3Client } from '../../config/aws.js';
+import { env } from '../../config/env.js';
+import { AppError } from '../../shared/utils/errors.js';
 import {
   storefrontConfigSchema,
   defaultStorefrontConfig,
   type StorefrontConfig,
-} from './storefront.schemas';
+} from './storefront.schemas.js';
 
 const CONFIG_KEY = 'storefront/config.json';
 

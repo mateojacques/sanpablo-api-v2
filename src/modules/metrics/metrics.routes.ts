@@ -1,8 +1,8 @@
 import { Router } from 'express';
-import { metricsController } from './metrics.controller';
-import { validateRequest } from '../../shared/middleware/validate-request';
-import { requireAuth, requireAdmin } from '../auth/auth.middleware';
-import { metricsQuerySchema } from './metrics.schemas';
+import { metricsController } from './metrics.controller.js';
+import { validateRequest } from '../../shared/middleware/validate-request.js';
+import { requireAuth, requireAdmin } from '../auth/auth.middleware.js';
+import { metricsQuerySchema } from './metrics.schemas.js';
 
 const router = Router();
 

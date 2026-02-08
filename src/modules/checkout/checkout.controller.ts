@@ -1,6 +1,6 @@
 import type { Request, Response, NextFunction } from 'express';
-import { checkoutService } from './checkout.service';
-import type { SaveContactInput } from './checkout.schemas';
+import { checkoutService } from './checkout.service.js';
+import type { SaveContactInput } from './checkout.schemas.js';
 
 // Session ID header name for guest carts
 const SESSION_HEADER = 'x-session-id';
