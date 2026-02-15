@@ -285,6 +285,33 @@ router.patch(
  *                 type: string
  *               socialLinks:
  *                 type: object
+ *                 description: Social network profile links
+ *                 properties:
+ *                   instagram:
+ *                     type: string
+ *                     format: uri
+ *                     example: https://www.instagram.com/sanpablo
+ *                   facebook:
+ *                     type: string
+ *                     format: uri
+ *                     example: https://www.facebook.com/sanpablo
+ *                   tiktok:
+ *                     type: string
+ *                     format: uri
+ *                     example: https://www.tiktok.com/@sanpablo
+ *                   twitter:
+ *                     type: string
+ *                     format: uri
+ *                     example: https://twitter.com/sanpablo
+ *                   youtube:
+ *                     type: string
+ *                     format: uri
+ *                     example: https://www.youtube.com/@sanpablo
+ *                   whatsapp:
+ *                     type: string
+ *                     format: uri
+ *                     description: WhatsApp channel link
+ *                     example: https://whatsapp.com/channel/0029Va...
  *     responses:
  *       200:
  *         description: Updated configuration
@@ -490,6 +517,27 @@ router.post(
  *               type: string
  *             socialLinks:
  *               type: object
+ *               description: Social network profile links
+ *               properties:
+ *                 instagram:
+ *                   type: string
+ *                   format: uri
+ *                 facebook:
+ *                   type: string
+ *                   format: uri
+ *                 tiktok:
+ *                   type: string
+ *                   format: uri
+ *                 twitter:
+ *                   type: string
+ *                   format: uri
+ *                 youtube:
+ *                   type: string
+ *                   format: uri
+ *                 whatsapp:
+ *                   type: string
+ *                   format: uri
+ *                   description: WhatsApp channel link
  *         seo:
  *           type: object
  *           properties:

@@ -39,6 +39,7 @@ const socialLinksSchema = z.object({
   tiktok: z.string().url().optional(),
   twitter: z.string().url().optional(),
   youtube: z.string().url().optional(),
+  whatsapp: z.string().url().optional(),
 });
 
 // Complete storefront config schema
