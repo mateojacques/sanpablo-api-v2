@@ -23,9 +23,17 @@
       "CartItem": {
         "type": "object",
         "properties": {
-          "id": { "type": "string", "format": "uuid" },
-          "productId": { "type": "string", "format": "uuid" },
-          "quantity": { "type": "integer" },
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "productId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "quantity": {
+            "type": "integer"
+          },
           "priceAtAdd": {
             "type": "string",
             "description": "Price when item was added to cart"
@@ -33,27 +41,60 @@
           "product": {
             "type": "object",
             "properties": {
-              "id": { "type": "string", "format": "uuid" },
-              "name": { "type": "string" },
-              "sku": { "type": "string" },
-              "imageUrl": { "type": "string", "nullable": true },
-              "regularPrice": { "type": "string" },
-              "salePrice": { "type": "string", "nullable": true }
+              "id": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "name": {
+                "type": "string"
+              },
+              "sku": {
+                "type": "string"
+              },
+              "imageUrl": {
+                "type": "string",
+                "nullable": true
+              },
+              "regularPrice": {
+                "type": "string"
+              },
+              "salePrice": {
+                "type": "string",
+                "nullable": true
+              }
             }
           },
-          "createdAt": { "type": "string", "format": "date-time" },
-          "updatedAt": { "type": "string", "format": "date-time" }
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
         }
       },
       "Cart": {
         "type": "object",
         "properties": {
-          "id": { "type": "string", "format": "uuid" },
-          "userId": { "type": "string", "format": "uuid", "nullable": true },
-          "sessionId": { "type": "string", "nullable": true },
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "userId": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "sessionId": {
+            "type": "string",
+            "nullable": true
+          },
           "items": {
             "type": "array",
-            "items": { "$ref": "#/components/schemas/CartItem" }
+            "items": {
+              "$ref": "#/components/schemas/CartItem"
+            }
           },
           "itemCount": {
             "type": "integer",
@@ -63,21 +104,48 @@
             "type": "string",
             "description": "Cart subtotal before discounts"
           },
-          "createdAt": { "type": "string", "format": "date-time" },
-          "updatedAt": { "type": "string", "format": "date-time" }
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
         }
       },
       "ImportJob": {
         "type": "object",
         "properties": {
-          "id": { "type": "string", "format": "uuid" },
-          "userId": { "type": "string", "format": "uuid" },
-          "filename": { "type": "string", "example": "products-import.csv" },
-          "fileKey": { "type": "string", "description": "S3 key for the uploaded file" },
-          "fileSize": { "type": "integer", "description": "File size in bytes" },
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "userId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "filename": {
+            "type": "string",
+            "example": "products-import.csv"
+          },
+          "fileKey": {
+            "type": "string",
+            "description": "S3 key for the uploaded file"
+          },
+          "fileSize": {
+            "type": "integer",
+            "description": "File size in bytes"
+          },
           "status": {
             "type": "string",
-            "enum": ["pending", "processing", "completed", "failed", "cancelled"]
+            "enum": [
+              "pending",
+              "processing",
+              "completed",
+              "failed",
+              "cancelled"
+            ]
           },
           "totalRows": {
             "type": "integer",
@@ -91,31 +159,75 @@
             "type": "integer",
             "description": "Number of rows imported successfully"
           },
-          "errorRows": { "type": "integer", "description": "Number of rows with errors" },
-          "startedAt": { "type": "string", "format": "date-time", "nullable": true },
-          "completedAt": { "type": "string", "format": "date-time", "nullable": true },
-          "createdAt": { "type": "string", "format": "date-time" },
-          "updatedAt": { "type": "string", "format": "date-time" }
+          "errorRows": {
+            "type": "integer",
+            "description": "Number of rows with errors"
+          },
+          "startedAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "completedAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
         }
       },
       "OrderItem": {
         "type": "object",
         "properties": {
-          "id": { "type": "string", "format": "uuid" },
-          "productId": { "type": "string", "format": "uuid", "nullable": true },
-          "productSku": { "type": "string" },
-          "productName": { "type": "string" },
-          "quantity": { "type": "integer" },
-          "unitPrice": { "type": "string" },
-          "totalPrice": { "type": "string" }
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "productId": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "productSku": {
+            "type": "string"
+          },
+          "productName": {
+            "type": "string"
+          },
+          "quantity": {
+            "type": "integer"
+          },
+          "unitPrice": {
+            "type": "string"
+          },
+          "totalPrice": {
+            "type": "string"
+          }
         }
       },
       "Order": {
         "type": "object",
         "properties": {
-          "id": { "type": "string", "format": "uuid" },
-          "orderNumber": { "type": "string", "example": "SP-20240115-XYZ1" },
-          "userId": { "type": "string", "format": "uuid", "nullable": true },
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "orderNumber": {
+            "type": "string",
+            "example": "SP-20240115-XYZ1"
+          },
+          "userId": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
           "status": {
             "type": "string",
             "enum": [
@@ -127,53 +239,116 @@
               "cancelled"
             ]
           },
-          "contactFullName": { "type": "string" },
-          "contactEmail": { "type": "string" },
-          "contactPhone": { "type": "string" },
-          "contactAddress": { "type": "string" },
-          "subtotal": { "type": "string" },
-          "total": { "type": "string" },
-          "customerNotes": { "type": "string", "nullable": true },
-          "internalNotes": { "type": "string", "nullable": true },
+          "contactFullName": {
+            "type": "string"
+          },
+          "contactEmail": {
+            "type": "string"
+          },
+          "contactPhone": {
+            "type": "string"
+          },
+          "contactAddress": {
+            "type": "string"
+          },
+          "subtotal": {
+            "type": "string"
+          },
+          "total": {
+            "type": "string"
+          },
+          "customerNotes": {
+            "type": "string",
+            "nullable": true
+          },
+          "internalNotes": {
+            "type": "string",
+            "nullable": true
+          },
           "items": {
             "type": "array",
-            "items": { "$ref": "#/components/schemas/OrderItem" }
+            "items": {
+              "$ref": "#/components/schemas/OrderItem"
+            }
           },
-          "createdAt": { "type": "string", "format": "date-time" },
-          "updatedAt": { "type": "string", "format": "date-time" }
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
         }
       },
       "StorefrontConfig": {
         "type": "object",
         "properties": {
-          "version": { "type": "string" },
-          "lastUpdated": { "type": "string", "format": "date-time" },
+          "version": {
+            "type": "string"
+          },
+          "lastUpdated": {
+            "type": "string",
+            "format": "date-time"
+          },
           "branding": {
             "type": "object",
             "properties": {
-              "storeName": { "type": "string" },
-              "tagline": { "type": "string" },
-              "headerLogoUrl": { "type": "string" },
-              "footerLogoUrl": { "type": "string" },
-              "faviconUrl": { "type": "string" }
+              "storeName": {
+                "type": "string"
+              },
+              "tagline": {
+                "type": "string"
+              },
+              "headerLogoUrl": {
+                "type": "string"
+              },
+              "footerLogoUrl": {
+                "type": "string"
+              },
+              "faviconUrl": {
+                "type": "string"
+              }
             }
           },
           "colors": {
             "type": "object",
             "properties": {
-              "primary": { "type": "string" },
-              "secondary": { "type": "string" },
-              "accent": { "type": "string" },
-              "background": { "type": "string" },
-              "text": { "type": "string" },
-              "textMuted": { "type": "string" }
+              "primary": {
+                "type": "string"
+              },
+              "secondary": {
+                "type": "string"
+              },
+              "accent": {
+                "type": "string"
+              },
+              "background": {
+                "type": "string"
+              },
+              "text": {
+                "type": "string"
+              },
+              "textMuted": {
+                "type": "string"
+              }
             }
           },
           "banners": {
             "type": "object",
             "properties": {
-              "hero": { "type": "array", "items": { "type": "object" } },
-              "slim": { "type": "array", "items": { "type": "object" } }
+              "hero": {
+                "type": "array",
+                "items": {
+                  "type": "object"
+                }
+              },
+              "slim": {
+                "type": "array",
+                "items": {
+                  "type": "object"
+                }
+              }
             }
           },
           "faq": {
@@ -181,48 +356,133 @@
             "items": {
               "type": "object",
               "properties": {
-                "id": { "type": "string" },
-                "question": { "type": "string" },
-                "answer": { "type": "string" },
-                "sortOrder": { "type": "integer" }
+                "id": {
+                  "type": "string"
+                },
+                "question": {
+                  "type": "string"
+                },
+                "answer": {
+                  "type": "string"
+                },
+                "sortOrder": {
+                  "type": "integer"
+                }
               }
             }
           },
           "contact": {
             "type": "object",
             "properties": {
-              "whatsappNumber": { "type": "string" },
-              "email": { "type": "string" },
-              "phone": { "type": "string" },
-              "address": { "type": "string" },
-              "socialLinks": { "type": "object" }
+              "whatsappNumber": {
+                "type": "string"
+              },
+              "email": {
+                "type": "string"
+              },
+              "phone": {
+                "type": "string"
+              },
+              "address": {
+                "type": "string"
+              },
+              "socialLinks": {
+                "type": "object",
+                "description": "Social network profile links",
+                "properties": {
+                  "instagram": {
+                    "type": "string",
+                    "format": "uri"
+                  },
+                  "facebook": {
+                    "type": "string",
+                    "format": "uri"
+                  },
+                  "tiktok": {
+                    "type": "string",
+                    "format": "uri"
+                  },
+                  "twitter": {
+                    "type": "string",
+                    "format": "uri"
+                  },
+                  "youtube": {
+                    "type": "string",
+                    "format": "uri"
+                  },
+                  "whatsapp": {
+                    "type": "string",
+                    "format": "uri",
+                    "description": "WhatsApp channel link"
+                  }
+                }
+              }
             }
           },
           "seo": {
             "type": "object",
             "properties": {
-              "metaTitle": { "type": "string" },
-              "metaDescription": { "type": "string" },
-              "ogImage": { "type": "string" }
+              "metaTitle": {
+                "type": "string"
+              },
+              "metaDescription": {
+                "type": "string"
+              },
+              "ogImage": {
+                "type": "string"
+              }
+            }
+          },
+          "legal": {
+            "type": "object",
+            "properties": {
+              "termsMarkdown": {
+                "type": "string"
+              },
+              "lastUpdated": {
+                "type": "string",
+                "format": "date-time"
+              }
             }
           }
         }
       },
       "RegisterInput": {
         "type": "object",
-        "required": ["email", "password", "fullName"],
+        "required": [
+          "email",
+          "password",
+          "fullName"
+        ],
         "properties": {
-          "email": { "type": "string", "format": "email" },
-          "password": { "type": "string", "minLength": 8 },
-          "fullName": { "type": "string", "minLength": 2 }
+          "email": {
+            "type": "string",
+            "format": "email"
+          },
+          "password": {
+            "type": "string",
+            "minLength": 8
+          },
+          "fullName": {
+            "type": "string",
+            "minLength": 2
+          }
         }
       },
       "LoginInput": {
         "type": "object",
-        "required": ["email", "password"],
+        "required": [
+          "email",
+          "password"
+        ],
         "properties": {
-          "email": { "type": "string", "format": "email" },
-          "password": { "type": "string" }
+          "email": {
+            "type": "string",
+            "format": "email"
+          },
+          "password": {
+            "type": "string"
+          }
         }
       },
       "AuthResponse": {
@@ -231,8 +491,12 @@
           "data": {
             "type": "object",
             "properties": {
-              "token": { "type": "string" },
-              "user": { "$ref": "#/components/schemas/UserProfile" }
+              "token": {
+                "type": "string"
+              },
+              "user": {
+                "$ref": "#/components/schemas/UserProfile"
+              }
             }
           }
         }
@@ -240,34 +504,168 @@
       "UserProfile": {
         "type": "object",
         "properties": {
-          "id": { "type": "string", "format": "uuid" },
-          "email": { "type": "string" },
-          "fullName": { "type": "string" },
-          "role": { "type": "string", "enum": ["owner", "admin", "buyer", "partner"] }
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "email": {
+            "type": "string"
+          },
+          "fullName": {
+            "type": "string"
+          },
+          "role": {
+            "type": "string",
+            "enum": [
+              "owner",
+              "admin",
+              "buyer",
+              "partner"
+            ]
+          }
         }
+      },
+      "CarouselType": {
+        "type": "string",
+        "enum": [
+          "manual",
+          "category"
+        ],
+        "description": "Type of carousel - manual (hand-picked products) or category (all products from a category)"
+      },
+      "Carousel": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string"
+          },
+          "slug": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "type": {
+            "$ref": "#/components/schemas/CarouselType"
+          },
+          "categoryId": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "sortOrder": {
+            "type": "integer"
+          },
+          "isActive": {
+            "type": "boolean"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "CarouselItem": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "carouselId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "productId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "sortOrder": {
+            "type": "integer"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "CarouselWithProducts": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Carousel"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "products": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/Product"
+                }
+              },
+              "category": {
+                "$ref": "#/components/schemas/Category"
+              }
+            }
+          }
+        ]
       },
       "Category": {
         "type": "object",
         "properties": {
-          "id": { "type": "string", "format": "uuid" },
-          "name": { "type": "string" },
-          "slug": { "type": "string" },
-          "description": { "type": "string" },
-          "parentId": { "type": "string", "format": "uuid", "nullable": true },
-          "sortOrder": { "type": "integer" },
-          "createdAt": { "type": "string", "format": "date-time" },
-          "updatedAt": { "type": "string", "format": "date-time" }
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string"
+          },
+          "slug": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "parentId": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "sortOrder": {
+            "type": "integer"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
         }
       },
       "CategoryTree": {
         "allOf": [
-          { "$ref": "#/components/schemas/Category" },
+          {
+            "$ref": "#/components/schemas/Category"
+          },
           {
             "type": "object",
             "properties": {
               "children": {
                 "type": "array",
-                "items": { "$ref": "#/components/schemas/CategoryTree" }
+                "items": {
+                  "$ref": "#/components/schemas/CategoryTree"
+                }
               }
             }
           }
@@ -276,113 +674,92 @@
       "Product": {
         "type": "object",
         "properties": {
-          "id": { "type": "string", "format": "uuid" },
-          "sku": { "type": "string" },
-          "name": { "type": "string" },
-          "description": { "type": "string" },
-          "regularPrice": { "type": "string" },
-          "salePrice": { "type": "string", "nullable": true },
-          "specialPrice": { "type": "string", "nullable": true },
-          "imageUrl": { "type": "string", "nullable": true },
-          "thumbnailUrl": { "type": "string", "nullable": true },
-          "videoUrl": { "type": "string", "nullable": true },
-          "weight": { "type": "string", "nullable": true },
-          "dimensionLength": { "type": "string", "nullable": true },
-          "dimensionWidth": { "type": "string", "nullable": true },
-          "dimensionHeight": { "type": "string", "nullable": true },
-          "categoryId": { "type": "string", "format": "uuid", "nullable": true },
-          "isActive": { "type": "boolean" },
-          "createdAt": { "type": "string", "format": "date-time" },
-          "updatedAt": { "type": "string", "format": "date-time" }
-        }
-      },
-      "PaginationMeta": {
-        "type": "object",
-        "properties": {
-          "page": { "type": "integer" },
-          "limit": { "type": "integer" },
-          "total": { "type": "integer" },
-          "totalPages": { "type": "integer" }
-        }
-      },
-      "Error": {
-        "type": "object",
-        "properties": {
-          "error": {
-            "type": "object",
-            "properties": {
-              "code": { "type": "string" },
-              "message": { "type": "string" }
-            }
-          }
-        }
-      },
-      "MetricsOverview": {
-        "type": "object",
-        "properties": {
-          "totalProducts": {
-            "type": "integer",
-            "description": "Total number of products (not deleted)",
-            "example": 150
-          },
-          "totalCategories": {
-            "type": "integer",
-            "description": "Total number of categories (not deleted)",
-            "example": 12
-          },
-          "totalOrders": {
-            "type": "integer",
-            "description": "Total number of orders (not deleted)",
-            "example": 45
-          },
-          "lastSuccessfulImportAt": {
+          "id": {
             "type": "string",
-            "format": "date-time",
-            "nullable": true,
-            "description": "Date of the last successful import job",
-            "example": "2024-01-15T10:30:00.000Z"
+            "format": "uuid"
           },
-          "dateRange": {
-            "type": "object",
-            "description": "The date range used for filtering (null if not provided)",
-            "properties": {
-              "startDate": {
-                "type": "string",
-                "format": "date-time",
-                "nullable": true
-              },
-              "endDate": {
-                "type": "string",
-                "format": "date-time",
-                "nullable": true
-              }
-            }
+          "sku": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "regularPrice": {
+            "type": "string"
+          },
+          "salePrice": {
+            "type": "string",
+            "nullable": true
+          },
+          "specialPrice": {
+            "type": "string",
+            "nullable": true
+          },
+          "imageUrl": {
+            "type": "string",
+            "nullable": true
+          },
+          "thumbnailUrl": {
+            "type": "string",
+            "nullable": true
+          },
+          "videoUrl": {
+            "type": "string",
+            "nullable": true
+          },
+          "weight": {
+            "type": "string",
+            "nullable": true
+          },
+          "dimensionLength": {
+            "type": "string",
+            "nullable": true
+          },
+          "dimensionWidth": {
+            "type": "string",
+            "nullable": true
+          },
+          "dimensionHeight": {
+            "type": "string",
+            "nullable": true
+          },
+          "categoryId": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "isActive": {
+            "type": "boolean"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
           }
         }
       }
     }
   },
-  "tags": [
-    { "name": "Auth", "description": "Authentication and user management" },
-    { "name": "Categories", "description": "Product categories (hierarchical)" },
-    { "name": "Products", "description": "Product catalog management" },
-    { "name": "Cart", "description": "Shopping cart management" },
-    { "name": "Checkout", "description": "Checkout flow (3 steps)" },
-    { "name": "Orders", "description": "Order management" },
-    { "name": "Storefront", "description": "Storefront configuration" },
-    { "name": "Imports", "description": "CSV product imports" },
-    { "name": "Metrics", "description": "Business metrics and analytics" }
-  ],
   "paths": {
     "/api/auth/register": {
       "post": {
-        "tags": ["Auth"],
+        "tags": [
+          "Auth"
+        ],
         "summary": "Register a new user",
         "requestBody": {
           "required": true,
           "content": {
             "application/json": {
-              "schema": { "$ref": "#/components/schemas/RegisterInput" }
+              "schema": {
+                "$ref": "#/components/schemas/RegisterInput"
+              }
             }
           }
         },
@@ -391,24 +768,34 @@
             "description": "User registered successfully",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/AuthResponse" }
+                "schema": {
+                  "$ref": "#/components/schemas/AuthResponse"
+                }
               }
             }
           },
-          "400": { "description": "Validation error" },
-          "409": { "description": "Email already exists" }
+          "400": {
+            "description": "Validation error"
+          },
+          "409": {
+            "description": "Email already exists"
+          }
         }
       }
     },
     "/api/auth/login": {
       "post": {
-        "tags": ["Auth"],
+        "tags": [
+          "Auth"
+        ],
         "summary": "Login user",
         "requestBody": {
           "required": true,
           "content": {
             "application/json": {
-              "schema": { "$ref": "#/components/schemas/LoginInput" }
+              "schema": {
+                "$ref": "#/components/schemas/LoginInput"
+              }
             }
           }
         },
@@ -417,19 +804,29 @@
             "description": "Login successful",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/AuthResponse" }
+                "schema": {
+                  "$ref": "#/components/schemas/AuthResponse"
+                }
               }
             }
           },
-          "401": { "description": "Invalid credentials" }
+          "401": {
+            "description": "Invalid credentials"
+          }
         }
       }
     },
     "/api/auth/me": {
       "get": {
-        "tags": ["Auth"],
+        "tags": [
+          "Auth"
+        ],
         "summary": "Get current user profile",
-        "security": [{ "bearerAuth": [] }],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "responses": {
           "200": {
             "description": "User profile",
@@ -437,18 +834,30 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": { "data": { "$ref": "#/components/schemas/UserProfile" } }
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/UserProfile"
+                    }
+                  }
                 }
               }
             }
           },
-          "401": { "description": "Unauthorized" }
+          "401": {
+            "description": "Unauthorized"
+          }
         }
       },
       "put": {
-        "tags": ["Auth"],
+        "tags": [
+          "Auth"
+        ],
         "summary": "Update current user profile",
-        "security": [{ "bearerAuth": [] }],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -456,53 +865,106 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "fullName": { "type": "string" },
-                  "email": { "type": "string", "format": "email" }
+                  "fullName": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string",
+                    "format": "email"
+                  }
                 }
               }
             }
           }
         },
         "responses": {
-          "200": { "description": "Profile updated" },
-          "401": { "description": "Unauthorized" }
+          "200": {
+            "description": "Profile updated"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
         }
       }
     },
     "/api/auth/password": {
       "put": {
-        "tags": ["Auth"],
+        "tags": [
+          "Auth"
+        ],
         "summary": "Change password",
-        "security": [{ "bearerAuth": [] }],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "requestBody": {
           "required": true,
           "content": {
             "application/json": {
               "schema": {
                 "type": "object",
-                "required": ["currentPassword", "newPassword"],
+                "required": [
+                  "currentPassword",
+                  "newPassword"
+                ],
                 "properties": {
-                  "currentPassword": { "type": "string" },
-                  "newPassword": { "type": "string", "minLength": 8 }
+                  "currentPassword": {
+                    "type": "string"
+                  },
+                  "newPassword": {
+                    "type": "string",
+                    "minLength": 8
+                  }
                 }
               }
             }
           }
         },
         "responses": {
-          "200": { "description": "Password changed" },
-          "400": { "description": "Invalid current password" },
-          "401": { "description": "Unauthorized" }
+          "200": {
+            "description": "Password changed"
+          },
+          "400": {
+            "description": "Invalid current password"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
         }
       }
     },
-    "/api/categories": {
+    "/api/carousels": {
       "get": {
-        "tags": ["Categories"],
-        "summary": "Get all categories as tree structure",
+        "tags": [
+          "Carousels"
+        ],
+        "summary": "Get all carousels",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "isActive",
+            "schema": {
+              "type": "boolean"
+            },
+            "description": "Filter by active status"
+          },
+          {
+            "in": "query",
+            "name": "type",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "manual",
+                "category"
+              ]
+            },
+            "description": "Filter by carousel type"
+          }
+        ],
         "responses": {
           "200": {
-            "description": "Category tree",
+            "description": "List of carousels",
             "content": {
               "application/json": {
                 "schema": {
@@ -510,7 +972,9 @@
                   "properties": {
                     "data": {
                       "type": "array",
-                      "items": { "$ref": "#/components/schemas/CategoryTree" }
+                      "items": {
+                        "$ref": "#/components/schemas/Carousel"
+                      }
                     }
                   }
                 }
@@ -520,67 +984,140 @@
         }
       },
       "post": {
-        "tags": ["Categories"],
-        "summary": "Create a new category",
-        "security": [{ "bearerAuth": [] }],
+        "tags": [
+          "Carousels"
+        ],
+        "summary": "Create a new carousel",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "requestBody": {
           "required": true,
           "content": {
             "application/json": {
               "schema": {
                 "type": "object",
-                "required": ["name"],
+                "required": [
+                  "name"
+                ],
                 "properties": {
-                  "name": { "type": "string" },
-                  "slug": { "type": "string" },
-                  "description": { "type": "string" },
-                  "parentId": { "type": "string", "format": "uuid" },
-                  "sortOrder": { "type": "integer" }
+                  "name": {
+                    "type": "string"
+                  },
+                  "slug": {
+                    "type": "string",
+                    "description": "Auto-generated from name if not provided"
+                  },
+                  "description": {
+                    "type": "string"
+                  },
+                  "type": {
+                    "type": "string",
+                    "enum": [
+                      "manual",
+                      "category"
+                    ],
+                    "default": "manual"
+                  },
+                  "categoryId": {
+                    "type": "string",
+                    "format": "uuid",
+                    "description": "Required when type is \"category\""
+                  },
+                  "sortOrder": {
+                    "type": "integer",
+                    "default": 0
+                  },
+                  "isActive": {
+                    "type": "boolean",
+                    "default": true
+                  },
+                  "productIds": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "format": "uuid"
+                    },
+                    "description": "Products to add (for manual type only)"
+                  }
                 }
               }
             }
           }
         },
         "responses": {
-          "201": { "description": "Category created" },
-          "401": { "description": "Unauthorized" },
-          "403": { "description": "Forbidden - Admin required" },
-          "409": { "description": "Slug already exists" }
+          "201": {
+            "description": "Carousel created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/Carousel"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation error"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "409": {
+            "description": "Slug already exists"
+          }
         }
       }
     },
-    "/api/categories/flat": {
+    "/api/carousels/storefront": {
       "get": {
-        "tags": ["Categories"],
-        "summary": "Get all categories as flat list",
+        "tags": [
+          "Carousels"
+        ],
+        "summary": "Get all active carousels with products (for storefront display)",
+        "description": "Returns all active carousels ordered by sortOrder, with their products included",
         "responses": {
-          "200": { "description": "Flat list of categories" }
+          "200": {
+            "description": "List of carousels with products",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/CarouselWithProducts"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
         }
       }
     },
-    "/api/categories/slug/{slug}": {
-      "get": {
-        "tags": ["Categories"],
-        "summary": "Get category by slug",
-        "parameters": [
+    "/api/carousels/reorder": {
+      "put": {
+        "tags": [
+          "Carousels"
+        ],
+        "summary": "Reorder carousels (display order in storefront)",
+        "security": [
           {
-            "in": "path",
-            "name": "slug",
-            "required": true,
-            "schema": { "type": "string" }
+            "bearerAuth": []
           }
         ],
-        "responses": {
-          "200": { "description": "Category found" },
-          "404": { "description": "Category not found" }
-        }
-      }
-    },
-    "/api/categories/reorder": {
-      "put": {
-        "tags": ["Categories"],
-        "summary": "Reorder categories (batch update positions)",
-        "security": [{ "bearerAuth": [] }],
         "requestBody": {
           "required": true,
           "content": {
@@ -588,18 +1125,18 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "categories": {
+                  "carousels": {
                     "type": "array",
                     "items": {
                       "type": "object",
                       "properties": {
-                        "id": { "type": "string", "format": "uuid" },
-                        "parentId": {
+                        "id": {
                           "type": "string",
-                          "format": "uuid",
-                          "nullable": true
+                          "format": "uuid"
                         },
-                        "sortOrder": { "type": "integer" }
+                        "sortOrder": {
+                          "type": "integer"
+                        }
                       }
                     }
                   }
@@ -609,39 +1146,113 @@
           }
         },
         "responses": {
-          "200": { "description": "Categories reordered" },
-          "401": { "description": "Unauthorized" },
-          "403": { "description": "Forbidden" }
+          "200": {
+            "description": "Carousels reordered"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
         }
       }
     },
-    "/api/categories/{id}": {
+    "/api/carousels/slug/{slug}": {
       "get": {
-        "tags": ["Categories"],
-        "summary": "Get category by ID",
+        "tags": [
+          "Carousels"
+        ],
+        "summary": "Get carousel by slug with products",
         "parameters": [
           {
             "in": "path",
-            "name": "id",
+            "name": "slug",
             "required": true,
-            "schema": { "type": "string", "format": "uuid" }
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
-          "200": { "description": "Category found" },
-          "404": { "description": "Category not found" }
+          "200": {
+            "description": "Carousel found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/CarouselWithProducts"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Carousel not found"
+          }
         }
-      },
-      "put": {
-        "tags": ["Categories"],
-        "summary": "Update a category",
-        "security": [{ "bearerAuth": [] }],
+      }
+    },
+    "/api/carousels/{id}": {
+      "get": {
+        "tags": [
+          "Carousels"
+        ],
+        "summary": "Get carousel by ID with products",
         "parameters": [
           {
             "in": "path",
             "name": "id",
             "required": true,
-            "schema": { "type": "string", "format": "uuid" }
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Carousel found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/CarouselWithProducts"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Carousel not found"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Carousels"
+        ],
+        "summary": "Update a carousel",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
           }
         ],
         "requestBody": {
@@ -651,92 +1262,111 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "name": { "type": "string" },
-                  "slug": { "type": "string" },
-                  "description": { "type": "string" },
-                  "parentId": { "type": "string", "format": "uuid", "nullable": true },
-                  "sortOrder": { "type": "integer" }
+                  "name": {
+                    "type": "string"
+                  },
+                  "slug": {
+                    "type": "string"
+                  },
+                  "description": {
+                    "type": "string",
+                    "nullable": true
+                  },
+                  "type": {
+                    "type": "string",
+                    "enum": [
+                      "manual",
+                      "category"
+                    ]
+                  },
+                  "categoryId": {
+                    "type": "string",
+                    "format": "uuid",
+                    "nullable": true
+                  },
+                  "sortOrder": {
+                    "type": "integer"
+                  },
+                  "isActive": {
+                    "type": "boolean"
+                  }
                 }
               }
             }
           }
         },
         "responses": {
-          "200": { "description": "Category updated" },
-          "401": { "description": "Unauthorized" },
-          "403": { "description": "Forbidden" },
-          "404": { "description": "Category not found" }
+          "200": {
+            "description": "Carousel updated"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Carousel not found"
+          }
         }
       },
       "delete": {
-        "tags": ["Categories"],
-        "summary": "Delete a category (soft delete)",
-        "security": [{ "bearerAuth": [] }],
+        "tags": [
+          "Carousels"
+        ],
+        "summary": "Delete a carousel (soft delete)",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "parameters": [
           {
             "in": "path",
             "name": "id",
             "required": true,
-            "schema": { "type": "string", "format": "uuid" }
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
           }
         ],
         "responses": {
-          "204": { "description": "Category deleted" },
-          "400": { "description": "Category has children" },
-          "401": { "description": "Unauthorized" },
-          "403": { "description": "Forbidden" },
-          "404": { "description": "Category not found" }
+          "204": {
+            "description": "Carousel deleted"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Carousel not found"
+          }
         }
       }
     },
-    "/api/products": {
+    "/api/carousels/{id}/items": {
       "get": {
-        "tags": ["Products"],
-        "summary": "List products with filtering and pagination",
+        "tags": [
+          "Carousels"
+        ],
+        "summary": "Get items of a carousel",
         "parameters": [
           {
-            "in": "query",
-            "name": "page",
-            "schema": { "type": "integer", "default": 1 }
-          },
-          {
-            "in": "query",
-            "name": "limit",
-            "schema": { "type": "integer", "default": 20, "maximum": 100 }
-          },
-          {
-            "in": "query",
-            "name": "search",
-            "schema": { "type": "string" },
-            "description": "Search by name or SKU"
-          },
-          {
-            "in": "query",
-            "name": "categoryId",
-            "schema": { "type": "string", "format": "uuid" }
-          },
-          { "in": "query", "name": "categorySlug", "schema": { "type": "string" } },
-          { "in": "query", "name": "minPrice", "schema": { "type": "number" } },
-          { "in": "query", "name": "maxPrice", "schema": { "type": "number" } },
-          { "in": "query", "name": "isActive", "schema": { "type": "boolean" } },
-          {
-            "in": "query",
-            "name": "sortBy",
+            "in": "path",
+            "name": "id",
+            "required": true,
             "schema": {
               "type": "string",
-              "enum": ["name", "price", "createdAt", "updatedAt"],
-              "default": "createdAt"
+              "format": "uuid"
             }
-          },
-          {
-            "in": "query",
-            "name": "sortOrder",
-            "schema": { "type": "string", "enum": ["asc", "desc"], "default": "desc" }
           }
         ],
         "responses": {
           "200": {
-            "description": "Paginated list of products",
+            "description": "Carousel items",
             "content": {
               "application/json": {
                 "schema": {
@@ -744,203 +1374,250 @@
                   "properties": {
                     "data": {
                       "type": "array",
-                      "items": { "$ref": "#/components/schemas/Product" }
-                    },
-                    "meta": { "$ref": "#/components/schemas/PaginationMeta" }
+                      "items": {
+                        "$ref": "#/components/schemas/CarouselItem"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Carousel not found"
+          }
+        }
+      }
+    },
+    "/api/carousels/{id}/products": {
+      "post": {
+        "tags": [
+          "Carousels"
+        ],
+        "summary": "Add products to a manual carousel",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "productIds"
+                ],
+                "properties": {
+                  "productIds": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "format": "uuid"
+                    }
                   }
                 }
               }
             }
           }
+        },
+        "responses": {
+          "201": {
+            "description": "Products added",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/CarouselItem"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid carousel type or products not found"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Carousel not found"
+          }
         }
       },
-      "post": {
-        "tags": ["Products"],
-        "summary": "Create a new product",
-        "security": [{ "bearerAuth": [] }],
+      "delete": {
+        "tags": [
+          "Carousels"
+        ],
+        "summary": "Remove products from a manual carousel",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
         "requestBody": {
           "required": true,
           "content": {
             "application/json": {
               "schema": {
                 "type": "object",
-                "required": ["sku", "name", "regularPrice"],
+                "required": [
+                  "productIds"
+                ],
                 "properties": {
-                  "sku": { "type": "string" },
-                  "name": { "type": "string" },
-                  "description": { "type": "string" },
-                  "regularPrice": { "type": "number" },
-                  "salePrice": { "type": "number" },
-                  "specialPrice": { "type": "number" },
-                  "imageUrl": { "type": "string" },
-                  "thumbnailUrl": { "type": "string" },
-                  "videoUrl": { "type": "string" },
-                  "weight": { "type": "number" },
-                  "dimensionLength": { "type": "number" },
-                  "dimensionWidth": { "type": "number" },
-                  "dimensionHeight": { "type": "number" },
-                  "categoryId": { "type": "string", "format": "uuid" },
-                  "isActive": { "type": "boolean" }
+                  "productIds": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "format": "uuid"
+                    }
+                  }
                 }
               }
             }
           }
         },
         "responses": {
-          "201": { "description": "Product created" },
-          "401": { "description": "Unauthorized" },
-          "403": { "description": "Forbidden - Admin required" },
-          "409": { "description": "SKU already exists" }
+          "204": {
+            "description": "Products removed"
+          },
+          "400": {
+            "description": "Invalid carousel type"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Carousel not found"
+          }
         }
       }
     },
-    "/api/products/sku/{sku}": {
-      "get": {
-        "tags": ["Products"],
-        "summary": "Get product by SKU",
-        "parameters": [
-          {
-            "in": "path",
-            "name": "sku",
-            "required": true,
-            "schema": { "type": "string" }
-          }
-        ],
-        "responses": {
-          "200": { "description": "Product found" },
-          "404": { "description": "Product not found" }
-        }
-      }
-    },
-    "/api/products/{id}": {
-      "get": {
-        "tags": ["Products"],
-        "summary": "Get product by ID",
-        "parameters": [
-          {
-            "in": "path",
-            "name": "id",
-            "required": true,
-            "schema": { "type": "string", "format": "uuid" }
-          }
-        ],
-        "responses": {
-          "200": { "description": "Product found" },
-          "404": { "description": "Product not found" }
-        }
-      },
+    "/api/carousels/{id}/products/reorder": {
       "put": {
-        "tags": ["Products"],
-        "summary": "Update a product",
-        "security": [{ "bearerAuth": [] }],
+        "tags": [
+          "Carousels"
+        ],
+        "summary": "Reorder products within a manual carousel",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "parameters": [
           {
             "in": "path",
             "name": "id",
             "required": true,
-            "schema": { "type": "string", "format": "uuid" }
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
           }
         ],
         "requestBody": {
           "required": true,
           "content": {
             "application/json": {
-              "schema": { "$ref": "#/components/schemas/Product" }
-            }
-          }
-        },
-        "responses": {
-          "200": { "description": "Product updated" },
-          "401": { "description": "Unauthorized" },
-          "403": { "description": "Forbidden" },
-          "404": { "description": "Product not found" }
-        }
-      },
-      "delete": {
-        "tags": ["Products"],
-        "summary": "Delete a product (soft delete)",
-        "security": [{ "bearerAuth": [] }],
-        "parameters": [
-          {
-            "in": "path",
-            "name": "id",
-            "required": true,
-            "schema": { "type": "string", "format": "uuid" }
-          }
-        ],
-        "responses": {
-          "204": { "description": "Product deleted" },
-          "401": { "description": "Unauthorized" },
-          "403": { "description": "Forbidden" },
-          "404": { "description": "Product not found" }
-        }
-      }
-    },
-    "/api/products/{id}/images": {
-      "post": {
-        "tags": ["Products"],
-        "summary": "Upload product image",
-        "security": [{ "bearerAuth": [] }],
-        "parameters": [
-          {
-            "in": "path",
-            "name": "id",
-            "required": true,
-            "schema": { "type": "string", "format": "uuid" }
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "multipart/form-data": {
               "schema": {
                 "type": "object",
+                "required": [
+                  "items"
+                ],
                 "properties": {
-                  "image": { "type": "string", "format": "binary" }
+                  "items": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "productId": {
+                          "type": "string",
+                          "format": "uuid"
+                        },
+                        "sortOrder": {
+                          "type": "integer"
+                        }
+                      }
+                    }
+                  }
                 }
               }
             }
           }
         },
         "responses": {
-          "200": { "description": "Image uploaded" },
-          "400": { "description": "Invalid file" },
-          "401": { "description": "Unauthorized" },
-          "403": { "description": "Forbidden" },
-          "404": { "description": "Product not found" }
-        }
-      },
-      "delete": {
-        "tags": ["Products"],
-        "summary": "Delete product image",
-        "security": [{ "bearerAuth": [] }],
-        "parameters": [
-          {
-            "in": "path",
-            "name": "id",
-            "required": true,
-            "schema": { "type": "string", "format": "uuid" }
+          "200": {
+            "description": "Products reordered"
+          },
+          "400": {
+            "description": "Invalid carousel type"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Carousel not found"
           }
-        ],
-        "responses": {
-          "204": { "description": "Image deleted" },
-          "401": { "description": "Unauthorized" },
-          "403": { "description": "Forbidden" },
-          "404": { "description": "Product not found" }
         }
       }
     },
     "/api/cart": {
       "get": {
-        "tags": ["Cart"],
         "summary": "Get current cart",
         "description": "Returns the cart for authenticated user or guest session. Requires either authentication or x-session-id header.",
-        "security": [{ "bearerAuth": [] }],
+        "tags": [
+          "Cart"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "parameters": [
           {
             "in": "header",
             "name": "x-session-id",
-            "schema": { "type": "string" },
+            "schema": {
+              "type": "string"
+            },
             "description": "Session ID for guest cart (alternative to authentication)"
           }
         ],
@@ -951,24 +1628,38 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": { "data": { "$ref": "#/components/schemas/Cart" } }
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/Cart"
+                    }
+                  }
                 }
               }
             }
           },
-          "400": { "description": "No cart identifier provided" }
+          "400": {
+            "description": "No cart identifier provided"
+          }
         }
       },
       "delete": {
-        "tags": ["Cart"],
         "summary": "Clear cart",
         "description": "Removes all items from the cart",
-        "security": [{ "bearerAuth": [] }],
+        "tags": [
+          "Cart"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "parameters": [
           {
             "in": "header",
             "name": "x-session-id",
-            "schema": { "type": "string" },
+            "schema": {
+              "type": "string"
+            },
             "description": "Session ID for guest cart"
           }
         ],
@@ -979,7 +1670,11 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": { "data": { "$ref": "#/components/schemas/Cart" } }
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/Cart"
+                    }
+                  }
                 }
               }
             }
@@ -989,15 +1684,23 @@
     },
     "/api/cart/items": {
       "post": {
-        "tags": ["Cart"],
         "summary": "Add item to cart",
         "description": "Adds a product to the cart. If the product already exists, quantity is increased.",
-        "security": [{ "bearerAuth": [] }],
+        "tags": [
+          "Cart"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "parameters": [
           {
             "in": "header",
             "name": "x-session-id",
-            "schema": { "type": "string" },
+            "schema": {
+              "type": "string"
+            },
             "description": "Session ID for guest cart (alternative to authentication)"
           }
         ],
@@ -1007,7 +1710,9 @@
             "application/json": {
               "schema": {
                 "type": "object",
-                "required": ["productId"],
+                "required": [
+                  "productId"
+                ],
                 "properties": {
                   "productId": {
                     "type": "string",
@@ -1032,29 +1737,55 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": { "data": { "$ref": "#/components/schemas/Cart" } }
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/Cart"
+                    }
+                  }
                 }
               }
             }
           },
-          "400": { "description": "Validation error or no cart identifier" },
-          "404": { "description": "Product not found" }
+          "400": {
+            "description": "Validation error or no cart identifier"
+          },
+          "404": {
+            "description": "Product not found"
+          }
         }
       }
     },
     "/api/cart/items/{itemId}": {
       "put": {
-        "tags": ["Cart"],
         "summary": "Update item quantity",
-        "security": [{ "bearerAuth": [] }],
+        "description": "Updates the quantity of a cart item",
+        "tags": [
+          "Cart"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "parameters": [
           {
             "in": "path",
             "name": "itemId",
             "required": true,
-            "schema": { "type": "string", "format": "uuid" }
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "description": "Cart item ID"
           },
-          { "in": "header", "name": "x-session-id", "schema": { "type": "string" } }
+          {
+            "in": "header",
+            "name": "x-session-id",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Session ID for guest cart"
+          }
         ],
         "requestBody": {
           "required": true,
@@ -1062,7 +1793,9 @@
             "application/json": {
               "schema": {
                 "type": "object",
-                "required": ["quantity"],
+                "required": [
+                  "quantity"
+                ],
                 "properties": {
                   "quantity": {
                     "type": "integer",
@@ -1075,42 +1808,100 @@
           }
         },
         "responses": {
-          "200": { "description": "Item updated successfully" },
-          "404": { "description": "Cart item not found" }
+          "200": {
+            "description": "Item updated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/Cart"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Cart item not found"
+          }
         }
       },
       "delete": {
-        "tags": ["Cart"],
         "summary": "Remove item from cart",
-        "security": [{ "bearerAuth": [] }],
+        "description": "Removes an item from the cart",
+        "tags": [
+          "Cart"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "parameters": [
           {
             "in": "path",
             "name": "itemId",
             "required": true,
-            "schema": { "type": "string", "format": "uuid" }
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "description": "Cart item ID"
           },
-          { "in": "header", "name": "x-session-id", "schema": { "type": "string" } }
+          {
+            "in": "header",
+            "name": "x-session-id",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Session ID for guest cart"
+          }
         ],
         "responses": {
-          "200": { "description": "Item removed successfully" },
-          "404": { "description": "Cart item not found" }
+          "200": {
+            "description": "Item removed successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/Cart"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Cart item not found"
+          }
         }
       }
     },
     "/api/cart/merge": {
       "post": {
-        "tags": ["Cart"],
         "summary": "Merge guest cart to user cart",
-        "description": "Merges items from a guest cart into the authenticated user's cart. Use this after login.",
-        "security": [{ "bearerAuth": [] }],
+        "description": "Merges items from a guest cart into the authenticated user's cart. Use this after login to preserve guest cart items.",
+        "tags": [
+          "Cart"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "requestBody": {
           "required": true,
           "content": {
             "application/json": {
               "schema": {
                 "type": "object",
-                "required": ["sessionId"],
+                "required": [
+                  "sessionId"
+                ],
                 "properties": {
                   "sessionId": {
                     "type": "string",
@@ -1122,21 +1913,356 @@
           }
         },
         "responses": {
-          "200": { "description": "Carts merged successfully" },
-          "401": { "description": "Authentication required" }
+          "200": {
+            "description": "Carts merged successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/Cart"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication required"
+          }
+        }
+      }
+    },
+    "/api/categories": {
+      "get": {
+        "tags": [
+          "Categories"
+        ],
+        "summary": "Get all categories as tree structure",
+        "responses": {
+          "200": {
+            "description": "Category tree",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/CategoryTree"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Categories"
+        ],
+        "summary": "Create a new category",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "name"
+                ],
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "slug": {
+                    "type": "string"
+                  },
+                  "description": {
+                    "type": "string"
+                  },
+                  "parentId": {
+                    "type": "string",
+                    "format": "uuid"
+                  },
+                  "sortOrder": {
+                    "type": "integer"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Category created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "409": {
+            "description": "Slug already exists"
+          }
+        }
+      }
+    },
+    "/api/categories/flat": {
+      "get": {
+        "tags": [
+          "Categories"
+        ],
+        "summary": "Get all categories as flat list",
+        "responses": {
+          "200": {
+            "description": "Flat list of categories"
+          }
+        }
+      }
+    },
+    "/api/categories/slug/{slug}": {
+      "get": {
+        "tags": [
+          "Categories"
+        ],
+        "summary": "Get category by slug",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "slug",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Category found"
+          },
+          "404": {
+            "description": "Category not found"
+          }
+        }
+      }
+    },
+    "/api/categories/reorder": {
+      "put": {
+        "tags": [
+          "Categories"
+        ],
+        "summary": "Reorder categories (batch update positions)",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "categories": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "format": "uuid"
+                        },
+                        "parentId": {
+                          "type": "string",
+                          "format": "uuid",
+                          "nullable": true
+                        },
+                        "sortOrder": {
+                          "type": "integer"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Categories reordered"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        }
+      }
+    },
+    "/api/categories/{id}": {
+      "get": {
+        "tags": [
+          "Categories"
+        ],
+        "summary": "Get category by ID",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Category found"
+          },
+          "404": {
+            "description": "Category not found"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Categories"
+        ],
+        "summary": "Update a category",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "slug": {
+                    "type": "string"
+                  },
+                  "description": {
+                    "type": "string"
+                  },
+                  "parentId": {
+                    "type": "string",
+                    "format": "uuid",
+                    "nullable": true
+                  },
+                  "sortOrder": {
+                    "type": "integer"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Category updated"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Category not found"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Categories"
+        ],
+        "summary": "Delete a category (soft delete)",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Category deleted"
+          },
+          "400": {
+            "description": "Category has children"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Category not found"
+          }
         }
       }
     },
     "/api/checkout/contact": {
       "post": {
-        "tags": ["Checkout"],
         "summary": "Step 1 - Save contact information",
-        "security": [{ "bearerAuth": [] }],
+        "description": "Save customer contact details for the order. This is the first step in the checkout process.",
+        "tags": [
+          "Checkout"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "parameters": [
           {
             "in": "header",
             "name": "x-session-id",
-            "schema": { "type": "string" },
+            "schema": {
+              "type": "string"
+            },
             "description": "Session ID for guest checkout"
           }
         ],
@@ -1146,31 +2272,98 @@
             "application/json": {
               "schema": {
                 "type": "object",
-                "required": ["fullName", "email", "phone", "address"],
+                "required": [
+                  "fullName",
+                  "email",
+                  "phone",
+                  "address"
+                ],
                 "properties": {
-                  "fullName": { "type": "string", "minLength": 2, "maxLength": 255 },
-                  "email": { "type": "string", "format": "email" },
-                  "phone": { "type": "string", "minLength": 8, "maxLength": 50 },
-                  "address": { "type": "string", "minLength": 10, "maxLength": 1000 },
-                  "customerNotes": { "type": "string", "maxLength": 1000 }
+                  "fullName": {
+                    "type": "string",
+                    "minLength": 2,
+                    "maxLength": 255,
+                    "example": "Juan Pérez"
+                  },
+                  "email": {
+                    "type": "string",
+                    "format": "email",
+                    "example": "juan@example.com"
+                  },
+                  "phone": {
+                    "type": "string",
+                    "minLength": 8,
+                    "maxLength": 50,
+                    "example": "+54 11 1234-5678"
+                  },
+                  "address": {
+                    "type": "string",
+                    "minLength": 10,
+                    "maxLength": 1000,
+                    "example": "Av. Corrientes 1234, CABA, Argentina"
+                  },
+                  "customerNotes": {
+                    "type": "string",
+                    "maxLength": 1000,
+                    "description": "Optional notes from the customer"
+                  }
                 }
               }
             }
           }
         },
         "responses": {
-          "200": { "description": "Contact information saved" },
-          "400": { "description": "Cart is empty or validation error" }
+          "200": {
+            "description": "Contact information saved",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "message": {
+                          "type": "string"
+                        },
+                        "cartId": {
+                          "type": "string",
+                          "format": "uuid"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Cart is empty or validation error"
+          }
         }
       }
     },
     "/api/checkout/review": {
       "get": {
-        "tags": ["Checkout"],
         "summary": "Step 2 - Review order",
-        "security": [{ "bearerAuth": [] }],
+        "description": "Review the order summary before confirmation. Contact info must be saved first.",
+        "tags": [
+          "Checkout"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "parameters": [
-          { "in": "header", "name": "x-session-id", "schema": { "type": "string" } }
+          {
+            "in": "header",
+            "name": "x-session-id",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Session ID for guest checkout"
+          }
         ],
         "responses": {
           "200": {
@@ -1183,10 +2376,60 @@
                     "data": {
                       "type": "object",
                       "properties": {
-                        "contact": { "type": "object" },
-                        "items": { "type": "array" },
-                        "subtotal": { "type": "string" },
-                        "total": { "type": "string" }
+                        "contact": {
+                          "type": "object",
+                          "properties": {
+                            "fullName": {
+                              "type": "string"
+                            },
+                            "email": {
+                              "type": "string"
+                            },
+                            "phone": {
+                              "type": "string"
+                            },
+                            "address": {
+                              "type": "string"
+                            },
+                            "customerNotes": {
+                              "type": "string",
+                              "nullable": true
+                            }
+                          }
+                        },
+                        "items": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "productId": {
+                                "type": "string",
+                                "format": "uuid"
+                              },
+                              "name": {
+                                "type": "string"
+                              },
+                              "sku": {
+                                "type": "string"
+                              },
+                              "quantity": {
+                                "type": "integer"
+                              },
+                              "unitPrice": {
+                                "type": "string"
+                              },
+                              "totalPrice": {
+                                "type": "string"
+                              }
+                            }
+                          }
+                        },
+                        "subtotal": {
+                          "type": "string"
+                        },
+                        "total": {
+                          "type": "string"
+                        }
                       }
                     }
                   }
@@ -1194,17 +2437,33 @@
               }
             }
           },
-          "400": { "description": "Contact not provided or cart is empty" }
+          "400": {
+            "description": "Contact not provided or cart is empty"
+          }
         }
       }
     },
     "/api/checkout/confirm": {
       "post": {
-        "tags": ["Checkout"],
         "summary": "Step 3 - Confirm order",
-        "security": [{ "bearerAuth": [] }],
+        "description": "Confirm and place the order. Contact info must be saved first.",
+        "tags": [
+          "Checkout"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "parameters": [
-          { "in": "header", "name": "x-session-id", "schema": { "type": "string" } }
+          {
+            "in": "header",
+            "name": "x-session-id",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Session ID for guest checkout"
+          }
         ],
         "responses": {
           "201": {
@@ -1217,13 +2476,20 @@
                     "data": {
                       "type": "object",
                       "properties": {
-                        "orderId": { "type": "string", "format": "uuid" },
+                        "orderId": {
+                          "type": "string",
+                          "format": "uuid"
+                        },
                         "orderNumber": {
                           "type": "string",
                           "example": "SP-20240115-XYZ1"
                         },
-                        "total": { "type": "string" },
-                        "message": { "type": "string" }
+                        "total": {
+                          "type": "string"
+                        },
+                        "message": {
+                          "type": "string"
+                        }
                       }
                     }
                   }
@@ -1237,22 +2503,678 @@
         }
       }
     },
-    "/api/orders": {
+    "/api/imports": {
+      "post": {
+        "summary": "Create import job",
+        "description": "Upload a CSV file to create a product import job. Admin only.",
+        "tags": [
+          "Imports"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "file"
+                ],
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "binary",
+                    "description": "CSV file with product data"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Import job created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/ImportJob"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid file or file missing"
+          },
+          "401": {
+            "description": "Authentication required"
+          },
+          "403": {
+            "description": "Admin access required"
+          }
+        }
+      },
       "get": {
-        "tags": ["Orders"],
-        "summary": "List orders",
-        "description": "Users see their own orders, admins see all",
-        "security": [{ "bearerAuth": [] }],
+        "summary": "List import jobs",
+        "description": "List import jobs with pagination. Users see their own jobs, admins see all.",
+        "tags": [
+          "Imports"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "parameters": [
           {
             "in": "query",
             "name": "page",
-            "schema": { "type": "integer", "default": 1 }
+            "schema": {
+              "type": "integer",
+              "default": 1
+            },
+            "description": "Page number"
           },
           {
             "in": "query",
             "name": "limit",
-            "schema": { "type": "integer", "default": 20 }
+            "schema": {
+              "type": "integer",
+              "default": 20,
+              "maximum": 100
+            },
+            "description": "Items per page"
+          },
+          {
+            "in": "query",
+            "name": "status",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "pending",
+                "processing",
+                "completed",
+                "failed",
+                "cancelled"
+              ]
+            },
+            "description": "Filter by status"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Import jobs list with pagination",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/ImportJob"
+                      }
+                    },
+                    "meta": {
+                      "type": "object",
+                      "properties": {
+                        "page": {
+                          "type": "integer"
+                        },
+                        "limit": {
+                          "type": "integer"
+                        },
+                        "total": {
+                          "type": "integer"
+                        },
+                        "totalPages": {
+                          "type": "integer"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication required"
+          }
+        }
+      }
+    },
+    "/api/imports/dbf": {
+      "post": {
+        "summary": "Create import job from a DBF file",
+        "description": "Upload the customer's stock table (Visual FoxPro .dbf, max 100MB). The API converts it to the import CSV and creates a regular CSV import job. Admin only.",
+        "tags": [
+          "Imports"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "file"
+                ],
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "binary",
+                    "description": "DBF file (.dbf, case-insensitive)"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Import job created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/ImportJob"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "FILE_REQUIRED, INVALID_FILE_TYPE, FILE_TOO_LARGE, INVALID_DBF, UNSUPPORTED_CODE_PAGE, or DBF_MISSING_FIELDS (with details.missing)"
+          },
+          "401": {
+            "description": "Authentication required"
+          },
+          "403": {
+            "description": "Admin access required"
+          }
+        }
+      }
+    },
+    "/api/imports/dbf/csv": {
+      "post": {
+        "summary": "Convert a DBF file to CSV",
+        "description": "Convert the customer's stock table to CSV without importing it. Admin only.",
+        "tags": [
+          "Imports"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "format",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "api",
+                "raw"
+              ],
+              "default": "api"
+            },
+            "description": "api = import CSV columns; raw = every DBF field"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "file"
+                ],
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "binary",
+                    "description": "DBF file (.dbf, case-insensitive)"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "CSV file (UTF-8, no BOM). The X-Row-Count header holds the number of data rows.",
+            "headers": {
+              "X-Row-Count": {
+                "schema": {
+                  "type": "integer"
+                }
+              }
+            },
+            "content": {
+              "text/csv": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "FILE_REQUIRED, INVALID_FILE_TYPE, FILE_TOO_LARGE, INVALID_DBF, UNSUPPORTED_CODE_PAGE, or DBF_MISSING_FIELDS (with details.missing)"
+          },
+          "401": {
+            "description": "Authentication required"
+          },
+          "403": {
+            "description": "Admin access required"
+          }
+        }
+      }
+    },
+    "/api/imports/template": {
+      "get": {
+        "summary": "Get CSV template",
+        "description": "Download a sample CSV template for product imports",
+        "tags": [
+          "Imports"
+        ],
+        "responses": {
+          "200": {
+            "description": "CSV template file",
+            "content": {
+              "text/csv": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/imports/bulk-images": {
+      "post": {
+        "summary": "Bulk update product images",
+        "description": "Upload a JSON file to update product images in bulk. Matches products by SKU. Admin only.",
+        "tags": [
+          "Imports"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "file"
+                ],
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "binary",
+                    "description": "JSON file with product SKUs and image URLs"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Bulk images import job created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/ImportJob"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid file or file missing"
+          },
+          "401": {
+            "description": "Authentication required"
+          },
+          "403": {
+            "description": "Admin access required"
+          }
+        }
+      }
+    },
+    "/api/imports/{id}": {
+      "get": {
+        "summary": "Get import job by ID",
+        "description": "Get import job details including errors. Users can only view their own jobs.",
+        "tags": [
+          "Imports"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "description": "Import job ID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Import job details",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "allOf": [
+                        {
+                          "$ref": "#/components/schemas/ImportJob"
+                        },
+                        {
+                          "type": "object",
+                          "properties": {
+                            "errors": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "row": {
+                                    "type": "integer"
+                                  },
+                                  "error": {
+                                    "type": "string"
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied"
+          },
+          "404": {
+            "description": "Import job not found"
+          }
+        }
+      }
+    },
+    "/api/imports/{id}/cancel": {
+      "post": {
+        "summary": "Cancel import job",
+        "description": "Cancel a pending import job. Only pending jobs can be cancelled.",
+        "tags": [
+          "Imports"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "description": "Import job ID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Import job cancelled",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/ImportJob"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Job cannot be cancelled (not in pending status)"
+          },
+          "403": {
+            "description": "Access denied"
+          },
+          "404": {
+            "description": "Import job not found"
+          }
+        }
+      }
+    },
+    "/api/imports/{id}/file": {
+      "get": {
+        "summary": "Download an import job's file",
+        "description": "Download the file the job imported (the generated CSV for DBF imports, the JSON for bulk image jobs). Users can only download their own jobs' files.",
+        "tags": [
+          "Imports"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "description": "Import job ID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The stored file, with Content-Disposition set",
+            "content": {
+              "text/csv": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied"
+          },
+          "404": {
+            "description": "Import job not found"
+          }
+        }
+      }
+    },
+    "/api/metrics/overview": {
+      "get": {
+        "summary": "Get business overview metrics",
+        "description": "Returns key business metrics including total products, categories, orders,\nand the date of the last successful import.\n\nBy default returns historical totals. Pass startDate and/or endDate\nto filter entities created within a specific time period.\n\nAdmin access required.\n",
+        "tags": [
+          "Metrics"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "startDate",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "description": "Filter entities created on or after this date (ISO 8601)",
+            "example": "2024-01-01T00:00:00.000Z"
+          },
+          {
+            "in": "query",
+            "name": "endDate",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "description": "Filter entities created on or before this date (ISO 8601)",
+            "example": "2024-12-31T23:59:59.999Z"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Business metrics overview",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "totalProducts": {
+                          "type": "integer",
+                          "description": "Total number of products (not deleted)",
+                          "example": 150
+                        },
+                        "totalCategories": {
+                          "type": "integer",
+                          "description": "Total number of categories (not deleted)",
+                          "example": 12
+                        },
+                        "totalOrders": {
+                          "type": "integer",
+                          "description": "Total number of orders (not deleted)",
+                          "example": 45
+                        },
+                        "lastSuccessfulImportAt": {
+                          "type": "string",
+                          "format": "date-time",
+                          "nullable": true,
+                          "description": "Date of the last successful import job",
+                          "example": "2024-01-15T10:30:00.000Z"
+                        },
+                        "dateRange": {
+                          "type": "object",
+                          "description": "The date range used for filtering (null if not provided)",
+                          "properties": {
+                            "startDate": {
+                              "type": "string",
+                              "format": "date-time",
+                              "nullable": true
+                            },
+                            "endDate": {
+                              "type": "string",
+                              "format": "date-time",
+                              "nullable": true
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid date format"
+          },
+          "401": {
+            "description": "Authentication required"
+          },
+          "403": {
+            "description": "Admin access required"
+          }
+        }
+      }
+    },
+    "/api/orders": {
+      "get": {
+        "summary": "List orders",
+        "description": "List orders with pagination. Users see their own orders, admins see all.",
+        "tags": [
+          "Orders"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "page",
+            "schema": {
+              "type": "integer",
+              "default": 1
+            },
+            "description": "Page number"
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "type": "integer",
+              "default": 20,
+              "maximum": 100
+            },
+            "description": "Items per page"
           },
           {
             "in": "query",
@@ -1267,12 +3189,16 @@
                 "delivered",
                 "cancelled"
               ]
-            }
+            },
+            "description": "Filter by status"
           },
           {
             "in": "query",
             "name": "userId",
-            "schema": { "type": "string", "format": "uuid" },
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
             "description": "Filter by user ID (admin only)"
           }
         ],
@@ -1286,88 +3212,181 @@
                   "properties": {
                     "data": {
                       "type": "array",
-                      "items": { "$ref": "#/components/schemas/Order" }
+                      "items": {
+                        "$ref": "#/components/schemas/Order"
+                      }
                     },
-                    "meta": { "$ref": "#/components/schemas/PaginationMeta" }
+                    "meta": {
+                      "type": "object",
+                      "properties": {
+                        "page": {
+                          "type": "integer"
+                        },
+                        "limit": {
+                          "type": "integer"
+                        },
+                        "total": {
+                          "type": "integer"
+                        },
+                        "totalPages": {
+                          "type": "integer"
+                        }
+                      }
+                    }
                   }
                 }
               }
             }
           },
-          "401": { "description": "Authentication required" }
+          "401": {
+            "description": "Authentication required"
+          }
         }
       }
     },
     "/api/orders/{id}": {
       "get": {
-        "tags": ["Orders"],
         "summary": "Get order by ID",
-        "security": [{ "bearerAuth": [] }],
+        "description": "Get order details. Users can only view their own orders.",
+        "tags": [
+          "Orders"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "parameters": [
           {
             "in": "path",
             "name": "id",
             "required": true,
-            "schema": { "type": "string", "format": "uuid" }
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "description": "Order ID"
           }
         ],
         "responses": {
-          "200": { "description": "Order details" },
-          "403": { "description": "Access denied" },
-          "404": { "description": "Order not found" }
+          "200": {
+            "description": "Order details",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/Order"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied"
+          },
+          "404": {
+            "description": "Order not found"
+          }
         }
       },
       "delete": {
-        "tags": ["Orders"],
-        "summary": "Delete order (soft delete, admin only)",
-        "security": [{ "bearerAuth": [] }],
+        "summary": "Delete order",
+        "description": "Soft delete an order. Admin only.",
+        "tags": [
+          "Orders"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "parameters": [
           {
             "in": "path",
             "name": "id",
             "required": true,
-            "schema": { "type": "string", "format": "uuid" }
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "description": "Order ID"
           }
         ],
         "responses": {
-          "204": { "description": "Order deleted" },
-          "403": { "description": "Admin access required" },
-          "404": { "description": "Order not found" }
+          "204": {
+            "description": "Order deleted"
+          },
+          "403": {
+            "description": "Admin access required"
+          },
+          "404": {
+            "description": "Order not found"
+          }
         }
       }
     },
     "/api/orders/number/{orderNumber}": {
       "get": {
-        "tags": ["Orders"],
         "summary": "Get order by order number",
-        "security": [{ "bearerAuth": [] }],
+        "description": "Get order details by order number (e.g., SP-20240115-XYZ1)",
+        "tags": [
+          "Orders"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "parameters": [
           {
             "in": "path",
             "name": "orderNumber",
             "required": true,
-            "schema": { "type": "string" },
+            "schema": {
+              "type": "string"
+            },
+            "description": "Order number",
             "example": "SP-20240115-XYZ1"
           }
         ],
         "responses": {
-          "200": { "description": "Order details" },
-          "403": { "description": "Access denied" },
-          "404": { "description": "Order not found" }
+          "200": {
+            "description": "Order details"
+          },
+          "403": {
+            "description": "Access denied"
+          },
+          "404": {
+            "description": "Order not found"
+          }
         }
       }
     },
     "/api/orders/{id}/status": {
       "put": {
-        "tags": ["Orders"],
-        "summary": "Update order status (admin only)",
-        "security": [{ "bearerAuth": [] }],
+        "summary": "Update order status",
+        "description": "Update order status and optionally add internal notes. Admin only.",
+        "tags": [
+          "Orders"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "parameters": [
           {
             "in": "path",
             "name": "id",
             "required": true,
-            "schema": { "type": "string", "format": "uuid" }
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "description": "Order ID"
           }
         ],
         "requestBody": {
@@ -1376,7 +3395,9 @@
             "application/json": {
               "schema": {
                 "type": "object",
-                "required": ["status"],
+                "required": [
+                  "status"
+                ],
                 "properties": {
                   "status": {
                     "type": "string",
@@ -1389,23 +3410,498 @@
                       "cancelled"
                     ]
                   },
-                  "internalNotes": { "type": "string", "maxLength": 2000 }
+                  "internalNotes": {
+                    "type": "string",
+                    "maxLength": 2000,
+                    "description": "Internal notes (appended to existing notes)"
+                  }
                 }
               }
             }
           }
         },
         "responses": {
-          "200": { "description": "Order updated" },
-          "403": { "description": "Admin access required" },
-          "404": { "description": "Order not found" }
+          "200": {
+            "description": "Order updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/Order"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Admin access required"
+          },
+          "404": {
+            "description": "Order not found"
+          }
+        }
+      }
+    },
+    "/api/products": {
+      "get": {
+        "tags": [
+          "Products"
+        ],
+        "summary": "List products with filtering and pagination",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "page",
+            "schema": {
+              "type": "integer",
+              "default": 1
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "type": "integer",
+              "default": 20,
+              "maximum": 100
+            }
+          },
+          {
+            "in": "query",
+            "name": "search",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Search by name or SKU"
+          },
+          {
+            "in": "query",
+            "name": "categoryId",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "in": "query",
+            "name": "categorySlug",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "minPrice",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "in": "query",
+            "name": "maxPrice",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "in": "query",
+            "name": "isActive",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "in": "query",
+            "name": "sortBy",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "name",
+                "price",
+                "createdAt",
+                "updatedAt"
+              ],
+              "default": "createdAt"
+            }
+          },
+          {
+            "in": "query",
+            "name": "sortOrder",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "asc",
+                "desc"
+              ],
+              "default": "desc"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Paginated list of products",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Product"
+                      }
+                    },
+                    "meta": {
+                      "type": "object",
+                      "properties": {
+                        "page": {
+                          "type": "integer"
+                        },
+                        "limit": {
+                          "type": "integer"
+                        },
+                        "total": {
+                          "type": "integer"
+                        },
+                        "totalPages": {
+                          "type": "integer"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Products"
+        ],
+        "summary": "Create a new product",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "sku",
+                  "name",
+                  "regularPrice"
+                ],
+                "properties": {
+                  "sku": {
+                    "type": "string"
+                  },
+                  "name": {
+                    "type": "string"
+                  },
+                  "description": {
+                    "type": "string"
+                  },
+                  "regularPrice": {
+                    "type": "number"
+                  },
+                  "salePrice": {
+                    "type": "number"
+                  },
+                  "specialPrice": {
+                    "type": "number"
+                  },
+                  "imageUrl": {
+                    "type": "string"
+                  },
+                  "thumbnailUrl": {
+                    "type": "string"
+                  },
+                  "videoUrl": {
+                    "type": "string"
+                  },
+                  "weight": {
+                    "type": "number"
+                  },
+                  "dimensionLength": {
+                    "type": "number"
+                  },
+                  "dimensionWidth": {
+                    "type": "number"
+                  },
+                  "dimensionHeight": {
+                    "type": "number"
+                  },
+                  "categoryId": {
+                    "type": "string",
+                    "format": "uuid"
+                  },
+                  "isActive": {
+                    "type": "boolean"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Product created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "409": {
+            "description": "SKU already exists"
+          }
+        }
+      }
+    },
+    "/api/products/sku/{sku}": {
+      "get": {
+        "tags": [
+          "Products"
+        ],
+        "summary": "Get product by SKU",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "sku",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Product found"
+          },
+          "404": {
+            "description": "Product not found"
+          }
+        }
+      }
+    },
+    "/api/products/{id}": {
+      "get": {
+        "tags": [
+          "Products"
+        ],
+        "summary": "Get product by ID",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Product found"
+          },
+          "404": {
+            "description": "Product not found"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Products"
+        ],
+        "summary": "Update a product",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Product"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Product updated"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Product not found"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Products"
+        ],
+        "summary": "Delete a product (soft delete)",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Product deleted"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Product not found"
+          }
+        }
+      }
+    },
+    "/api/products/{id}/images": {
+      "post": {
+        "tags": [
+          "Products"
+        ],
+        "summary": "Upload product image",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "image": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Image uploaded"
+          },
+          "400": {
+            "description": "Invalid file"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Product not found"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Products"
+        ],
+        "summary": "Delete product image",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Image deleted"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Product not found"
+          }
         }
       }
     },
     "/api/storefront/config": {
       "get": {
-        "tags": ["Storefront"],
-        "summary": "Get storefront configuration (public)",
+        "summary": "Get storefront configuration",
+        "description": "Returns the current storefront configuration (public endpoint)",
+        "tags": [
+          "Storefront"
+        ],
         "responses": {
           "200": {
             "description": "Storefront configuration",
@@ -1414,7 +3910,9 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "data": { "$ref": "#/components/schemas/StorefrontConfig" }
+                    "data": {
+                      "$ref": "#/components/schemas/StorefrontConfig"
+                    }
                   }
                 }
               }
@@ -1423,28 +3921,48 @@
         }
       },
       "put": {
-        "tags": ["Storefront"],
-        "summary": "Update full storefront configuration (admin)",
-        "security": [{ "bearerAuth": [] }],
+        "summary": "Update full storefront configuration",
+        "description": "Replace the entire storefront configuration. Admin only.",
+        "tags": [
+          "Storefront"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "requestBody": {
           "required": true,
           "content": {
             "application/json": {
-              "schema": { "$ref": "#/components/schemas/StorefrontConfig" }
+              "schema": {
+                "$ref": "#/components/schemas/StorefrontConfig"
+              }
             }
           }
         },
         "responses": {
-          "200": { "description": "Updated configuration" },
-          "403": { "description": "Admin access required" }
+          "200": {
+            "description": "Updated configuration"
+          },
+          "403": {
+            "description": "Admin access required"
+          }
         }
       }
     },
     "/api/storefront/config/branding": {
       "patch": {
-        "tags": ["Storefront"],
-        "summary": "Update branding section (admin)",
-        "security": [{ "bearerAuth": [] }],
+        "summary": "Update branding section",
+        "description": "Update only the branding section of the config. Admin only.",
+        "tags": [
+          "Storefront"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -1452,177 +3970,20 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "storeName": { "type": "string" },
-                  "tagline": { "type": "string" },
-                  "headerLogoUrl": { "type": "string" },
-                  "footerLogoUrl": { "type": "string" },
-                  "faviconUrl": { "type": "string" }
-                }
-              }
-            }
-          }
-        },
-        "responses": { "200": { "description": "Updated configuration" } }
-      }
-    },
-    "/api/storefront/config/colors": {
-      "patch": {
-        "tags": ["Storefront"],
-        "summary": "Update colors section (admin)",
-        "security": [{ "bearerAuth": [] }],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "primary": { "type": "string", "pattern": "^#[0-9A-Fa-f]{6}$" },
-                  "secondary": { "type": "string" },
-                  "accent": { "type": "string" },
-                  "background": { "type": "string" },
-                  "text": { "type": "string" },
-                  "textMuted": { "type": "string" }
-                }
-              }
-            }
-          }
-        },
-        "responses": { "200": { "description": "Updated configuration" } }
-      }
-    },
-    "/api/storefront/config/banners": {
-      "patch": {
-        "tags": ["Storefront"],
-        "summary": "Update banners section (admin)",
-        "security": [{ "bearerAuth": [] }],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "hero": { "type": "array", "items": { "type": "object" } },
-                  "slim": { "type": "array", "items": { "type": "object" } }
-                }
-              }
-            }
-          }
-        },
-        "responses": { "200": { "description": "Updated configuration" } }
-      }
-    },
-    "/api/storefront/config/faq": {
-      "patch": {
-        "tags": ["Storefront"],
-        "summary": "Update FAQ section (admin)",
-        "security": [{ "bearerAuth": [] }],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "faq": { "type": "array", "items": { "type": "object" } }
-                }
-              }
-            }
-          }
-        },
-        "responses": { "200": { "description": "Updated configuration" } }
-      }
-    },
-    "/api/storefront/config/contact": {
-      "patch": {
-        "tags": ["Storefront"],
-        "summary": "Update contact section (admin)",
-        "security": [{ "bearerAuth": [] }],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "whatsappNumber": { "type": "string" },
-                  "email": { "type": "string" },
-                  "phone": { "type": "string" },
-                  "address": { "type": "string" },
-                  "socialLinks": { "type": "object" }
-                }
-              }
-            }
-          }
-        },
-        "responses": { "200": { "description": "Updated configuration" } }
-      }
-    },
-    "/api/storefront/config/seo": {
-      "patch": {
-        "tags": ["Storefront"],
-        "summary": "Update SEO section (admin)",
-        "security": [{ "bearerAuth": [] }],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "metaTitle": { "type": "string", "maxLength": 70 },
-                  "metaDescription": { "type": "string", "maxLength": 160 },
-                  "ogImage": { "type": "string" }
-                }
-              }
-            }
-          }
-        },
-        "responses": { "200": { "description": "Updated configuration" } }
-      }
-    },
-    "/api/storefront/upload": {
-      "post": {
-        "tags": ["Storefront"],
-        "summary": "Upload storefront asset (admin)",
-        "security": [{ "bearerAuth": [] }],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "multipart/form-data": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "file": { "type": "string", "format": "binary" }
-                }
-              }
-            }
-          }
-        },
-        "responses": {
-          "201": { "description": "Asset uploaded" },
-          "400": { "description": "Invalid file type" }
-        }
-      }
-    },
-    "/api/imports": {
-      "post": {
-        "tags": ["Imports"],
-        "summary": "Create import job (admin)",
-        "security": [{ "bearerAuth": [] }],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "multipart/form-data": {
-              "schema": {
-                "type": "object",
-                "required": ["file"],
-                "properties": {
-                  "file": {
-                    "type": "string",
-                    "format": "binary",
-                    "description": "CSV file with product data"
+                  "storeName": {
+                    "type": "string"
+                  },
+                  "tagline": {
+                    "type": "string"
+                  },
+                  "headerLogoUrl": {
+                    "type": "string"
+                  },
+                  "footerLogoUrl": {
+                    "type": "string"
+                  },
+                  "faviconUrl": {
+                    "type": "string"
                   }
                 }
               }
@@ -1630,136 +3991,447 @@
           }
         },
         "responses": {
-          "201": { "description": "Import job created" },
-          "400": { "description": "Invalid file or file missing" },
-          "401": { "description": "Authentication required" },
-          "403": { "description": "Admin access required" }
+          "200": {
+            "description": "Updated configuration"
+          }
         }
-      },
-      "get": {
-        "tags": ["Imports"],
-        "summary": "List import jobs",
-        "security": [{ "bearerAuth": [] }],
-        "parameters": [
+      }
+    },
+    "/api/storefront/config/colors": {
+      "patch": {
+        "summary": "Update colors section",
+        "description": "Update the color scheme. Admin only.",
+        "tags": [
+          "Storefront"
+        ],
+        "security": [
           {
-            "in": "query",
-            "name": "page",
-            "schema": { "type": "integer", "default": 1 }
-          },
-          {
-            "in": "query",
-            "name": "limit",
-            "schema": { "type": "integer", "default": 20 }
-          },
-          {
-            "in": "query",
-            "name": "status",
-            "schema": {
-              "type": "string",
-              "enum": ["pending", "processing", "completed", "failed", "cancelled"]
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "primary": {
+                    "type": "string",
+                    "pattern": "^#[0-9A-Fa-f]{6}$"
+                  },
+                  "secondary": {
+                    "type": "string"
+                  },
+                  "accent": {
+                    "type": "string"
+                  },
+                  "background": {
+                    "type": "string"
+                  },
+                  "text": {
+                    "type": "string"
+                  },
+                  "textMuted": {
+                    "type": "string"
+                  }
+                }
+              }
             }
           }
-        ],
+        },
         "responses": {
-          "200": { "description": "Import jobs list with pagination" },
-          "401": { "description": "Authentication required" }
+          "200": {
+            "description": "Updated configuration"
+          }
         }
       }
     },
-    "/api/imports/{id}": {
-      "get": {
-        "tags": ["Imports"],
-        "summary": "Get import job by ID",
-        "security": [{ "bearerAuth": [] }],
-        "parameters": [
+    "/api/storefront/config/banners": {
+      "patch": {
+        "summary": "Update banners section",
+        "description": "Update hero and slim banners. Admin only.",
+        "tags": [
+          "Storefront"
+        ],
+        "security": [
           {
-            "in": "path",
-            "name": "id",
-            "required": true,
-            "schema": { "type": "string", "format": "uuid" }
+            "bearerAuth": []
           }
         ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "hero": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        },
+                        "imageUrl": {
+                          "type": "string"
+                        },
+                        "mobileImageUrl": {
+                          "type": "string"
+                        },
+                        "title": {
+                          "type": "string"
+                        },
+                        "subtitle": {
+                          "type": "string"
+                        },
+                        "ctaText": {
+                          "type": "string"
+                        },
+                        "ctaLink": {
+                          "type": "string"
+                        },
+                        "isActive": {
+                          "type": "boolean"
+                        }
+                      }
+                    }
+                  },
+                  "slim": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        },
+                        "imageUrl": {
+                          "type": "string"
+                        },
+                        "link": {
+                          "type": "string"
+                        },
+                        "position": {
+                          "type": "string"
+                        },
+                        "isActive": {
+                          "type": "boolean"
+                        },
+                        "sortOrder": {
+                          "type": "integer"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
         "responses": {
-          "200": { "description": "Import job details" },
-          "403": { "description": "Access denied" },
-          "404": { "description": "Import job not found" }
+          "200": {
+            "description": "Updated configuration"
+          }
         }
       }
     },
-    "/api/imports/{id}/cancel": {
+    "/api/storefront/config/faq": {
+      "patch": {
+        "summary": "Update FAQ section",
+        "description": "Update FAQ items. Admin only.",
+        "tags": [
+          "Storefront"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "faq": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        },
+                        "question": {
+                          "type": "string"
+                        },
+                        "answer": {
+                          "type": "string"
+                        },
+                        "sortOrder": {
+                          "type": "integer"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Updated configuration"
+          }
+        }
+      }
+    },
+    "/api/storefront/config/contact": {
+      "patch": {
+        "summary": "Update contact section",
+        "description": "Update contact information. Admin only.",
+        "tags": [
+          "Storefront"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "whatsappNumber": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
+                  },
+                  "phone": {
+                    "type": "string"
+                  },
+                  "address": {
+                    "type": "string"
+                  },
+                  "socialLinks": {
+                    "type": "object",
+                    "description": "Social network profile links",
+                    "properties": {
+                      "instagram": {
+                        "type": "string",
+                        "format": "uri",
+                        "example": "https://www.instagram.com/sanpablo"
+                      },
+                      "facebook": {
+                        "type": "string",
+                        "format": "uri",
+                        "example": "https://www.facebook.com/sanpablo"
+                      },
+                      "tiktok": {
+                        "type": "string",
+                        "format": "uri",
+                        "example": "https://www.tiktok.com/@sanpablo"
+                      },
+                      "twitter": {
+                        "type": "string",
+                        "format": "uri",
+                        "example": "https://twitter.com/sanpablo"
+                      },
+                      "youtube": {
+                        "type": "string",
+                        "format": "uri",
+                        "example": "https://www.youtube.com/@sanpablo"
+                      },
+                      "whatsapp": {
+                        "type": "string",
+                        "format": "uri",
+                        "description": "WhatsApp channel link",
+                        "example": "https://whatsapp.com/channel/0029Va..."
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Updated configuration"
+          }
+        }
+      }
+    },
+    "/api/storefront/config/seo": {
+      "patch": {
+        "summary": "Update SEO section",
+        "description": "Update SEO metadata. Admin only.",
+        "tags": [
+          "Storefront"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "metaTitle": {
+                    "type": "string",
+                    "maxLength": 70
+                  },
+                  "metaDescription": {
+                    "type": "string",
+                    "maxLength": 160
+                  },
+                  "ogImage": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Updated configuration"
+          }
+        }
+      }
+    },
+    "/api/storefront/config/legal": {
+      "patch": {
+        "summary": "Update legal section",
+        "description": "Update terms & conditions markdown. Admin only.",
+        "tags": [
+          "Storefront"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "termsMarkdown": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Updated configuration"
+          }
+        }
+      }
+    },
+    "/api/storefront/upload": {
       "post": {
-        "tags": ["Imports"],
-        "summary": "Cancel import job",
-        "security": [{ "bearerAuth": [] }],
-        "parameters": [
+        "summary": "Upload storefront asset",
+        "description": "Upload an image for use in storefront (logos, banners). Admin only.",
+        "tags": [
+          "Storefront"
+        ],
+        "security": [
           {
-            "in": "path",
-            "name": "id",
-            "required": true,
-            "schema": { "type": "string", "format": "uuid" }
+            "bearerAuth": []
           }
         ],
-        "responses": {
-          "200": { "description": "Import job cancelled" },
-          "400": { "description": "Job cannot be cancelled" },
-          "403": { "description": "Access denied" },
-          "404": { "description": "Import job not found" }
-        }
-      }
-    },
-    "/api/imports/template": {
-      "get": {
-        "tags": ["Imports"],
-        "summary": "Get CSV template",
-        "responses": {
-          "200": {
-            "description": "CSV template file",
-            "content": { "text/csv": { "schema": { "type": "string" } } }
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              }
+            }
           }
-        }
-      }
-    },
-    "/api/metrics/overview": {
-      "get": {
-        "tags": ["Metrics"],
-        "summary": "Get business overview metrics",
-        "description": "Returns key business metrics including total products, categories, orders, and the date of the last successful import. By default returns historical totals. Pass startDate and/or endDate to filter entities created within a specific time period. Admin access required.",
-        "security": [{ "bearerAuth": [] }],
-        "parameters": [
-          {
-            "in": "query",
-            "name": "startDate",
-            "schema": { "type": "string", "format": "date-time" },
-            "description": "Filter entities created on or after this date (ISO 8601)",
-            "example": "2024-01-01T00:00:00.000Z"
-          },
-          {
-            "in": "query",
-            "name": "endDate",
-            "schema": { "type": "string", "format": "date-time" },
-            "description": "Filter entities created on or before this date (ISO 8601)",
-            "example": "2024-12-31T23:59:59.999Z"
-          }
-        ],
+        },
         "responses": {
-          "200": {
-            "description": "Business metrics overview",
+          "201": {
+            "description": "Asset uploaded",
             "content": {
               "application/json": {
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "data": { "$ref": "#/components/schemas/MetricsOverview" }
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "url": {
+                          "type": "string"
+                        },
+                        "filename": {
+                          "type": "string"
+                        },
+                        "size": {
+                          "type": "integer"
+                        },
+                        "contentType": {
+                          "type": "string"
+                        }
+                      }
+                    }
                   }
                 }
               }
             }
           },
-          "400": { "description": "Invalid date format" },
-          "401": { "description": "Authentication required" },
-          "403": { "description": "Admin access required" }
+          "400": {
+            "description": "Invalid file type"
+          }
         }
       }
     }
-  }
+  },
+  "tags": [
+    {
+      "name": "Cart",
+      "description": "Shopping cart management"
+    },
+    {
+      "name": "Checkout",
+      "description": "Checkout flow endpoints"
+    },
+    {
+      "name": "Imports",
+      "description": "CSV product import endpoints"
+    },
+    {
+      "name": "Metrics",
+      "description": "Business metrics and analytics"
+    },
+    {
+      "name": "Orders",
+      "description": "Order management endpoints"
+    },
+    {
+      "name": "Storefront",
+      "description": "Storefront configuration and customization"
+    }
+  ]
 }

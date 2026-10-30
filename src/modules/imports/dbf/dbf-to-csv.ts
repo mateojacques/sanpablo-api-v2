@@ -31,7 +31,9 @@ export function dbfToCsv(
   const fieldNames = table.fields.map((f) => f.name);
 
   if (format === 'raw') {
-    const rows = table.records.map((rec) => fieldNames.map((name) => rawValue(rec[name])));
+    const rows = table.records.map((rec) =>
+      fieldNames.map((name) => rawValue(rec[name]))
+    );
     return { csv: toCsv(fieldNames, rows), rowCount: rows.length };
   }
 

@@ -1,10 +1,14 @@
 import { Router } from 'express';
 import { importsController } from './imports.controller.js';
 import { validateRequest } from '../../shared/middleware/validate-request.js';
-import { csvUpload, jsonUpload } from '../../shared/middleware/upload.js';
+import { csvUpload, dbfUpload, jsonUpload } from '../../shared/middleware/upload.js';
 import { importLimiter } from '../../shared/middleware/rate-limiter.js';
 import { requireAuth, requireAdmin } from '../auth/auth.middleware.js';
-import { listImportsQuerySchema, importIdParamSchema } from './imports.schemas.js';
+import {
+  listImportsQuerySchema,
+  importIdParamSchema,
+  dbfConvertQuerySchema,
+} from './imports.schemas.js';
 
 const router = Router();
 
@@ -61,6 +65,110 @@ router.post(
   // importLimiter,
   csvUpload.single('file'),
   importsController.create
+);
+
+/**
+ * @swagger
+ * /api/imports/dbf:
+ *   post:
+ *     summary: Create import job from a DBF file
+ *     description: Upload the customer's stock table (Visual FoxPro .dbf, max 100MB). The API converts it to the import CSV and creates a regular CSV import job. Admin only.
+ *     tags: [Imports]
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         multipart/form-data:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - file
+ *             properties:
+ *               file:
+ *                 type: string
+ *                 format: binary
+ *                 description: DBF file (.dbf, case-insensitive)
+ *     responses:
+ *       201:
+ *         description: Import job created
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 data:
+ *                   $ref: '#/components/schemas/ImportJob'
+ *       400:
+ *         description: FILE_REQUIRED, INVALID_FILE_TYPE, FILE_TOO_LARGE, INVALID_DBF, UNSUPPORTED_CODE_PAGE, or DBF_MISSING_FIELDS (with details.missing)
+ *       401:
+ *         description: Authentication required
+ *       403:
+ *         description: Admin access required
+ */
+router.post(
+  '/dbf',
+  requireAuth,
+  requireAdmin,
+  dbfUpload.single('file'),
+  importsController.createFromDbf
+);
+
+/**
+ * @swagger
+ * /api/imports/dbf/csv:
+ *   post:
+ *     summary: Convert a DBF file to CSV
+ *     description: Convert the customer's stock table to CSV without importing it. Admin only.
+ *     tags: [Imports]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: query
+ *         name: format
+ *         schema:
+ *           type: string
+ *           enum: [api, raw]
+ *           default: api
+ *         description: api = import CSV columns; raw = every DBF field
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         multipart/form-data:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - file
+ *             properties:
+ *               file:
+ *                 type: string
+ *                 format: binary
+ *                 description: DBF file (.dbf, case-insensitive)
+ *     responses:
+ *       200:
+ *         description: CSV file (UTF-8, no BOM). The X-Row-Count header holds the number of data rows.
+ *         headers:
+ *           X-Row-Count:
+ *             schema:
+ *               type: integer
+ *         content:
+ *           text/csv:
+ *             schema:
+ *               type: string
+ *       400:
+ *         description: FILE_REQUIRED, INVALID_FILE_TYPE, FILE_TOO_LARGE, INVALID_DBF, UNSUPPORTED_CODE_PAGE, or DBF_MISSING_FIELDS (with details.missing)
+ *       401:
+ *         description: Authentication required
+ *       403:
+ *         description: Admin access required
+ */
+router.post(
+  '/dbf/csv',
+  requireAuth,
+  requireAdmin,
+  validateRequest({ query: dbfConvertQuerySchema }),
+  dbfUpload.single('file'),
+  importsController.convertDbf
 );
 
 /**
@@ -349,6 +457,45 @@ router.get(
  *       404:
  *         description: Import job not found
  */
+/**
+ * @swagger
+ * /api/imports/{id}/file:
+ *   get:
+ *     summary: Download an import job's file
+ *     description: Download the file the job imported (the generated CSV for DBF imports, the JSON for bulk image jobs). Users can only download their own jobs' files.
+ *     tags: [Imports]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *           format: uuid
+ *         description: Import job ID
+ *     responses:
+ *       200:
+ *         description: The stored file, with Content-Disposition set
+ *         content:
+ *           text/csv:
+ *             schema:
+ *               type: string
+ *           application/json:
+ *             schema:
+ *               type: object
+ *       403:
+ *         description: Access denied
+ *       404:
+ *         description: Import job not found
+ */
+router.get(
+  '/:id/file',
+  requireAuth,
+  validateRequest({ params: importIdParamSchema }),
+  importsController.getFile
+);
+
 router.post(
   '/:id/cancel',
   requireAuth,

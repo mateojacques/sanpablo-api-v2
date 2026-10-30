@@ -29,7 +29,10 @@ if (values.format !== 'api' && values.format !== 'raw') {
   process.exit(1);
 }
 
-const { csv, rowCount } = dbfToCsv(readFileSync(values.dbf), values.format as DbfCsvFormat);
+const { csv, rowCount } = dbfToCsv(
+  readFileSync(values.dbf),
+  values.format as DbfCsvFormat
+);
 const outPath = resolve(values.out);
 writeFileSync(outPath, csv, 'utf-8');
 // eslint-disable-next-line no-console

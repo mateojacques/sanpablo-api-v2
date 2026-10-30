@@ -1,6 +1,8 @@
+import { MulterError } from 'multer';
 import type { Request, Response, NextFunction } from 'express';
 import { AppError } from '../utils/errors.js';
 import { env } from '../../config/env.js';
+import { DbfFormatError } from '../../modules/imports/dbf/dbf-errors.js';
 
 interface ErrorWithDetails extends AppError {
   details?: unknown;
@@ -42,6 +44,29 @@ export const errorHandler = (
     }
 
     res.status(err.statusCode).json(errorResponse);
+    return;
+  }
+
+  // Uploads over the multer size limit
+  if (err instanceof MulterError && err.code === 'LIMIT_FILE_SIZE') {
+    res.status(400).json({
+      error: {
+        code: 'FILE_TOO_LARGE',
+        message: 'File exceeds the maximum allowed size',
+      },
+    });
+    return;
+  }
+
+  // DBF uploads that can't be read or lack required fields
+  if (err instanceof DbfFormatError) {
+    res.status(400).json({
+      error: {
+        code: err.code,
+        message: err.message,
+        ...(err.details !== undefined && { details: err.details }),
+      },
+    });
     return;
   }
 

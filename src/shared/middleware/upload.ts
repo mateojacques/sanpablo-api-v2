@@ -62,3 +62,20 @@ export const jsonUpload = multer({
     cb(null, true);
   },
 });
+
+/**
+ * Multer configuration for DBF (Visual FoxPro table) uploads
+ */
+export const dbfUpload = multer({
+  storage: multer.memoryStorage(),
+  limits: {
+    fileSize: 100 * 1024 * 1024, // 100MB for DBF files
+  },
+  fileFilter: (_req, file, cb) => {
+    if (!file.originalname.toLowerCase().endsWith('.dbf')) {
+      cb(badRequest('INVALID_FILE_TYPE', 'Only DBF files are allowed'));
+      return;
+    }
+    cb(null, true);
+  },
+});

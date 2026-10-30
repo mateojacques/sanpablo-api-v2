@@ -1,7 +1,8 @@
 import type { Request, Response, NextFunction } from 'express';
 import { importsService } from './imports.service.js';
+import { dbfToCsv } from './dbf/dbf-to-csv.js';
 import type { AuthenticatedRequest } from '../../shared/types/index.js';
-import type { ListImportsQuery } from './imports.schemas.js';
+import type { DbfConvertQuery, ListImportsQuery } from './imports.schemas.js';
 
 export const importsController = {
   /**
@@ -30,6 +31,87 @@ export const importsController = {
       );
 
       res.status(201).json({ data: job });
+    } catch (error) {
+      next(error);
+    }
+  },
+
+  /**
+   * Create import job from a DBF upload
+   * POST /api/imports/dbf
+   */
+  async createFromDbf(req: Request, res: Response, next: NextFunction) {
+    try {
+      const user = (req as AuthenticatedRequest).user;
+      const file = req.file;
+
+      if (!file) {
+        res.status(400).json({
+          error: {
+            code: 'FILE_REQUIRED',
+            message: 'DBF file is required',
+          },
+        });
+        return;
+      }
+
+      const job = await importsService.createDbfImportJob(
+        file.buffer,
+        file.originalname,
+        user!.id
+      );
+
+      res.status(201).json({ data: job });
+    } catch (error) {
+      next(error);
+    }
+  },
+
+  /**
+   * Convert a DBF upload to CSV and return it
+   * POST /api/imports/dbf/csv
+   */
+  async convertDbf(req: Request, res: Response, next: NextFunction) {
+    try {
+      const file = req.file;
+
+      if (!file) {
+        res.status(400).json({
+          error: {
+            code: 'FILE_REQUIRED',
+            message: 'DBF file is required',
+          },
+        });
+        return;
+      }
+
+      const { format } = req.query as unknown as DbfConvertQuery;
+      const { csv, rowCount } = dbfToCsv(file.buffer, format);
+
+      res.attachment(file.originalname.replace(/\.dbf$/i, '.csv'));
+      res.type('text/csv; charset=utf-8');
+      res.setHeader('X-Row-Count', String(rowCount));
+      res.send(csv);
+    } catch (error) {
+      next(error);
+    }
+  },
+
+  /**
+   * Download the file an import job imported
+   * GET /api/imports/:id/file
+   */
+  async getFile(req: Request, res: Response, next: NextFunction) {
+    try {
+      const user = (req as AuthenticatedRequest).user;
+      const isAdmin = user?.role === 'admin' || user?.role === 'owner';
+
+      const { id } = req.params;
+      const file = await importsService.getJobFile(id as string, user?.id, isAdmin);
+
+      res.attachment(file.filename);
+      res.type(file.contentType);
+      res.send(file.body);
     } catch (error) {
       next(error);
     }

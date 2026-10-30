@@ -7,6 +7,7 @@ import { env } from '../../config/env.js';
 import { importJobs, products } from '../../db/schema/index.js';
 import { AppError } from '../../shared/utils/errors.js';
 import { parseCsvLine } from './csv-line.js';
+import { dbfToCsv } from './dbf/dbf-to-csv.js';
 import type { ListImportsQuery } from './imports.schemas.js';
 
 const CHUNK_SIZE = 100; // Process 100 rows per chunk
@@ -81,6 +82,53 @@ export const importsService = {
     }
 
     return job;
+  },
+
+  /**
+   * Convert an uploaded DBF to the import CSV and create a regular CSV job.
+   * The stored S3 object is the generated CSV.
+   */
+  async createDbfImportJob(
+    file: Buffer,
+    filename: string,
+    userId: string
+  ): Promise<typeof importJobs.$inferSelect> {
+    const { csv } = dbfToCsv(file, 'api');
+    return this.createImportJob(
+      Buffer.from(csv, 'utf-8'),
+      filename.replace(/\.dbf$/i, '.csv'),
+      userId
+    );
+  },
+
+  /**
+   * Get the file a job imported (the CSV or bulk-images JSON stored in S3)
+   */
+  async getJobFile(
+    jobId: string,
+    userId?: string,
+    isAdmin = false
+  ): Promise<{ body: Buffer; contentType: string; filename: string }> {
+    const job = await this.getById(jobId, userId, isAdmin);
+
+    const response = await s3Client.send(
+      new GetObjectCommand({
+        Bucket: env.S3_BUCKET,
+        Key: job.fileKey,
+      })
+    );
+
+    const bytes = await response.Body?.transformToByteArray();
+    if (!bytes) {
+      throw new AppError(404, 'IMPORT_FILE_NOT_FOUND', 'Import file not found');
+    }
+
+    return {
+      body: Buffer.from(bytes),
+      contentType:
+        job.type === 'bulk_images' ? 'application/json' : 'text/csv; charset=utf-8',
+      filename: job.filename,
+    };
   },
 
   /**

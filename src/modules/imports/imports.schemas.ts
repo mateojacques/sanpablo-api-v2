@@ -15,9 +15,15 @@ export const importIdParamSchema = z.object({
   id: z.string().uuid('Invalid import job ID'),
 });
 
+// Convert DBF to CSV query
+export const dbfConvertQuerySchema = z.object({
+  format: z.enum(['api', 'raw']).default('api'),
+});
+
 // ============ Type Exports ============
 
 export type ListImportsQuery = z.infer<typeof listImportsQuerySchema>;
+export type DbfConvertQuery = z.infer<typeof dbfConvertQuerySchema>;
 
 // ============ CSV Row Schema (for validation) ============
 

@@ -29,7 +29,7 @@ const app = express();
 
 // Security middleware
 app.use(helmet());
-app.use(cors());
+app.use(cors({ exposedHeaders: ['Content-Disposition', 'X-Row-Count'] }));
 
 // Rate limiting
 app.use('/api', apiLimiter);

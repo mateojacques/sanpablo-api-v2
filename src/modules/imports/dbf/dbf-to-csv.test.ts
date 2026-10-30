@@ -65,6 +65,12 @@ describe('dbfToCsv', () => {
 
     expect(rowCount).toBe(2);
     expect(lines[0]).toBe('STCODIGO,STDESCRIP,STPRECUNI1,STPRECUNI2,STBORRAR');
-    expect(parseCsvLine(lines[1])).toEqual(['0000001', 'CUADERNO A4', '1200', '1500', 'false']);
+    expect(parseCsvLine(lines[1])).toEqual([
+      '0000001',
+      'CUADERNO A4',
+      '1200',
+      '1500',
+      'false',
+    ]);
   });
 });

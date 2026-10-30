@@ -157,3 +157,14 @@ const items = await db.select().from(products).limit(limit).offset(offset);
 router.get('/me', requireAuth, controller.getProfile);
 router.post('/products', requireAuth, requireRoles(['owner', 'admin']), controller.create);
 ```
+
+### DBF Imports
+The customer's Visual FoxPro stock table is parsed only here, in `src/modules/imports/dbf/` (`dbf-reader.ts` reads the file, `stock-mapping.ts` maps it to the import CSV, `dbf-to-csv.ts` writes the CSV). Read text with `decodeCp1252` (`cp1252.ts`), not `TextDecoder('windows-1252')`: Node 20 decodes bytes 0x80–0x9F wrong.
+
+| Method & path | Auth | Purpose |
+| --- | --- | --- |
+| `POST /api/imports/dbf` | admin | Upload a `.dbf` (multipart `file`, max 100MB). Converts it to the import CSV and creates a regular CSV job → `201 { data: ImportJob }` |
+| `POST /api/imports/dbf/csv?format=api\|raw` | admin | Convert without importing. Returns `text/csv` with `Content-Disposition` and `X-Row-Count` |
+| `GET /api/imports/:id/file` | owner of the job or admin | Download the file a job imported (the generated CSV, or the bulk-images JSON) |
+
+Errors: `400` `FILE_REQUIRED`, `INVALID_FILE_TYPE`, `FILE_TOO_LARGE`, `INVALID_DBF`, `UNSUPPORTED_CODE_PAGE`, `DBF_MISSING_FIELDS` (with `details.missing`); `404 IMPORT_JOB_NOT_FOUND`.
