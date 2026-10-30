@@ -1,6 +1,6 @@
 # Customer stock table (`stockWeb.DBF`)
 
-The reference copy of the customer's product table is **`stock/stockWeb.DBF`** at the repo root. It is the source of truth for the table's structure. If anything else in the repo disagrees with this file, the file wins. `dbf-to-csv-parser.py` reads `stock/stockWeb.DBF` by default (run it from the repo root).
+The reference copy of the customer's product table is **`stock/stockWeb.DBF`** at the repo root. It is the source of truth for the table's structure. If anything else in the repo disagrees with this file, the file wins. `npm run dbf:export` reads `stock/stockWeb.DBF` by default (run it from the repo root).
 
 `stock/` is in `.gitignore`: the table holds the customer's real catalog and costs, so it is never committed. Ask for a fresh copy when you need it. Each time a new copy arrives, re-check it against this document (see [Inspecting a new copy](#inspecting-a-new-copy)).
 
@@ -20,9 +20,9 @@ Everything below was measured on the copy last updated **2026-10-14**.
 
 Consequences:
 
-- **Memo file is missing, but no data is lost.** `STDETALLE` is the only memo field, and its pointer is 0 in every record. Readers must tolerate the missing `.FPT` (`dbfread` needs `ignore_missing_memofile=True`).
+- **Memo file is missing, but no data is lost.** `STDETALLE` is the only memo field, and its pointer is 0 in every record. Readers must tolerate the missing `.FPT`. The API's reader (`src/modules/imports/dbf/dbf-reader.ts`) never opens memo files and returns `null` for memo fields.
 - **Read text as cp1252, not latin-1.** The two differ only in bytes `0x80`–`0x9F`. Today that affects exactly one character: the `…` (`0x85`) in product `0071261`'s description. latin-1 turns it into an invisible control character. The parser reads cp1252.
-- **Deleted records** carry the usual `*` flag. `dbfread` skips them by default. The `STBORRAR` field is *not* how this table marks deletions (see below).
+- **Deleted records** carry the usual `*` flag. The reader skips them. The `STBORRAR` field is *not* how this table marks deletions (see below).
 - **`STWEB` is true in every record.** This export seems to be the customer's catalog already filtered to web products (hence the file name), so the importer doesn't have to filter on it.
 
 ## Fields
@@ -116,7 +116,7 @@ The family pairs present today are: `869` MARTIZ (29), `870` PUNTO CERO (26), `1
 
 ## Mapping to the import CSV
 
-`dbf-to-csv-parser.py --formato api` turns the table into the CSV format of `example.csv`. Current mapping:
+The mapping lives in `src/modules/imports/dbf/stock-mapping.ts`. `POST /api/imports/dbf` and `npm run dbf:export` both use it to turn the table into the CSV format of `example.csv`. A table missing `STCODIGO`, `STDESCRIP` or `STPRECUNI2` is rejected with `400 DBF_MISSING_FIELDS`. Current mapping:
 
 | CSV column | Source |
 | --- | --- |
@@ -136,15 +136,15 @@ These are known issues in the data and in the export as of this copy:
 
 - **Duplicate SKU `0000694`.** Two different products use it: "ROLLO FILM AUTOADHESIVO 30cm x30mt" and "ROLLO FILM ALUMAX 30cm x30mt". The import upserts by SKU, so the second row overwrites the first and one product disappears.
 - **Bare family codes.** The `STFAMILIA` fallback turns a record with code `30` and no name into `category_slug=30`. The importer ignores slugs that match no category.
+- **Carriage returns inside names.** Three products (`0078727`, `0078728`, `0078729`) have a `\r` byte in the middle of `STDESCRIP`. The CSV quotes those values, and the product name keeps the stray `\r`.
 - **Barcodes are not imported.** Most products have one (`STBARRA` / `CBARRAGRAL`), but the import CSV has no column for it.
 
 ## Inspecting a new copy
 
-To dump every column so you can compare a new copy against this document, run the parser in `dbf` mode (`pip install dbfread python-dotenv` first):
+To dump every column so you can compare a new copy against this document, export it in `raw` format:
 
 ```bash
-python src/scripts/import-products/dbf-to-csv-parser.py \
-  --dbf stock/stockWeb.DBF --formato dbf --salida tmp/stock-all-fields.csv
+npm run dbf:export -- --format raw --out tmp/stock-all-fields.csv
 ```
 
-Things worth re-checking each time: the field list and sizes, the code page byte, whether `STWEB` / `STBORRAR` / `STCANT` are still constant, whether a `.FPT` file now comes with the table, and whether `STCODIGO` is unique.
+Things worth re-checking each time: the field list and sizes, the code page byte, whether `STWEB` / `STBORRAR` / `STCANT` are still constant, whether a `.FPT` file now comes with the table, whether `STCODIGO` is unique, and whether `npm run dbf:export` (import format) still succeeds instead of failing with `DBF_MISSING_FIELDS`.
