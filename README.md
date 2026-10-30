@@ -110,7 +110,7 @@ Puedes usar cualquier proveedor SMTP. Algunos ejemplos:
 Para verificar que la configuración SMTP es correcta al iniciar el servidor, puedes usar la función `verifyEmailConnection()` de `src/config/email.ts`:
 
 ```typescript
-import { verifyEmailConnection } from './config/email';
+import { verifyEmailConnection } from './config/email.js';
 
 // En tu startup
 const emailOk = await verifyEmailConnection();
@@ -156,10 +156,12 @@ src/
 
 ## API Documentation
 
-La documentación Swagger está disponible en `/api-docs` cuando el servidor está corriendo.
+La documentación Swagger está disponible en `/api/docs` cuando el servidor está corriendo.
 
 ```
-http://localhost:3000/api-docs
+http://localhost:3000/api/docs        # Swagger UI
+http://localhost:3000/api/docs.json   # Spec generada desde los comentarios @openapi de las rutas
+http://localhost:3000/api/openapi.json # openapi-spec.json estático (para el frontend)
 ```
 
 ## License

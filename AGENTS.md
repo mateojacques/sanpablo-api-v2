@@ -2,7 +2,7 @@
 
 ## Project Overview
 
-API backend for an art store/bookstore built with Node.js, Express, TypeScript, Drizzle ORM, and AWS services (S3, SQS, SES).
+API backend for an art store/bookstore built with Node.js, Express, TypeScript, Drizzle ORM, and AWS services (S3, SQS). Email is sent over SMTP.
 
 ## Tech Stack
 
@@ -13,7 +13,7 @@ API backend for an art store/bookstore built with Node.js, Express, TypeScript, 
 - **Auth**: JWT (simple with expiration)
 - **Storage**: AWS S3
 - **Queue**: AWS SQS
-- **Email**: AWS SES
+- **Email**: SMTP via nodemailer (Google Workspace / Gmail by default)
 - **Docs**: Swagger/OpenAPI
 
 ## Build/Run Commands
@@ -34,7 +34,7 @@ npm run db:push          # Push schema directly (dev only)
 npm run db:studio        # Open Drizzle Studio
 npm test                           # Run all tests
 npm test -- path/to/file.test.ts   # Run single test file
-npm test -- --grep "pattern"       # Run tests matching pattern
+npm test -- -t "pattern"           # Run tests whose name matches pattern
 npm run test:watch                 # Run tests in watch mode
 ```
 
@@ -42,7 +42,7 @@ npm run test:watch                 # Run tests in watch mode
 
 ```
 src/
-├── config/           # App configuration (env, database, aws, swagger)
+├── config/           # App configuration (env, database, aws, email, swagger)
 ├── db/schema/        # Drizzle table definitions
 ├── db/migrations/    # Auto-generated migrations
 ├── modules/[name]/   # Feature modules with controller, service, routes, schemas
@@ -67,7 +67,7 @@ src/
 ### Imports Order
 1. Node.js built-in modules
 2. External dependencies
-3. Internal modules (use `@/` path aliases)
+3. Internal modules (relative paths ending in `.js`, e.g. `'../../config/env.js'` — the project is ESM compiled by plain `tsc`, which doesn't rewrite `@/` aliases, so they break in `dist/`)
 4. Types (use `type` imports)
 
 ### TypeScript
@@ -120,7 +120,7 @@ export const products = pgTable('products', {
 ### API Response Format
 ```typescript
 { "data": { ... } }                                    // Single item
-{ "data": [...], "meta": { "page": 1, "limit": 20, "total": 100 } }  // List
+{ "data": [...], "meta": { "page": 1, "limit": 20, "total": 100, "totalPages": 5 } }  // List
 { "error": { "code": "ERROR_CODE", "message": "..." } }  // Error
 ```
 
