@@ -1,20 +1,13 @@
-import { TextDecoder } from 'node:util';
+import { CP1252_HIGH_BYTES } from '../cp1252.js';
 
 type BuildDbfField = { name: string; type: string; length: number; decimals?: number };
 type BuildDbfRecord = { values: string[]; deleted?: boolean };
 
-// Reverse of TextDecoder('windows-1252') for bytes 0x80-0xFF
-const cp1252Bytes = new Map<string, number>();
-const cp1252Decoder = new TextDecoder('windows-1252');
-for (let byte = 0x80; byte <= 0xff; byte++) {
-  cp1252Bytes.set(cp1252Decoder.decode(Uint8Array.of(byte)), byte);
-}
-
 function encodeCp1252(text: string): number[] {
   return Array.from(text, (ch) => {
     const code = ch.charCodeAt(0);
-    if (code < 0x80) return code;
-    const byte = cp1252Bytes.get(ch);
+    if (code < 0x80 || (code >= 0xa0 && code <= 0xff)) return code;
+    const byte = CP1252_HIGH_BYTES.get(ch);
     if (byte === undefined) throw new Error(`Character not in windows-1252: ${ch}`);
     return byte;
   });

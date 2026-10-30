@@ -1,4 +1,4 @@
-import { TextDecoder } from 'node:util';
+import { decodeCp1252 } from './cp1252.js';
 import { DbfFormatError } from './dbf-errors.js';
 
 export type DbfValue = string | number | boolean | null;
@@ -47,7 +47,6 @@ export function readDbf(buffer: Buffer): DbfTable {
     );
   }
 
-  const decoder = new TextDecoder('windows-1252');
   const records: DbfRecord[] = [];
   let deletedCount = 0;
 
@@ -60,7 +59,7 @@ export function readDbf(buffer: Buffer): DbfTable {
 
     const record: DbfRecord = {};
     for (const field of layout) {
-      record[field.name] = decodeValue(buffer, start + field.offset, field, decoder);
+      record[field.name] = decodeValue(buffer, start + field.offset, field);
     }
     records.push(record);
   }
@@ -96,7 +95,9 @@ function readFieldLayout(
 
     const rawName = buffer.subarray(offset, offset + 11);
     const nul = rawName.indexOf(0);
-    const name = rawName.subarray(0, nul === -1 ? rawName.length : nul).toString('latin1');
+    const name = rawName
+      .subarray(0, nul === -1 ? rawName.length : nul)
+      .toString('latin1');
     const type = String.fromCharCode(buffer[offset + 11]);
     const length = buffer[offset + 16];
     const decimals = buffer[offset + 17];
@@ -112,26 +113,24 @@ function readFieldLayout(
     throw new DbfFormatError('INVALID_DBF', 'DBF field descriptors are not terminated');
   }
   if (fieldOffset > recordLength) {
-    throw new DbfFormatError('INVALID_DBF', 'DBF fields are longer than the record length');
+    throw new DbfFormatError(
+      'INVALID_DBF',
+      'DBF fields are longer than the record length'
+    );
   }
 
   return layout;
 }
 
-function decodeValue(
-  buffer: Buffer,
-  offset: number,
-  field: FieldLayout,
-  decoder: TextDecoder
-): DbfValue {
+function decodeValue(buffer: Buffer, offset: number, field: FieldLayout): DbfValue {
   const bytes = buffer.subarray(offset, offset + field.length);
 
   switch (field.type) {
     case 'C':
-      return decoder.decode(bytes).trimEnd();
+      return decodeCp1252(bytes).trimEnd();
     case 'N':
     case 'F': {
-      const text = decoder.decode(bytes).trim();
+      const text = decodeCp1252(bytes).trim();
       if (!text) return null;
       const value = Number(text);
       return Number.isNaN(value) ? null : value;
@@ -143,7 +142,7 @@ function decodeValue(
       return null;
     }
     case 'D': {
-      const text = decoder.decode(bytes).trim();
+      const text = decodeCp1252(bytes).trim();
       if (!/^\d{8}$/.test(text)) return null;
       return `${text.slice(0, 4)}-${text.slice(4, 6)}-${text.slice(6, 8)}`;
     }
@@ -159,6 +158,6 @@ function decodeValue(
     case 'T':
       return null;
     default:
-      return decoder.decode(bytes).trim();
+      return decodeCp1252(bytes).trim();
   }
 }
