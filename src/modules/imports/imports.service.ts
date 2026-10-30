@@ -6,6 +6,7 @@ import { s3Client, sqsClient } from '../../config/aws.js';
 import { env } from '../../config/env.js';
 import { importJobs, products } from '../../db/schema/index.js';
 import { AppError } from '../../shared/utils/errors.js';
+import { parseCsvLine } from './csv-line.js';
 import type { ListImportsQuery } from './imports.schemas.js';
 
 const CHUNK_SIZE = 100; // Process 100 rows per chunk
@@ -215,7 +216,7 @@ export const importsService = {
 
     // Parse CSV
     const lines = content.split('\n').filter((line) => line.trim());
-    const headers = this.parseCsvLine(lines[0]);
+    const headers = parseCsvLine(lines[0]);
     const rows = lines.slice(1);
 
     let processedRows = 0;
@@ -236,7 +237,7 @@ export const importsService = {
         const row = chunk[j];
 
         try {
-          const values = this.parseCsvLine(row);
+          const values = parseCsvLine(row);
           const rowData = this.parseRow(headers, values);
 
           // Find category if specified
@@ -331,31 +332,6 @@ export const importsService = {
         updatedAt: new Date(),
       })
       .where(eq(importJobs.id, jobId));
-  },
-
-  /**
-   * Parse a CSV line handling quoted values
-   */
-  parseCsvLine(line: string): string[] {
-    const result: string[] = [];
-    let current = '';
-    let inQuotes = false;
-
-    for (let i = 0; i < line.length; i++) {
-      const char = line[i];
-
-      if (char === '"') {
-        inQuotes = !inQuotes;
-      } else if (char === ',' && !inQuotes) {
-        result.push(current.trim());
-        current = '';
-      } else {
-        current += char;
-      }
-    }
-
-    result.push(current.trim());
-    return result;
   },
 
   /**
