@@ -297,13 +297,14 @@ export const importsService = {
             }
           }
 
-          // Upsert product by SKU
+          // Upsert product by SKU. The lookup includes soft-deleted rows: the SKU
+          // column is unique, so a deleted product is restored instead of inserted.
           const existing = await db.query.products.findFirst({
             where: eq(products.sku, rowData.sku),
           });
 
           if (existing) {
-            // Update
+            // Update (and restore if soft-deleted)
             await db
               .update(products)
               .set({
@@ -320,6 +321,7 @@ export const importsService = {
                 dimensionWidth: rowData.dimension_width?.toString() || null,
                 dimensionHeight: rowData.dimension_height?.toString() || null,
                 isActive: rowData.is_active,
+                deletedAt: null,
                 updatedAt: new Date(),
               })
               .where(eq(products.id, existing.id));
