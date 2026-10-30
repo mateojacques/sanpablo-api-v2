@@ -1,27 +1,30 @@
-"""Exporta la tabla STOCK.DBF (Visual FoxPro) a CSV.
+"""Exporta la tabla de stock del cliente (stock/stockWeb.DBF, Visual FoxPro) a CSV.
 
 Por defecto genera un CSV con el mismo formato de columnas que
 `example.csv` (pensado para importación vía API).
 
-USO:
-    python export_stock_csv.py                                   # stock.DBF -> stock_export.csv (formato API)
-    python export_stock_csv.py --dbf STOCK.DBF --salida out.csv
-    python export_stock_csv.py --delim ';'                       # Cambiar delimitador (por defecto ,)
-    python export_stock_csv.py --formato dbf                      # Exporta todas las columnas del DBF (modo anterior)
-    python export_stock_csv.py --limit 100                         # Exporta solo los primeros 100 productos
-    python export_stock_csv.py --offset 200 --limit 50             # Salta 200 y exporta 50
+Estructura de la tabla y mapeo de campos: ver STOCK_DBF.md (en esta carpeta).
+
+USO (desde la raíz del repo):
+    python src/scripts/import-products/dbf-to-csv-parser.py                       # stock/stockWeb.DBF -> stock_export.csv (formato API)
+    python src/scripts/import-products/dbf-to-csv-parser.py --dbf otro.DBF --salida out.csv
+    python src/scripts/import-products/dbf-to-csv-parser.py --delim ';'           # Cambiar delimitador (por defecto ,)
+    python src/scripts/import-products/dbf-to-csv-parser.py --formato dbf         # Exporta todas las columnas del DBF (modo anterior)
+    python src/scripts/import-products/dbf-to-csv-parser.py --limit 100           # Exporta solo los primeros 100 productos
+    python src/scripts/import-products/dbf-to-csv-parser.py --offset 200 --limit 50   # Salta 200 y exporta 50
 
 Requisitos:
   pip install dbfread python-dotenv
 
 Variables opcionales (.env):
-  STOCK_DBF_PATH   Ruta al DBF (por defecto stock.DBF)
+  STOCK_DBF_PATH   Ruta al DBF (por defecto stock/stockWeb.DBF)
   STOCK_CSV_PATH   Ruta destino CSV (por defecto stock_export.csv)
 
 Notas:
     - Formato API: columnas fijas y mapeadas desde el DBF.
     - Formato DBF: incluye todas las columnas/fields tal como aparecen en el DBF.
     - No filtra filas: exporta todas.
+    - Codificación de entrada: cp1252 (code page 0x03 del DBF).
     - Codificación de salida: UTF-8 con BOM (utf-8-sig) para Excel.
     - Sustituye valores None por cadena vacía.
 """
@@ -35,7 +38,7 @@ from dotenv import load_dotenv
 from dbfread import DBF
 
 # -------- Configuración --------
-DBF_DEFAULT = 'stock.DBF'
+DBF_DEFAULT = 'stock/stockWeb.DBF'
 CSV_DEFAULT = 'stock_export.csv'
 
 # -------- .env --------
@@ -148,11 +151,11 @@ def map_record_to_api_row(rec: dict[str, Any]) -> list[str]:
     name = pick_str(rec, ('STDESCRIP',))
     description = pick_str(rec, ('STDETALLE', 'STDESCRIP'))
 
-    regular = pick_num(rec, ('STPRECUNI2'))
+    regular = pick_num(rec, ('STPRECUNI2',))
     # TODO: PRECIO DE OFERTA
     sale = None
     # TODO: PRECIO ESPECIAL
-    special = pick_num(rec, ('STPRECUNI1'))
+    special = pick_num(rec, ('STPRECUNI1',))
 
     sale_price = ''
     if sale is not None and regular is not None and sale > 0 and sale < regular:
@@ -164,6 +167,9 @@ def map_record_to_api_row(rec: dict[str, Any]) -> list[str]:
 
     fam_name = pick_str(rec, ('STNOMFAM',))
     fam_code = pick_str(rec, ('STFAMILIA',))
+    # STFAMILIA '000' significa "sin familia".
+    if fam_code.strip('0') == '':
+        fam_code = ''
     category_slug = slugify(fam_name) or slugify(fam_code)
 
     # En el DBF no hay URLs de imagen/video.
@@ -209,7 +215,7 @@ def export_stock_all_fields(
     if not Path(dbf_path).is_file():
         raise FileNotFoundError(f"No se encontró el archivo DBF: {dbf_path}")
 
-    table = DBF(dbf_path, load=False, encoding='latin-1', ignore_missing_memofile=True)
+    table = DBF(dbf_path, load=False, encoding='cp1252', ignore_missing_memofile=True)
     headers = list(table.field_names)
 
     rows_written = 0
@@ -241,7 +247,7 @@ def export_stock_api_format(
     if not Path(dbf_path).is_file():
         raise FileNotFoundError(f"No se encontró el archivo DBF: {dbf_path}")
 
-    table = DBF(dbf_path, load=False, encoding='latin-1', ignore_missing_memofile=True)
+    table = DBF(dbf_path, load=False, encoding='cp1252', ignore_missing_memofile=True)
     rows_written = 0
 
     with open(csv_path, 'w', encoding='utf-8-sig', newline='') as f:
@@ -262,8 +268,8 @@ def export_stock_api_format(
 # -------- CLI --------
 
 def parse_args():
-    p = ArgumentParser(description='Exporta stock.DBF a CSV (formato API o DBF completo)')
-    p.add_argument('--dbf', default=DBF_ENV, help='Ruta al archivo stock.DBF')
+    p = ArgumentParser(description='Exporta el DBF de stock a CSV (formato API o DBF completo)')
+    p.add_argument('--dbf', default=DBF_ENV, help='Ruta al archivo DBF')
     p.add_argument('--salida', default=CSV_ENV, help='Ruta del CSV de salida')
     p.add_argument('--delim', default=',', help='Delimitador CSV (por defecto ,)')
     p.add_argument('--limit', type=int, default=0, help='Máximo de productos/filas a exportar (0 = sin límite)')
