@@ -198,14 +198,15 @@ export const productsService = {
    * Create a new product
    */
   async create(input: CreateProductInput): Promise<Product> {
-    // Check SKU uniqueness
-    const existingSku = await db
-      .select({ id: products.id })
+    // Check SKU uniqueness. The column is unique across soft-deleted rows too,
+    // so a deleted product with this SKU is restored instead of inserted.
+    const [existingSku] = await db
+      .select({ id: products.id, deletedAt: products.deletedAt })
       .from(products)
-      .where(and(eq(products.sku, input.sku), isNull(products.deletedAt)))
+      .where(eq(products.sku, input.sku))
       .limit(1);
 
-    if (existingSku.length > 0) {
+    if (existingSku && !existingSku.deletedAt) {
       throw conflict(
         'SKU_ALREADY_EXISTS',
         `Product with SKU '${input.sku}' already exists`
@@ -225,26 +226,35 @@ export const productsService = {
       }
     }
 
-    const [created] = await db
-      .insert(products)
-      .values({
-        sku: input.sku,
-        name: input.name,
-        description: input.description,
-        regularPrice: input.regularPrice.toString(),
-        salePrice: input.salePrice?.toString() ?? null,
-        specialPrice: input.specialPrice?.toString() ?? null,
-        imageUrl: input.imageUrl ?? null,
-        thumbnailUrl: input.thumbnailUrl ?? null,
-        videoUrl: input.videoUrl ?? null,
-        weight: input.weight?.toString() ?? null,
-        dimensionLength: input.dimensionLength?.toString() ?? null,
-        dimensionWidth: input.dimensionWidth?.toString() ?? null,
-        dimensionHeight: input.dimensionHeight?.toString() ?? null,
-        categoryId: input.categoryId ?? null,
-        isActive: input.isActive,
-      })
-      .returning();
+    const values = {
+      sku: input.sku,
+      name: input.name,
+      description: input.description,
+      regularPrice: input.regularPrice.toString(),
+      salePrice: input.salePrice?.toString() ?? null,
+      specialPrice: input.specialPrice?.toString() ?? null,
+      imageUrl: input.imageUrl ?? null,
+      thumbnailUrl: input.thumbnailUrl ?? null,
+      videoUrl: input.videoUrl ?? null,
+      weight: input.weight?.toString() ?? null,
+      dimensionLength: input.dimensionLength?.toString() ?? null,
+      dimensionWidth: input.dimensionWidth?.toString() ?? null,
+      dimensionHeight: input.dimensionHeight?.toString() ?? null,
+      categoryId: input.categoryId ?? null,
+      isActive: input.isActive,
+    };
+
+    if (existingSku) {
+      const [restored] = await db
+        .update(products)
+        .set({ ...values, deletedAt: null, updatedAt: new Date() })
+        .where(eq(products.id, existingSku.id))
+        .returning();
+
+      return restored;
+    }
+
+    const [created] = await db.insert(products).values(values).returning();
 
     return created;
   },
@@ -256,24 +266,21 @@ export const productsService = {
     // Verify product exists
     await this.findById(id);
 
-    // Check SKU uniqueness if being updated
+    // Check SKU uniqueness if being updated. Soft-deleted rows still hold their
+    // SKU (the column is unique), so they block the change too.
     if (input.sku) {
-      const existingSku = await db
-        .select({ id: products.id })
+      const [existingSku] = await db
+        .select({ id: products.id, deletedAt: products.deletedAt })
         .from(products)
-        .where(
-          and(
-            eq(products.sku, input.sku),
-            isNull(products.deletedAt),
-            ne(products.id, id)
-          )
-        )
+        .where(and(eq(products.sku, input.sku), ne(products.id, id)))
         .limit(1);
 
-      if (existingSku.length > 0) {
+      if (existingSku) {
         throw conflict(
           'SKU_ALREADY_EXISTS',
-          `Product with SKU '${input.sku}' already exists`
+          existingSku.deletedAt
+            ? `SKU '${input.sku}' belongs to a deleted product`
+            : `Product with SKU '${input.sku}' already exists`
         );
       }
     }
