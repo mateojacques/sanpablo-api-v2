@@ -1,13 +1,30 @@
 import { z } from 'zod';
+import { toWhatsAppPhone } from '../../shared/utils/phone.js';
 
 // ============ Request Schemas ============
 
 // Step 1: Contact information
 export const saveContactBodySchema = z.object({
-  fullName: z.string().min(2, 'Name must be at least 2 characters').max(255),
-  email: z.string().email('Invalid email address'),
-  phone: z.string().min(8, 'Phone must be at least 8 characters').max(50),
-  address: z.string().min(10, 'Address must be at least 10 characters').max(1000),
+  fullName: z.string().min(2, 'El nombre debe tener al menos 2 caracteres.').max(255),
+  email: z.string().email('Correo electrónico no válido.'),
+  phone: z
+    .string()
+    .max(50)
+    .transform((value, ctx) => {
+      const phone = toWhatsAppPhone(value);
+      if (phone === null) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: 'Ingrese un número de WhatsApp válido, con código de área.',
+        });
+        return z.NEVER;
+      }
+      return phone;
+    }),
+  address: z
+    .string()
+    .min(10, 'La dirección debe tener al menos 10 caracteres.')
+    .max(1000),
   customerNotes: z.string().max(1000).optional(),
 });
 

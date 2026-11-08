@@ -52,9 +52,8 @@ const router = Router();
  *                 example: juan@example.com
  *               phone:
  *                 type: string
- *                 minLength: 8
  *                 maxLength: 50
- *                 example: +54 11 1234-5678
+ *                 example: +5491155123456
  *               address:
  *                 type: string
  *                 minLength: 10
