@@ -57,37 +57,37 @@ import { z } from 'zod';
  */
 
 export const registerSchema = z.object({
-  email: z.string().email('Invalid email format'),
+  email: z.string().email('Correo electrónico no válido.'),
   password: z
     .string()
-    .min(8, 'Password must be at least 8 characters')
-    .max(100, 'Password is too long'),
+    .min(8, 'La contraseña debe tener al menos 8 caracteres.')
+    .max(100, 'La contraseña es demasiado larga.'),
   fullName: z
     .string()
-    .min(2, 'Full name must be at least 2 characters')
-    .max(255, 'Full name is too long'),
+    .min(2, 'El nombre debe tener al menos 2 caracteres.')
+    .max(255, 'El nombre es demasiado largo.'),
 });
 
 export const loginSchema = z.object({
-  email: z.string().email('Invalid email format'),
-  password: z.string().min(1, 'Password is required'),
+  email: z.string().email('Correo electrónico no válido.'),
+  password: z.string().min(1, 'La contraseña es obligatoria.'),
 });
 
 export const updateProfileSchema = z.object({
   fullName: z
     .string()
-    .min(2, 'Full name must be at least 2 characters')
-    .max(255, 'Full name is too long')
+    .min(2, 'El nombre debe tener al menos 2 caracteres.')
+    .max(255, 'El nombre es demasiado largo.')
     .optional(),
-  email: z.string().email('Invalid email format').optional(),
+  email: z.string().email('Correo electrónico no válido.').optional(),
 });
 
 export const changePasswordSchema = z.object({
-  currentPassword: z.string().min(1, 'Current password is required'),
+  currentPassword: z.string().min(1, 'La contraseña actual es obligatoria.'),
   newPassword: z
     .string()
-    .min(8, 'New password must be at least 8 characters')
-    .max(100, 'Password is too long'),
+    .min(8, 'La nueva contraseña debe tener al menos 8 caracteres.')
+    .max(100, 'La contraseña es demasiado larga.'),
 });
 
 // Type exports

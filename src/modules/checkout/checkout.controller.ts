@@ -34,7 +34,7 @@ export const checkoutController = {
         return res.status(400).json({
           error: {
             code: 'CART_IDENTIFIER_REQUIRED',
-            message: `Provide either authentication or ${SESSION_HEADER} header`,
+            message: 'No se pudo identificar el carrito.',
           },
         });
       }
@@ -59,7 +59,7 @@ export const checkoutController = {
         return res.status(400).json({
           error: {
             code: 'CART_IDENTIFIER_REQUIRED',
-            message: `Provide either authentication or ${SESSION_HEADER} header`,
+            message: 'No se pudo identificar el carrito.',
           },
         });
       }
@@ -83,7 +83,7 @@ export const checkoutController = {
         return res.status(400).json({
           error: {
             code: 'CART_IDENTIFIER_REQUIRED',
-            message: `Provide either authentication or ${SESSION_HEADER} header`,
+            message: 'No se pudo identificar el carrito.',
           },
         });
       }

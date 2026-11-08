@@ -4,23 +4,23 @@ import { z } from 'zod';
 
 // Add item to cart - body schema
 export const addItemBodySchema = z.object({
-  productId: z.string().uuid('Invalid product ID'),
-  quantity: z.number().int().positive('Quantity must be positive').default(1),
+  productId: z.string().uuid('Producto no válido.'),
+  quantity: z.number().int().positive('La cantidad debe ser mayor que cero.').default(1),
 });
 
 // Update item quantity - body schema
 export const updateItemBodySchema = z.object({
-  quantity: z.number().int().positive('Quantity must be positive'),
+  quantity: z.number().int().positive('La cantidad debe ser mayor que cero.'),
 });
 
 // Item ID param schema
 export const itemIdParamSchema = z.object({
-  itemId: z.string().uuid('Invalid item ID'),
+  itemId: z.string().uuid('Producto no válido.'),
 });
 
 // Merge guest cart to user - body schema
 export const mergeCartBodySchema = z.object({
-  sessionId: z.string().min(1, 'Session ID is required'),
+  sessionId: z.string().min(1, 'No se pudo identificar el carrito.'),
 });
 
 // ============ Type Exports ============

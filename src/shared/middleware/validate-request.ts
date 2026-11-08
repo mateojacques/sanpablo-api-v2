@@ -44,7 +44,11 @@ export const validateRequest = (schemas: ValidateOptions) => {
           message: err.message,
         }));
 
-        const appError = new AppError(400, 'VALIDATION_ERROR', 'Invalid request data');
+        const appError = new AppError(
+          400,
+          'VALIDATION_ERROR',
+          'Los datos enviados no son válidos.'
+        );
         (appError as AppError & { details?: unknown }).details = formattedErrors;
         next(appError);
         return;

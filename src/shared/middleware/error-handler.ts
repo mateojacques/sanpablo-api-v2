@@ -77,7 +77,7 @@ export const errorHandler = (
     error: {
       code: 'INTERNAL_SERVER_ERROR',
       message:
-        env.NODE_ENV === 'production' ? 'An unexpected error occurred' : err.message,
+        env.NODE_ENV === 'production' ? 'Ocurrió un error inesperado.' : err.message,
     },
   });
 };

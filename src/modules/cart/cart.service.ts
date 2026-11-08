@@ -16,7 +16,7 @@ async function getOrCreateCart(userId?: string, sessionId?: string) {
     throw new AppError(
       400,
       'CART_IDENTIFIER_REQUIRED',
-      'Either userId or sessionId is required'
+      'No se pudo identificar el carrito.'
     );
   }
 
@@ -119,7 +119,11 @@ export const cartService = {
     });
 
     if (!product) {
-      throw new AppError(404, 'PRODUCT_NOT_FOUND', 'Product not found or not available');
+      throw new AppError(
+        404,
+        'PRODUCT_NOT_FOUND',
+        'El producto no existe o no está disponible.'
+      );
     }
 
     const cart = await getOrCreateCart(userId, sessionId);
@@ -166,7 +170,11 @@ export const cartService = {
     // Verify item belongs to this cart
     const item = cart.items.find((i) => i.id === itemId);
     if (!item) {
-      throw new AppError(404, 'CART_ITEM_NOT_FOUND', 'Cart item not found');
+      throw new AppError(
+        404,
+        'CART_ITEM_NOT_FOUND',
+        'El producto no está en el carrito.'
+      );
     }
 
     await db
@@ -192,7 +200,11 @@ export const cartService = {
     // Verify item belongs to this cart
     const item = cart.items.find((i) => i.id === itemId);
     if (!item) {
-      throw new AppError(404, 'CART_ITEM_NOT_FOUND', 'Cart item not found');
+      throw new AppError(
+        404,
+        'CART_ITEM_NOT_FOUND',
+        'El producto no está en el carrito.'
+      );
     }
 
     await db.delete(cartItems).where(eq(cartItems.id, itemId));

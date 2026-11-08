@@ -26,7 +26,7 @@ function createLimiter(options: { windowMs: number; max: number; message: string
 export const apiLimiter = createLimiter({
   windowMs: 60 * 1000, // 1 minute
   max: 100,
-  message: 'Too many requests, please try again later',
+  message: 'Demasiadas solicitudes. Se puede volver a intentar en unos minutos.',
 });
 
 /**
@@ -36,7 +36,8 @@ export const apiLimiter = createLimiter({
 export const authLimiter = createLimiter({
   windowMs: 15 * 60 * 1000, // 15 minutes
   max: 5,
-  message: 'Too many authentication attempts, please try again later',
+  message:
+    'Demasiados intentos de inicio de sesión. Se puede volver a intentar en unos minutos.',
 });
 
 /**
@@ -46,7 +47,8 @@ export const authLimiter = createLimiter({
 export const passwordResetLimiter = createLimiter({
   windowMs: 60 * 60 * 1000, // 1 hour
   max: 3,
-  message: 'Too many password reset requests, please try again later',
+  message:
+    'Demasiadas solicitudes de cambio de contraseña. Se puede volver a intentar más tarde.',
 });
 
 /**
@@ -56,7 +58,7 @@ export const passwordResetLimiter = createLimiter({
 export const importLimiter = createLimiter({
   windowMs: 60 * 60 * 1000, // 1 hour
   max: 3,
-  message: 'Import limit reached, please try again later',
+  message: 'Límite de importaciones alcanzado. Se puede volver a intentar más tarde.',
 });
 
 /**
@@ -67,7 +69,7 @@ export const importLimiter = createLimiter({
 export const checkoutLimiter = createLimiter({
   windowMs: 60 * 60 * 1000, // 1 hour
   max: 10,
-  message: 'Too many checkout attempts, please try again later',
+  message: 'Demasiados pedidos seguidos. Se puede volver a intentar en unos minutos.',
 });
 
 /**
@@ -77,7 +79,7 @@ export const checkoutLimiter = createLimiter({
 export const uploadLimiter = createLimiter({
   windowMs: 60 * 60 * 1000, // 1 hour
   max: 20,
-  message: 'Upload limit reached, please try again later',
+  message: 'Límite de archivos alcanzado. Se puede volver a intentar más tarde.',
 });
 
 /**
@@ -87,5 +89,6 @@ export const uploadLimiter = createLimiter({
 export const writeLimiter = createLimiter({
   windowMs: 60 * 1000, // 1 minute
   max: 30,
-  message: 'Too many write operations, please slow down',
+  message:
+    'Demasiadas modificaciones seguidas. Se puede volver a intentar en unos minutos.',
 });

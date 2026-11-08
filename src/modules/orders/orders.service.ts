@@ -24,7 +24,7 @@ export const ordersService = {
     // Non-admin users can only see their own orders
     if (!isAdmin) {
       if (!requestingUserId) {
-        throw new AppError(401, 'UNAUTHORIZED', 'Authentication required');
+        throw new AppError(401, 'UNAUTHORIZED', 'Se requiere iniciar sesión.');
       }
       conditions.push(eq(orders.userId, requestingUserId));
     } else if (userId) {
@@ -74,12 +74,12 @@ export const ordersService = {
     });
 
     if (!order) {
-      throw new AppError(404, 'ORDER_NOT_FOUND', 'Order not found');
+      throw new AppError(404, 'ORDER_NOT_FOUND', 'No se encontró el pedido.');
     }
 
     // Non-admin users can only view their own orders
     if (!isAdmin && order.userId !== requestingUserId) {
-      throw new AppError(403, 'FORBIDDEN', 'Access denied');
+      throw new AppError(403, 'FORBIDDEN', 'Acceso no permitido.');
     }
 
     return order;
@@ -101,12 +101,12 @@ export const ordersService = {
     });
 
     if (!order) {
-      throw new AppError(404, 'ORDER_NOT_FOUND', 'Order not found');
+      throw new AppError(404, 'ORDER_NOT_FOUND', 'No se encontró el pedido.');
     }
 
     // Non-admin users can only view their own orders
     if (!isAdmin && order.userId !== requestingUserId) {
-      throw new AppError(403, 'FORBIDDEN', 'Access denied');
+      throw new AppError(403, 'FORBIDDEN', 'Acceso no permitido.');
     }
 
     return order;
@@ -121,7 +121,7 @@ export const ordersService = {
     });
 
     if (!existingOrder) {
-      throw new AppError(404, 'ORDER_NOT_FOUND', 'Order not found');
+      throw new AppError(404, 'ORDER_NOT_FOUND', 'No se encontró el pedido.');
     }
 
     const updateData: Partial<typeof orders.$inferInsert> = {
@@ -154,7 +154,7 @@ export const ordersService = {
     });
 
     if (!existingOrder) {
-      throw new AppError(404, 'ORDER_NOT_FOUND', 'Order not found');
+      throw new AppError(404, 'ORDER_NOT_FOUND', 'No se encontró el pedido.');
     }
 
     const [deleted] = await db

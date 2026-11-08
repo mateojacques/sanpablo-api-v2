@@ -80,7 +80,7 @@ export const authController = {
       const input = req.body as ChangePasswordInput;
       await authService.changePassword(user.id, input);
 
-      res.json({ data: { message: 'Password changed successfully' } });
+      res.json({ data: { message: 'Contraseña actualizada.' } });
     } catch (error) {
       next(error);
     }

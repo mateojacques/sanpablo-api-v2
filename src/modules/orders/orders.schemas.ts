@@ -13,7 +13,7 @@ export const listOrdersQuerySchema = z.object({
 
 // Get order by ID
 export const orderIdParamSchema = z.object({
-  id: z.string().uuid('Invalid order ID'),
+  id: z.string().uuid('Pedido no válido.'),
 });
 
 // Update order status

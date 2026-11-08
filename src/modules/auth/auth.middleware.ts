@@ -13,7 +13,7 @@ export const requireAuth = (req: Request, _res: Response, next: NextFunction) =>
     const authHeader = req.headers.authorization;
 
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
-      throw unauthorized('No token provided');
+      throw unauthorized('Se requiere iniciar sesión.');
     }
 
     const token = authHeader.substring(7); // Remove 'Bearer ' prefix
@@ -59,11 +59,11 @@ export const requireRoles = (allowedRoles: UserRole[]) => {
     const user = (req as AuthenticatedRequest).user;
 
     if (!user) {
-      return next(unauthorized('Authentication required'));
+      return next(unauthorized('Se requiere iniciar sesión.'));
     }
 
     if (!allowedRoles.includes(user.role)) {
-      return next(forbidden(`Access denied. Required roles: ${allowedRoles.join(', ')}`));
+      return next(forbidden('Acceso no permitido.'));
     }
 
     next();

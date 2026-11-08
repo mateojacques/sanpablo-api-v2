@@ -53,7 +53,7 @@ const router = Router();
  *               phone:
  *                 type: string
  *                 maxLength: 50
- *                 example: +5491155123456
+ *                 example: '+5491155123456'
  *               address:
  *                 type: string
  *                 minLength: 10

@@ -5,7 +5,7 @@ import { eq, and, isNull } from 'drizzle-orm';
 import { db } from '../../config/database.js';
 import { users } from '../../db/schema/users.js';
 import { env } from '../../config/env.js';
-import { AppError, conflict, unauthorized, notFound } from '../../shared/utils/errors.js';
+import { AppError, conflict, unauthorized } from '../../shared/utils/errors.js';
 
 import type { AuthUser, UserRole } from '../../shared/types/index.js';
 import type {
@@ -47,7 +47,7 @@ export const authService = {
       .limit(1);
 
     if (existing.length > 0) {
-      throw conflict('EMAIL_ALREADY_EXISTS', 'Email is already registered');
+      throw conflict('EMAIL_ALREADY_EXISTS', 'El correo electrónico ya está registrado.');
     }
 
     // Hash password
@@ -96,13 +96,13 @@ export const authService = {
       .limit(1);
 
     if (!user) {
-      throw unauthorized('Invalid email or password');
+      throw unauthorized('Correo electrónico o contraseña incorrectos.');
     }
 
     // Verify password
     const isValidPassword = await bcrypt.compare(input.password, user.passwordHash);
     if (!isValidPassword) {
-      throw unauthorized('Invalid email or password');
+      throw unauthorized('Correo electrónico o contraseña incorrectos.');
     }
 
     // Generate token
@@ -143,7 +143,7 @@ export const authService = {
       .limit(1);
 
     if (!user) {
-      throw notFound('User', userId);
+      throw new AppError(404, 'USER_NOT_FOUND', 'No se encontró el usuario.');
     }
 
     return user as UserWithoutPassword;
@@ -165,7 +165,10 @@ export const authService = {
         .limit(1);
 
       if (existing.length > 0 && existing[0].id !== userId) {
-        throw conflict('EMAIL_ALREADY_EXISTS', 'Email is already in use');
+        throw conflict(
+          'EMAIL_ALREADY_EXISTS',
+          'El correo electrónico ya está registrado.'
+        );
       }
     }
 
@@ -190,7 +193,7 @@ export const authService = {
       });
 
     if (!updated) {
-      throw notFound('User', userId);
+      throw new AppError(404, 'USER_NOT_FOUND', 'No se encontró el usuario.');
     }
 
     return updated as UserWithoutPassword;
@@ -208,7 +211,7 @@ export const authService = {
       .limit(1);
 
     if (!user) {
-      throw notFound('User', userId);
+      throw new AppError(404, 'USER_NOT_FOUND', 'No se encontró el usuario.');
     }
 
     // Verify current password
@@ -217,7 +220,7 @@ export const authService = {
       user.passwordHash
     );
     if (!isValidPassword) {
-      throw new AppError(400, 'INVALID_PASSWORD', 'Current password is incorrect');
+      throw new AppError(400, 'INVALID_PASSWORD', 'La contraseña actual es incorrecta.');
     }
 
     // Hash new password
@@ -249,7 +252,7 @@ export const authService = {
     try {
       return jwt.verify(token, env.JWT_SECRET) as AuthUser;
     } catch {
-      throw unauthorized('Invalid or expired token');
+      throw unauthorized('La sesión venció. Se requiere iniciar sesión.');
     }
   },
 };

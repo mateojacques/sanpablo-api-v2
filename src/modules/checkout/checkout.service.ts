@@ -22,7 +22,11 @@ function generateOrderNumber(): string {
  */
 async function getCartWithItems(userId?: string, sessionId?: string) {
   if (!userId && !sessionId) {
-    throw new AppError(400, 'CART_IDENTIFIER_REQUIRED', 'Cart identifier is required');
+    throw new AppError(
+      400,
+      'CART_IDENTIFIER_REQUIRED',
+      'No se pudo identificar el carrito.'
+    );
   }
 
   const whereCondition = userId
@@ -41,7 +45,7 @@ async function getCartWithItems(userId?: string, sessionId?: string) {
   });
 
   if (!cart || cart.items.length === 0) {
-    throw new AppError(400, 'CART_EMPTY', 'Cart is empty');
+    throw new AppError(400, 'CART_EMPTY', 'El carrito está vacío.');
   }
 
   return syncCartPrices(cart);
@@ -63,7 +67,7 @@ export const checkoutService = {
       .where(eq(carts.id, cart.id));
 
     return {
-      message: 'Contact information saved',
+      message: 'Datos de contacto guardados.',
       cartId: cart.id,
     };
   },
@@ -76,11 +80,7 @@ export const checkoutService = {
     const contact = readCheckoutContact(cart);
 
     if (!contact) {
-      throw new AppError(
-        400,
-        'CONTACT_NOT_PROVIDED',
-        'Please provide contact information first'
-      );
+      throw new AppError(400, 'CONTACT_NOT_PROVIDED', 'Faltan los datos de contacto.');
     }
 
     // Verify all products are still active
@@ -92,7 +92,7 @@ export const checkoutService = {
       throw new AppError(
         400,
         'PRODUCTS_UNAVAILABLE',
-        'Some products in your cart are no longer available'
+        'Algunos productos del carrito ya no están disponibles.'
       );
     }
 
@@ -125,11 +125,7 @@ export const checkoutService = {
     const contact = readCheckoutContact(cart);
 
     if (!contact) {
-      throw new AppError(
-        400,
-        'CONTACT_NOT_PROVIDED',
-        'Please provide contact information first'
-      );
+      throw new AppError(400, 'CONTACT_NOT_PROVIDED', 'Faltan los datos de contacto.');
     }
 
     // Verify all products are still active
@@ -141,7 +137,7 @@ export const checkoutService = {
       throw new AppError(
         400,
         'PRODUCTS_UNAVAILABLE',
-        'Some products in your cart are no longer available'
+        'Algunos productos del carrito ya no están disponibles.'
       );
     }
 
@@ -191,7 +187,7 @@ export const checkoutService = {
         .returning({ id: cartItems.id });
 
       if (deleted.length === 0) {
-        throw new AppError(400, 'CART_EMPTY', 'Cart is empty');
+        throw new AppError(400, 'CART_EMPTY', 'El carrito está vacío.');
       }
 
       await tx
@@ -226,7 +222,7 @@ export const checkoutService = {
       orderId: result.id,
       orderNumber: result.orderNumber,
       total: result.total,
-      message: 'Order placed successfully. We will contact you soon!',
+      message: 'Pedido recibido.',
     };
   },
 };
