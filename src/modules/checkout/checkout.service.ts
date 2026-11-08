@@ -3,30 +3,9 @@ import { db } from '../../config/database.js';
 import { carts, cartItems, orders, orderItems } from '../../db/schema/index.js';
 import { AppError } from '../../shared/utils/errors.js';
 import { emailService } from '../../shared/utils/email.js';
+import { syncCartPrices } from '../cart/cart.service.js';
+import { CHECKOUT_CONTACT_TTL_MS, readCheckoutContact } from './checkout-contact.js';
 import type { SaveContactInput } from './checkout.schemas.js';
-
-// Store contact info temporarily in memory (in production, use Redis or DB)
-// Key: cartId, Value: contact info
-const checkoutSessions = new Map<
-  string,
-  {
-    contact: SaveContactInput;
-    expiresAt: Date;
-  }
->();
-
-// Cleanup expired sessions every 10 minutes
-setInterval(
-  () => {
-    const now = new Date();
-    for (const [key, value] of checkoutSessions) {
-      if (value.expiresAt < now) {
-        checkoutSessions.delete(key);
-      }
-    }
-  },
-  10 * 60 * 1000
-);
 
 /**
  * Generate unique order number: SP-YYYYMMDD-XXXX
@@ -65,7 +44,7 @@ async function getCartWithItems(userId?: string, sessionId?: string) {
     throw new AppError(400, 'CART_EMPTY', 'Cart is empty');
   }
 
-  return cart;
+  return syncCartPrices(cart);
 }
 
 export const checkoutService = {
@@ -75,11 +54,13 @@ export const checkoutService = {
   async saveContact(input: SaveContactInput, userId?: string, sessionId?: string) {
     const cart = await getCartWithItems(userId, sessionId);
 
-    // Store contact info with 30 minute expiration
-    checkoutSessions.set(cart.id, {
-      contact: input,
-      expiresAt: new Date(Date.now() + 30 * 60 * 1000),
-    });
+    await db
+      .update(carts)
+      .set({
+        checkoutContact: input,
+        checkoutContactExpiresAt: new Date(Date.now() + CHECKOUT_CONTACT_TTL_MS),
+      })
+      .where(eq(carts.id, cart.id));
 
     return {
       message: 'Contact information saved',
@@ -92,9 +73,9 @@ export const checkoutService = {
    */
   async review(userId?: string, sessionId?: string) {
     const cart = await getCartWithItems(userId, sessionId);
-    const session = checkoutSessions.get(cart.id);
+    const contact = readCheckoutContact(cart);
 
-    if (!session) {
+    if (!contact) {
       throw new AppError(
         400,
         'CONTACT_NOT_PROVIDED',
@@ -129,7 +110,7 @@ export const checkoutService = {
     const subtotal = items.reduce((sum, item) => sum + parseFloat(item.totalPrice), 0);
 
     return {
-      contact: session.contact,
+      contact,
       items,
       subtotal: subtotal.toFixed(2),
       total: subtotal.toFixed(2), // No discounts/shipping for now
@@ -141,9 +122,9 @@ export const checkoutService = {
    */
   async confirm(userId?: string, sessionId?: string) {
     const cart = await getCartWithItems(userId, sessionId);
-    const session = checkoutSessions.get(cart.id);
+    const contact = readCheckoutContact(cart);
 
-    if (!session) {
+    if (!contact) {
       throw new AppError(
         400,
         'CONTACT_NOT_PROVIDED',
@@ -179,11 +160,11 @@ export const checkoutService = {
           orderNumber: generateOrderNumber(),
           userId: userId || null,
           status: 'pending',
-          contactFullName: session.contact.fullName,
-          contactEmail: session.contact.email,
-          contactPhone: session.contact.phone,
-          contactAddress: session.contact.address,
-          customerNotes: session.contact.customerNotes || null,
+          contactFullName: contact.fullName,
+          contactEmail: contact.email,
+          contactPhone: contact.phone,
+          contactAddress: contact.address,
+          customerNotes: contact.customerNotes || null,
           subtotal: subtotal.toFixed(2),
           total: subtotal.toFixed(2),
         })
@@ -202,11 +183,21 @@ export const checkoutService = {
 
       await tx.insert(orderItems).values(orderItemsData);
 
-      // Clear cart items
-      await tx.delete(cartItems).where(eq(cartItems.cartId, cart.id));
+      // Clear cart items. An overlapping confirm waits on these rows and then
+      // deletes nothing, which rolls back its duplicate order.
+      const deleted = await tx
+        .delete(cartItems)
+        .where(eq(cartItems.cartId, cart.id))
+        .returning({ id: cartItems.id });
 
-      // Clear checkout session
-      checkoutSessions.delete(cart.id);
+      if (deleted.length === 0) {
+        throw new AppError(400, 'CART_EMPTY', 'Cart is empty');
+      }
+
+      await tx
+        .update(carts)
+        .set({ checkoutContact: null, checkoutContactExpiresAt: null })
+        .where(eq(carts.id, cart.id));
 
       return order;
     });

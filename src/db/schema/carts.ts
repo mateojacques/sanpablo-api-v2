@@ -6,10 +6,19 @@ import {
   integer,
   decimal,
   index,
+  jsonb,
 } from 'drizzle-orm/pg-core';
 import { relations } from 'drizzle-orm';
 import { users } from './users.js';
 import { products } from './products.js';
+
+export interface CheckoutContact {
+  fullName: string;
+  email: string;
+  phone: string;
+  address: string;
+  customerNotes?: string;
+}
 
 export const carts = pgTable(
   'carts',
@@ -20,6 +29,9 @@ export const carts = pgTable(
     createdAt: timestamp('created_at').defaultNow().notNull(),
     updatedAt: timestamp('updated_at').defaultNow().notNull(),
     expiresAt: timestamp('expires_at'), // For guest cart expiration
+    // Details from the contact step, kept until the order is sent or they expire
+    checkoutContact: jsonb('checkout_contact').$type<CheckoutContact>(),
+    checkoutContactExpiresAt: timestamp('checkout_contact_expires_at'),
   },
   (table) => [
     index('idx_carts_user_id').on(table.userId),
