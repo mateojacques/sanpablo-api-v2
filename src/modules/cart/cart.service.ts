@@ -2,6 +2,7 @@ import { eq, and, isNull, sql } from 'drizzle-orm';
 import { db } from '../../config/database.js';
 import { carts, cartItems, products } from '../../db/schema/index.js';
 import { AppError } from '../../shared/utils/errors.js';
+import { getEffectivePrice, repriceItems, type PricedItem } from './pricing.js';
 import type { AddItemInput, UpdateItemInput } from './cart.schemas.js';
 
 // Guest cart expiration: 7 days
@@ -69,13 +70,23 @@ function calculateCartTotals(items: Array<{ quantity: number; priceAtAdd: string
 }
 
 /**
- * Get the effective price for a product (sale price if available, otherwise regular)
+ * Update a cart's items to their products' current prices
  */
-function getEffectivePrice(product: {
-  regularPrice: string;
-  salePrice: string | null;
-}): string {
-  return product.salePrice || product.regularPrice;
+export async function syncCartPrices<C extends { items: PricedItem[] }>(
+  cart: C
+): Promise<C> {
+  const { items, changes } = repriceItems(cart.items);
+
+  await Promise.all(
+    changes.map(({ id, priceAtAdd }) =>
+      db
+        .update(cartItems)
+        .set({ priceAtAdd, updatedAt: new Date() })
+        .where(eq(cartItems.id, id))
+    )
+  );
+
+  return { ...cart, items };
 }
 
 export const cartService = {
@@ -83,7 +94,7 @@ export const cartService = {
    * Get cart for user or session
    */
   async getCart(userId?: string, sessionId?: string) {
-    const cart = await getOrCreateCart(userId, sessionId);
+    const cart = await syncCartPrices(await getOrCreateCart(userId, sessionId));
     const totals = calculateCartTotals(cart.items);
 
     return {

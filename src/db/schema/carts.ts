@@ -38,7 +38,7 @@ export const cartItems = pgTable(
       .references(() => products.id, { onDelete: 'cascade' })
       .notNull(),
     quantity: integer('quantity').notNull().default(1),
-    // Store price at time of adding to cart for price consistency
+    // The item's current price, refreshed whenever the cart is read
     priceAtAdd: decimal('price_at_add', { precision: 12, scale: 2 }).notNull(),
     createdAt: timestamp('created_at').defaultNow().notNull(),
     updatedAt: timestamp('updated_at').defaultNow().notNull(),
