@@ -32,11 +32,10 @@ export async function seedStorefront(): Promise<void> {
       hero: [
         {
           id: uuidv4(),
-          imageUrl:
-            'https://placehold.co/1920x600/4a90d9/ffffff?text=Bienvenidos+a+San+Pablo',
+          imageUrl: 'https://placehold.co/1920x600/4a90d9/ffffff?text=San+Pablo',
           mobileImageUrl: 'https://placehold.co/800x600/4a90d9/ffffff?text=San+Pablo',
-          title: 'Bienvenidos a San Pablo',
-          subtitle: 'Descubrí nuestra colección de arte y libros',
+          title: 'San Pablo',
+          subtitle: 'Arte, libros y artículos de librería',
           ctaText: 'Ver catálogo',
           ctaLink: '/productos',
           isActive: true,
@@ -50,22 +49,20 @@ export async function seedStorefront(): Promise<void> {
       {
         id: uuidv4(),
         question: '¿Cuáles son los métodos de pago disponibles?',
-        answer:
-          'Aceptamos tarjetas de crédito y débito (Visa, Mastercard, American Express), transferencia bancaria y efectivo en nuestro local.',
+        answer: 'El pago se acuerda por WhatsApp al confirmar cada pedido.',
         sortOrder: 0,
       },
       {
         id: uuidv4(),
-        question: '¿Hacen envíos a todo el país?',
+        question: '¿Cómo se coordina la entrega?',
         answer:
-          'Sí, realizamos envíos a todo el territorio argentino a través de correo y servicios de mensajería. Los tiempos de entrega varían según la localidad.',
+          'El costo, la modalidad y el plazo de entrega se acuerdan por WhatsApp al confirmar cada pedido.',
         sortOrder: 1,
       },
       {
         id: uuidv4(),
         question: '¿Puedo devolver un producto?',
-        answer:
-          'Sí, aceptamos devoluciones dentro de los 30 días de la compra, siempre que el producto esté en su estado original y con el embalaje sin abrir (para libros) o sin usar (para materiales).',
+        answer: 'Las condiciones de devolución se acuerdan por WhatsApp.',
         sortOrder: 2,
       },
     ],

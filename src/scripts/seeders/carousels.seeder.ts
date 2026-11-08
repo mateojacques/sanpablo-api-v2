@@ -19,7 +19,7 @@ export async function seedCarousels(): Promise<SeededCarousel[]> {
   const novedadesCarousel = await createCarousel({
     name: 'Novedades',
     slug: 'novedades',
-    description: 'Los productos más recientes de nuestra tienda',
+    description: 'Los productos más recientes',
     type: 'manual',
     sortOrder: 0,
     isActive: true,
