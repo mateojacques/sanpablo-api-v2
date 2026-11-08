@@ -7,14 +7,26 @@ interface OrderWithItems extends Order {
 }
 
 /**
- * Generate WhatsApp link with pre-filled message
+ * Generate the owner's WhatsApp link to the customer, with a pre-filled message
  */
 function generateWhatsAppLink(order: OrderWithItems): string {
-  const phone = env.OWNER_WHATSAPP.replace(/\D/g, ''); // Remove non-digits
+  const phone = order.contactPhone.replace(/\D/g, '');
   const message = encodeURIComponent(
-    `Hola! Soy del equipo de San Pablo. Te contacto por tu pedido #${order.orderNumber}.`
+    `Pedido ${order.orderNumber} de San Pablo. Este mensaje es para confirmar precio final, disponibilidad, pago y entrega.`
   );
   return `https://wa.me/${phone}?text=${message}`;
+}
+
+/**
+ * Escape a customer or catalogue value for interpolation into HTML
+ */
+function escapeHtml(value: string): string {
+  return value
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
 }
 
 /**
@@ -36,8 +48,8 @@ function generateItemsTable(items: OrderItem[]): string {
     .map(
       (item) => `
     <tr>
-      <td style="padding: 8px; border-bottom: 1px solid #eee;">${item.productSku}</td>
-      <td style="padding: 8px; border-bottom: 1px solid #eee;">${item.productName}</td>
+      <td style="padding: 8px; border-bottom: 1px solid #eee;">${escapeHtml(item.productSku)}</td>
+      <td style="padding: 8px; border-bottom: 1px solid #eee;">${escapeHtml(item.productName)}</td>
       <td style="padding: 8px; border-bottom: 1px solid #eee; text-align: center;">${item.quantity}</td>
       <td style="padding: 8px; border-bottom: 1px solid #eee; text-align: right;">${formatCurrency(item.unitPrice)}</td>
       <td style="padding: 8px; border-bottom: 1px solid #eee; text-align: right;">${formatCurrency(item.totalPrice)}</td>
@@ -62,7 +74,7 @@ function generateItemsTable(items: OrderItem[]): string {
       </tbody>
       <tfoot>
         <tr>
-          <td colspan="4" style="padding: 10px; text-align: right; font-weight: bold;">Total:</td>
+          <td colspan="4" style="padding: 10px; text-align: right; font-weight: bold;">Total estimado:</td>
           <td style="padding: 10px; text-align: right; font-weight: bold; font-size: 1.1em;">${formatCurrency(items.reduce((sum, i) => sum + parseFloat(i.totalPrice), 0))}</td>
         </tr>
       </tfoot>
@@ -94,19 +106,19 @@ export const emailService = {
           <table style="width: 100%;">
             <tr>
               <td style="padding: 5px 0;"><strong>Nombre:</strong></td>
-              <td>${order.contactFullName}</td>
+              <td>${escapeHtml(order.contactFullName)}</td>
             </tr>
             <tr>
               <td style="padding: 5px 0;"><strong>Email:</strong></td>
-              <td><a href="mailto:${order.contactEmail}">${order.contactEmail}</a></td>
+              <td><a href="mailto:${escapeHtml(order.contactEmail)}">${escapeHtml(order.contactEmail)}</a></td>
             </tr>
             <tr>
-              <td style="padding: 5px 0;"><strong>Teléfono:</strong></td>
-              <td>${order.contactPhone}</td>
+              <td style="padding: 5px 0;"><strong>WhatsApp:</strong></td>
+              <td>${escapeHtml(order.contactPhone)}</td>
             </tr>
             <tr>
-              <td style="padding: 5px 0;"><strong>Dirección:</strong></td>
-              <td>${order.contactAddress}</td>
+              <td style="padding: 5px 0;"><strong>Dirección de entrega:</strong></td>
+              <td>${escapeHtml(order.contactAddress)}</td>
             </tr>
           </table>
           
@@ -115,7 +127,7 @@ export const emailService = {
               ? `
           <div style="margin-top: 15px; padding: 10px; background-color: #fff3cd; border-radius: 4px;">
             <strong>Nota del cliente:</strong><br>
-            ${order.customerNotes}
+            ${escapeHtml(order.customerNotes)}
           </div>
           `
               : ''
@@ -127,7 +139,7 @@ export const emailService = {
           <div style="text-align: center; margin-top: 30px;">
             <a href="${whatsappLink}" 
                style="display: inline-block; background-color: #25D366; color: white; padding: 15px 30px; text-decoration: none; border-radius: 8px; font-size: 16px; font-weight: bold;">
-              📱 Contactar por WhatsApp
+              Abrir WhatsApp con el cliente
             </a>
           </div>
           
@@ -150,8 +162,8 @@ DATOS DEL CLIENTE
 -----------------
 Nombre: ${order.contactFullName}
 Email: ${order.contactEmail}
-Teléfono: ${order.contactPhone}
-Dirección: ${order.contactAddress}
+WhatsApp: ${order.contactPhone}
+Dirección de entrega: ${order.contactAddress}
 
 ${order.customerNotes ? `Nota del cliente: ${order.customerNotes}\n` : ''}
 
@@ -159,9 +171,9 @@ PRODUCTOS
 ---------
 ${order.items.map((i) => `${i.productSku} - ${i.productName} x${i.quantity} = ${formatCurrency(i.totalPrice)}`).join('\n')}
 
-TOTAL: ${formatCurrency(order.total)}
+TOTAL ESTIMADO: ${formatCurrency(order.total)}
 
-Contactar por WhatsApp: ${whatsappLink}
+Abrir WhatsApp con el cliente: ${whatsappLink}
     `;
 
     await emailTransporter.sendMail({
@@ -174,9 +186,13 @@ Contactar por WhatsApp: ${whatsappLink}
   },
 
   /**
-   * Send order confirmation to customer
+   * Tell the customer the order was received. Price, availability, payment and
+   * delivery are settled later by WhatsApp, so this must not read as a sale.
    */
   async sendOrderConfirmationToCustomer(order: OrderWithItems): Promise<void> {
+    const closingNotice =
+      'El precio final, la disponibilidad, el pago y la entrega se confirman por WhatsApp.';
+
     const htmlBody = `
       <!DOCTYPE html>
       <html>
@@ -186,67 +202,48 @@ Contactar por WhatsApp: ${whatsappLink}
       </head>
       <body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px;">
         <div style="background-color: #4a90d9; color: white; padding: 20px; text-align: center; border-radius: 8px 8px 0 0;">
-          <h1 style="margin: 0;">¡Gracias por tu pedido!</h1>
-          <p style="margin: 10px 0 0 0;">Pedido #${order.orderNumber}</p>
+          <h1 style="margin: 0;">Pedido recibido</h1>
+          <p style="margin: 10px 0 0 0;">Pedido ${order.orderNumber}</p>
         </div>
-        
+
         <div style="background-color: #f9f9f9; padding: 20px; border: 1px solid #ddd; border-top: none;">
-          <p>Hola <strong>${order.contactFullName}</strong>,</p>
-          
-          <p>Hemos recibido tu pedido correctamente. A continuación te enviamos el detalle:</p>
-          
-          <h2 style="color: #4a90d9;">Resumen del Pedido</h2>
           ${generateItemsTable(order.items)}
-          
-          <h2 style="color: #4a90d9;">Datos de Envío</h2>
-          <p><strong>Dirección:</strong> ${order.contactAddress}</p>
-          <p><strong>Teléfono:</strong> ${order.contactPhone}</p>
-          
+
+          <p><strong>Dirección de entrega:</strong> ${escapeHtml(order.contactAddress)}</p>
+          <p><strong>WhatsApp:</strong> ${escapeHtml(order.contactPhone)}</p>
+
           <div style="background-color: #e8f4fd; padding: 15px; border-radius: 8px; margin-top: 20px;">
-            <p style="margin: 0;"><strong>¿Qué sigue?</strong></p>
-            <p style="margin: 10px 0 0 0;">Nos pondremos en contacto contigo pronto para coordinar el pago y envío de tu pedido.</p>
+            <p style="margin: 0;">${closingNotice}</p>
           </div>
-          
-          <p style="margin-top: 20px;">Si tienes alguna pregunta, no dudes en contactarnos.</p>
-          
-          <p>¡Gracias por confiar en nosotros!</p>
         </div>
-        
+
         <div style="text-align: center; padding: 15px; color: #666; font-size: 12px;">
-          Este es un email automático. Por favor, no respondas a este mensaje.
+          Este correo se envía automáticamente. No admite respuestas.
         </div>
       </body>
       </html>
     `;
 
     const textBody = `
-¡Gracias por tu pedido!
-Pedido #${order.orderNumber}
+Pedido recibido
+Pedido ${order.orderNumber}
 
-Hola ${order.contactFullName},
-
-Hemos recibido tu pedido correctamente.
-
-RESUMEN DEL PEDIDO
-------------------
 ${order.items.map((i) => `${i.productName} x${i.quantity} = ${formatCurrency(i.totalPrice)}`).join('\n')}
 
-TOTAL: ${formatCurrency(order.total)}
+Total estimado: ${formatCurrency(order.total)}
 
-DATOS DE ENVÍO
---------------
-Dirección: ${order.contactAddress}
-Teléfono: ${order.contactPhone}
+Dirección de entrega: ${order.contactAddress}
+WhatsApp: ${order.contactPhone}
 
-Nos pondremos en contacto contigo pronto para coordinar el pago y envío.
+${closingNotice}
 
-¡Gracias por confiar en nosotros!
+Este correo se envía automáticamente. No admite respuestas.
     `;
 
     await emailTransporter.sendMail({
       from: env.SMTP_FROM_EMAIL,
       to: order.contactEmail,
-      subject: `Confirmación de Pedido #${order.orderNumber}`,
+      subject: `Pedido ${order.orderNumber} recibido`,
       html: htmlBody,
       text: textBody,
     });

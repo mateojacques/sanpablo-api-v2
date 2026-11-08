@@ -53,7 +53,6 @@ const envSchema = z
 
   // Store
   OWNER_EMAIL: z.string().email(),
-  OWNER_WHATSAPP: z.string().min(1),
 
   // Redis (optional)
   REDIS_URL: z.string().optional(),

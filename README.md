@@ -136,7 +136,6 @@ Ver `.env.example` para la lista completa de variables requeridas.
 | `SMTP_PASS`             | Contraseña/App Password SMTP                 |
 | `SMTP_FROM_EMAIL`       | Email remitente                              |
 | `OWNER_EMAIL`           | Email del dueño (notificaciones)             |
-| `OWNER_WHATSAPP`        | WhatsApp del dueño (links en emails)         |
 
 ## Estructura del Proyecto
 
